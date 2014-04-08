@@ -1,0 +1,776 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2DA5E0C49F1E84AC88345641 /* MeetingRoomService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EE5BFA5435D08F8ECB2D /* MeetingRoomService.m */; };
+		2DA5E126AED8B541A6E198D3 /* MeetingRoomOverview.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E03B4F82B2D0D7563FCA /* MeetingRoomOverview.m */; };
+		2DA5E12D73EA08ACDA7E1A0A /* MeetingTableViewHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E40CDAECC49811A0214C /* MeetingTableViewHeader.m */; };
+		2DA5E25C4139E392C36BB0F8 /* delete-512.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DA5E89962CF6D7DD83F089C /* delete-512.png */; };
+		2DA5E4296F0321F022CE8220 /* ReservationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E370B6CFAED88099447B /* ReservationService.m */; };
+		2DA5E43404E04B8A91F02A64 /* SearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E357785755DB10A28E9F /* SearchView.m */; };
+		2DA5E465BFF88250370523C3 /* EditReservationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EA38E7E723CDE9B00662 /* EditReservationView.m */; };
+		2DA5E4BD509223C95A6619F8 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2DA5E8A75CFF5C9FC280C71D /* config.plist */; };
+		2DA5E5ED75C20D6250D36A56 /* UserService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E55A729A4E6E854C51EE /* UserService.m */; };
+		2DA5E6678CFCE970E856066E /* MainService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E4E41DD36F88ABDC539D /* MainService.m */; };
+		2DA5E67D5B7BB94982491D0E /* MeetingRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E669404E11AD1FFA040E /* MeetingRoom.m */; };
+		2DA5E77AA31FDDE65E9A03D0 /* Reservation.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E8B9959AD4121AB79D4E /* Reservation.m */; };
+		2DA5E7CB6562E7B3B4C41FF0 /* DatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E73595C6313B5DE4A015 /* DatePickerView.m */; };
+		2DA5E8422FE2BCADC5B2DB11 /* DetailCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EACEC7D99C8E7A3BAD14 /* DetailCellView.m */; };
+		2DA5E882C84F6A7F53F747D8 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E6B7C4243F3BEADFB74A /* User.m */; };
+		2DA5E96234DCC4D1FEE14CE2 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EAE3A346D90FBE083961 /* TestViewController.m */; };
+		2DA5E97970C602467A27FD26 /* DetailReservationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EB8C760FB9B768C9850A /* DetailReservationView.m */; };
+		2DA5E987DA03188BE2738B5E /* Room.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E14C8C9843781D4F69F1 /* Room.m */; };
+		2DA5E9AA0D85AAEA7EFA7233 /* GroupTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E330CCE81230F2E66EE9 /* GroupTitleView.m */; };
+		2DA5EAF87B233800F6CA723D /* SearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EC006FE339CFC08CE75F /* SearchTableViewCell.m */; };
+		2DA5EB2254F739C347029A02 /* AppConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E3C19CD1EE812D1025E4 /* AppConfig.m */; };
+		2DA5EB51048593815CEC4C7B /* Meeting.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EA7D2718BDAB8D059F0B /* Meeting.m */; };
+		2DA5EB655C7A58378B283386 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EB32E0852C3E1F2BECD0 /* AppDelegate.m */; };
+		2DA5EC0F25542D5668A2E80D /* MeetingTableVIewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5ECB0E22FE9BEEFAA21B6 /* MeetingTableVIewCell.m */; };
+		2DA5ED54539E91B9BAD965A7 /* MeetingOverviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E87239DFF246109960F7 /* MeetingOverviewController.m */; };
+		2DA5EDF37D6DE20EE987A8E5 /* edit-512.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DA5EA7DCD6CECDBA3B4FC08 /* edit-512.png */; };
+		2DA5EE35AD623F8973E4C61D /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EC3960C79D56CDF362D3 /* SearchViewController.m */; };
+		2DA5EE709564B1454DAE7E93 /* EditReservationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E2E0126BB0554FFC5242 /* EditReservationViewController.m */; };
+		2DA5EF6F7F6DFEDE71336AC5 /* MeetingOverview.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EE74671B1B57C0803A14 /* MeetingOverview.m */; };
+		BE22791918F3DBEC007CEF07 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE22791818F3DBEC007CEF07 /* Foundation.framework */; };
+		BE22791B18F3DBEC007CEF07 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE22791A18F3DBEC007CEF07 /* CoreGraphics.framework */; };
+		BE22791D18F3DBEC007CEF07 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE22791C18F3DBEC007CEF07 /* UIKit.framework */; };
+		BE22791F18F3DBEC007CEF07 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE22791E18F3DBEC007CEF07 /* CoreData.framework */; };
+		BE22792518F3DBEC007CEF07 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE22792318F3DBEC007CEF07 /* InfoPlist.strings */; };
+		BE22792718F3DBEC007CEF07 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BE22792618F3DBEC007CEF07 /* main.m */; };
+		BE22792E18F3DBEC007CEF07 /* Cronos_Rooms.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BE22792C18F3DBEC007CEF07 /* Cronos_Rooms.xcdatamodeld */; };
+		BE22793018F3DBEC007CEF07 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE22792F18F3DBEC007CEF07 /* Images.xcassets */; };
+		BE22793718F3DBEC007CEF07 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE22793618F3DBEC007CEF07 /* XCTest.framework */; };
+		BE22793818F3DBEC007CEF07 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE22791818F3DBEC007CEF07 /* Foundation.framework */; };
+		BE22793918F3DBEC007CEF07 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE22791C18F3DBEC007CEF07 /* UIKit.framework */; };
+		BE22793A18F3DBEC007CEF07 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE22791E18F3DBEC007CEF07 /* CoreData.framework */; };
+		BE22794218F3DBEC007CEF07 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE22794018F3DBEC007CEF07 /* InfoPlist.strings */; };
+		BE22794418F3DBEC007CEF07 /* Cronos_RoomsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BE22794318F3DBEC007CEF07 /* Cronos_RoomsTests.m */; };
+		ED14FCA2FE8F4002B490ED87 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9401864DD14F47C1800A5260 /* libPods.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BE22793B18F3DBEC007CEF07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BE22790D18F3DBEC007CEF07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BE22791418F3DBEC007CEF07;
+			remoteInfo = "Cronos Rooms";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		2DA5E03B4F82B2D0D7563FCA /* MeetingRoomOverview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeetingRoomOverview.m; sourceTree = "<group>"; };
+		2DA5E12E594ED552C75B7A90 /* UserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserService.h; sourceTree = "<group>"; };
+		2DA5E14C8C9843781D4F69F1 /* Room.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Room.m; sourceTree = "<group>"; };
+		2DA5E268632BA829E63ECF1C /* SearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchView.h; sourceTree = "<group>"; };
+		2DA5E2C6618A3CDCFC2D51D8 /* EditReservationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditReservationView.h; sourceTree = "<group>"; };
+		2DA5E2E0126BB0554FFC5242 /* EditReservationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditReservationViewController.m; sourceTree = "<group>"; };
+		2DA5E330CCE81230F2E66EE9 /* GroupTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupTitleView.m; sourceTree = "<group>"; };
+		2DA5E357785755DB10A28E9F /* SearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchView.m; sourceTree = "<group>"; };
+		2DA5E370B6CFAED88099447B /* ReservationService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReservationService.m; sourceTree = "<group>"; };
+		2DA5E3731B503A461FD7479E /* AppConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppConfig.h; sourceTree = "<group>"; };
+		2DA5E375D19D1B00E103F552 /* DetailReservationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailReservationView.h; sourceTree = "<group>"; };
+		2DA5E389451E24D10285F0BA /* Reservation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reservation.h; sourceTree = "<group>"; };
+		2DA5E3C19CD1EE812D1025E4 /* AppConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppConfig.m; sourceTree = "<group>"; };
+		2DA5E3DAEF213276D3BD5D63 /* MeetingTableVIewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeetingTableVIewCell.h; sourceTree = "<group>"; };
+		2DA5E40CDAECC49811A0214C /* MeetingTableViewHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeetingTableViewHeader.m; sourceTree = "<group>"; };
+		2DA5E4A2521546E625B24FA1 /* DatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerView.h; sourceTree = "<group>"; };
+		2DA5E4E41DD36F88ABDC539D /* MainService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainService.m; sourceTree = "<group>"; };
+		2DA5E5389A6668A8386E7173 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		2DA5E55A729A4E6E854C51EE /* UserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserService.m; sourceTree = "<group>"; };
+		2DA5E669404E11AD1FFA040E /* MeetingRoom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeetingRoom.m; sourceTree = "<group>"; };
+		2DA5E68FE7A1F91B6DB1F1BB /* MeetingRoomOverview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeetingRoomOverview.h; sourceTree = "<group>"; };
+		2DA5E69C8454DFE8A634E3CF /* IDatePickerSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDatePickerSlider.h; sourceTree = "<group>"; };
+		2DA5E6B7C4243F3BEADFB74A /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		2DA5E705CBAD27EDB209F12F /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		2DA5E73595C6313B5DE4A015 /* DatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerView.m; sourceTree = "<group>"; };
+		2DA5E7ED4F42FFA459685AE4 /* MeetingTableViewHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeetingTableViewHeader.h; sourceTree = "<group>"; };
+		2DA5E87239DFF246109960F7 /* MeetingOverviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeetingOverviewController.m; sourceTree = "<group>"; };
+		2DA5E89962CF6D7DD83F089C /* delete-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delete-512.png"; sourceTree = "<group>"; };
+		2DA5E8A75CFF5C9FC280C71D /* config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = config.plist; sourceTree = "<group>"; };
+		2DA5E8B9959AD4121AB79D4E /* Reservation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reservation.m; sourceTree = "<group>"; };
+		2DA5E8D9B6855C8A8C9B75B3 /* Meeting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meeting.h; sourceTree = "<group>"; };
+		2DA5E8E4B8E0C5396F61295D /* EditReservationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditReservationViewController.h; sourceTree = "<group>"; };
+		2DA5E9575D6DE37C8DB9036C /* MainService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainService.h; sourceTree = "<group>"; };
+		2DA5E9EB5850D31F67C35668 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
+		2DA5EA38E7E723CDE9B00662 /* EditReservationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditReservationView.m; sourceTree = "<group>"; };
+		2DA5EA4C0DD90C1F9A8375CB /* GroupTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupTitleView.h; sourceTree = "<group>"; };
+		2DA5EA7D2718BDAB8D059F0B /* Meeting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Meeting.m; sourceTree = "<group>"; };
+		2DA5EA7DCD6CECDBA3B4FC08 /* edit-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "edit-512.png"; sourceTree = "<group>"; };
+		2DA5EA918FA8A6BD7439CA22 /* MeetingRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeetingRoom.h; sourceTree = "<group>"; };
+		2DA5EACEC7D99C8E7A3BAD14 /* DetailCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailCellView.m; sourceTree = "<group>"; };
+		2DA5EAE3A346D90FBE083961 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
+		2DA5EB32E0852C3E1F2BECD0 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		2DA5EB33208575FED04166AE /* ReservationService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReservationService.h; sourceTree = "<group>"; };
+		2DA5EB8C760FB9B768C9850A /* DetailReservationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailReservationView.m; sourceTree = "<group>"; };
+		2DA5EBB55D2E0BB4E40F2F0D /* DetailCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailCellView.h; sourceTree = "<group>"; };
+		2DA5EBEFFABF35E36ED4CA73 /* MeetingRoomService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeetingRoomService.h; sourceTree = "<group>"; };
+		2DA5EC006FE339CFC08CE75F /* SearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewCell.m; sourceTree = "<group>"; };
+		2DA5EC034C31FE488D52D60D /* MeetingOverview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeetingOverview.h; sourceTree = "<group>"; };
+		2DA5EC3960C79D56CDF362D3 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
+		2DA5ECB0E22FE9BEEFAA21B6 /* MeetingTableVIewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeetingTableVIewCell.m; sourceTree = "<group>"; };
+		2DA5ED41C05A0490B8BBDD0B /* MeetingOverviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeetingOverviewController.h; sourceTree = "<group>"; };
+		2DA5EE5BFA5435D08F8ECB2D /* MeetingRoomService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeetingRoomService.m; sourceTree = "<group>"; };
+		2DA5EE74671B1B57C0803A14 /* MeetingOverview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeetingOverview.m; sourceTree = "<group>"; };
+		2DA5EECB04A26EF3FE05EFC4 /* Room.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Room.h; sourceTree = "<group>"; };
+		2DA5EF24257D05A58A45977C /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		2DA5EF599263BA98838BBA45 /* SearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableViewCell.h; sourceTree = "<group>"; };
+		70776AE194574176BCE58F8B /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		9401864DD14F47C1800A5260 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE22791518F3DBEC007CEF07 /* Cronos Rooms.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cronos Rooms.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE22791818F3DBEC007CEF07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		BE22791A18F3DBEC007CEF07 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		BE22791C18F3DBEC007CEF07 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		BE22791E18F3DBEC007CEF07 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		BE22792218F3DBEC007CEF07 /* Cronos Rooms-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Cronos Rooms-Info.plist"; sourceTree = "<group>"; };
+		BE22792418F3DBEC007CEF07 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BE22792618F3DBEC007CEF07 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		BE22792818F3DBEC007CEF07 /* Cronos Rooms-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Cronos Rooms-Prefix.pch"; sourceTree = "<group>"; };
+		BE22792D18F3DBEC007CEF07 /* Cronos_Rooms.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Cronos_Rooms.xcdatamodel; sourceTree = "<group>"; };
+		BE22792F18F3DBEC007CEF07 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		BE22793518F3DBEC007CEF07 /* Cronos RoomsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Cronos RoomsTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE22793618F3DBEC007CEF07 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		BE22793F18F3DBEC007CEF07 /* Cronos RoomsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Cronos RoomsTests-Info.plist"; sourceTree = "<group>"; };
+		BE22794118F3DBEC007CEF07 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BE22794318F3DBEC007CEF07 /* Cronos_RoomsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Cronos_RoomsTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BE22791218F3DBEC007CEF07 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE22791B18F3DBEC007CEF07 /* CoreGraphics.framework in Frameworks */,
+				BE22791F18F3DBEC007CEF07 /* CoreData.framework in Frameworks */,
+				BE22791D18F3DBEC007CEF07 /* UIKit.framework in Frameworks */,
+				BE22791918F3DBEC007CEF07 /* Foundation.framework in Frameworks */,
+				ED14FCA2FE8F4002B490ED87 /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE22793218F3DBEC007CEF07 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE22793718F3DBEC007CEF07 /* XCTest.framework in Frameworks */,
+				BE22793A18F3DBEC007CEF07 /* CoreData.framework in Frameworks */,
+				BE22793918F3DBEC007CEF07 /* UIKit.framework in Frameworks */,
+				BE22793818F3DBEC007CEF07 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2DA5E4499324672F07D67B4D /* Deprecated */ = {
+			isa = PBXGroup;
+			children = (
+				2DA5E2C6618A3CDCFC2D51D8 /* EditReservationView.h */,
+				2DA5EA38E7E723CDE9B00662 /* EditReservationView.m */,
+				2DA5E375D19D1B00E103F552 /* DetailReservationView.h */,
+				2DA5EB8C760FB9B768C9850A /* DetailReservationView.m */,
+			);
+			path = Deprecated;
+			sourceTree = "<group>";
+		};
+		2DA5E58442746D351F87ABF3 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2DA5EF24257D05A58A45977C /* User.h */,
+				2DA5E6B7C4243F3BEADFB74A /* User.m */,
+				2DA5EA918FA8A6BD7439CA22 /* MeetingRoom.h */,
+				2DA5E669404E11AD1FFA040E /* MeetingRoom.m */,
+				2DA5E389451E24D10285F0BA /* Reservation.h */,
+				2DA5E8B9959AD4121AB79D4E /* Reservation.m */,
+				2DA5E14C8C9843781D4F69F1 /* Room.m */,
+				2DA5EECB04A26EF3FE05EFC4 /* Room.h */,
+				2DA5EA7D2718BDAB8D059F0B /* Meeting.m */,
+				2DA5E8D9B6855C8A8C9B75B3 /* Meeting.h */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2DA5E693C49CAEC6205B417E /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				2DA5E9EB5850D31F67C35668 /* TestViewController.h */,
+				2DA5EAE3A346D90FBE083961 /* TestViewController.m */,
+				2DA5E8E4B8E0C5396F61295D /* EditReservationViewController.h */,
+				2DA5E2E0126BB0554FFC5242 /* EditReservationViewController.m */,
+				2DA5EC3960C79D56CDF362D3 /* SearchViewController.m */,
+				2DA5E87239DFF246109960F7 /* MeetingOverviewController.m */,
+				2DA5ED41C05A0490B8BBDD0B /* MeetingOverviewController.h */,
+				2DA5E705CBAD27EDB209F12F /* SearchViewController.h */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		2DA5E7B8E67C8AF7A5F03C9A /* User */ = {
+			isa = PBXGroup;
+			children = (
+				2DA5E12E594ED552C75B7A90 /* UserService.h */,
+				2DA5E55A729A4E6E854C51EE /* UserService.m */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		2DA5E80EC1037409D2B25758 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				2DA5E3731B503A461FD7479E /* AppConfig.h */,
+				2DA5E3C19CD1EE812D1025E4 /* AppConfig.m */,
+				2DA5EB32E0852C3E1F2BECD0 /* AppDelegate.m */,
+				2DA5E5389A6668A8386E7173 /* AppDelegate.h */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		2DA5E8A19E2F904BED2940BA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2DA5E4A2521546E625B24FA1 /* DatePickerView.h */,
+				2DA5E73595C6313B5DE4A015 /* DatePickerView.m */,
+				2DA5EBB55D2E0BB4E40F2F0D /* DetailCellView.h */,
+				2DA5EACEC7D99C8E7A3BAD14 /* DetailCellView.m */,
+				2DA5EA4C0DD90C1F9A8375CB /* GroupTitleView.h */,
+				2DA5E330CCE81230F2E66EE9 /* GroupTitleView.m */,
+				2DA5E68FE7A1F91B6DB1F1BB /* MeetingRoomOverview.h */,
+				2DA5E03B4F82B2D0D7563FCA /* MeetingRoomOverview.m */,
+				2DA5ECB0E22FE9BEEFAA21B6 /* MeetingTableVIewCell.m */,
+				2DA5E40CDAECC49811A0214C /* MeetingTableViewHeader.m */,
+				2DA5E268632BA829E63ECF1C /* SearchView.h */,
+				2DA5EF599263BA98838BBA45 /* SearchTableViewCell.h */,
+				2DA5EE74671B1B57C0803A14 /* MeetingOverview.m */,
+				2DA5E3DAEF213276D3BD5D63 /* MeetingTableVIewCell.h */,
+				2DA5EC006FE339CFC08CE75F /* SearchTableViewCell.m */,
+				2DA5E7ED4F42FFA459685AE4 /* MeetingTableViewHeader.h */,
+				2DA5EC034C31FE488D52D60D /* MeetingOverview.h */,
+				2DA5E357785755DB10A28E9F /* SearchView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		2DA5EB3952995FA3F28EDB64 /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				2DA5E8A75CFF5C9FC280C71D /* config.plist */,
+			);
+			path = resources;
+			sourceTree = "<group>";
+		};
+		2DA5EC8B6FF5C9E6FB1411BB /* Resevation */ = {
+			isa = PBXGroup;
+			children = (
+				2DA5EB33208575FED04166AE /* ReservationService.h */,
+				2DA5E370B6CFAED88099447B /* ReservationService.m */,
+			);
+			path = Resevation;
+			sourceTree = "<group>";
+		};
+		2DA5ED7342C395A42547B00E /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				2DA5E69C8454DFE8A634E3CF /* IDatePickerSlider.h */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		2DA5EDC6BEE98606664EA94E /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				2DA5E7B8E67C8AF7A5F03C9A /* User */,
+				2DA5EC8B6FF5C9E6FB1411BB /* Resevation */,
+				2DA5EDC8BA54EAC7DE6AD09C /* MeetingRoom */,
+				2DA5E9575D6DE37C8DB9036C /* MainService.h */,
+				2DA5E4E41DD36F88ABDC539D /* MainService.m */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		2DA5EDC8BA54EAC7DE6AD09C /* MeetingRoom */ = {
+			isa = PBXGroup;
+			children = (
+				2DA5EBEFFABF35E36ED4CA73 /* MeetingRoomService.h */,
+				2DA5EE5BFA5435D08F8ECB2D /* MeetingRoomService.m */,
+			);
+			path = MeetingRoom;
+			sourceTree = "<group>";
+		};
+		BE22790C18F3DBEC007CEF07 = {
+			isa = PBXGroup;
+			children = (
+				BE22792018F3DBEC007CEF07 /* Cronos Rooms */,
+				BE22793D18F3DBEC007CEF07 /* Cronos RoomsTests */,
+				BE22791718F3DBEC007CEF07 /* Frameworks */,
+				BE22791618F3DBEC007CEF07 /* Products */,
+				70776AE194574176BCE58F8B /* Pods.xcconfig */,
+				2DA5EB3952995FA3F28EDB64 /* resources */,
+			);
+			sourceTree = "<group>";
+		};
+		BE22791618F3DBEC007CEF07 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BE22791518F3DBEC007CEF07 /* Cronos Rooms.app */,
+				BE22793518F3DBEC007CEF07 /* Cronos RoomsTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BE22791718F3DBEC007CEF07 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BE22791818F3DBEC007CEF07 /* Foundation.framework */,
+				BE22791A18F3DBEC007CEF07 /* CoreGraphics.framework */,
+				BE22791C18F3DBEC007CEF07 /* UIKit.framework */,
+				BE22791E18F3DBEC007CEF07 /* CoreData.framework */,
+				BE22793618F3DBEC007CEF07 /* XCTest.framework */,
+				9401864DD14F47C1800A5260 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BE22792018F3DBEC007CEF07 /* Cronos Rooms */ = {
+			isa = PBXGroup;
+			children = (
+				BE22792F18F3DBEC007CEF07 /* Images.xcassets */,
+				BE22792C18F3DBEC007CEF07 /* Cronos_Rooms.xcdatamodeld */,
+				BE22792118F3DBEC007CEF07 /* Supporting Files */,
+				2DA5E8A19E2F904BED2940BA /* View */,
+				2DA5EDC6BEE98606664EA94E /* Service */,
+				2DA5ED7342C395A42547B00E /* Protocol */,
+				2DA5E58442746D351F87ABF3 /* Model */,
+				2DA5E4499324672F07D67B4D /* Deprecated */,
+				2DA5E693C49CAEC6205B417E /* Controller */,
+				2DA5E80EC1037409D2B25758 /* App */,
+				2DA5EA7DCD6CECDBA3B4FC08 /* edit-512.png */,
+				2DA5E89962CF6D7DD83F089C /* delete-512.png */,
+			);
+			path = "Cronos Rooms";
+			sourceTree = "<group>";
+		};
+		BE22792118F3DBEC007CEF07 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BE22792218F3DBEC007CEF07 /* Cronos Rooms-Info.plist */,
+				BE22792318F3DBEC007CEF07 /* InfoPlist.strings */,
+				BE22792618F3DBEC007CEF07 /* main.m */,
+				BE22792818F3DBEC007CEF07 /* Cronos Rooms-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BE22793D18F3DBEC007CEF07 /* Cronos RoomsTests */ = {
+			isa = PBXGroup;
+			children = (
+				BE22794318F3DBEC007CEF07 /* Cronos_RoomsTests.m */,
+				BE22793E18F3DBEC007CEF07 /* Supporting Files */,
+			);
+			path = "Cronos RoomsTests";
+			sourceTree = "<group>";
+		};
+		BE22793E18F3DBEC007CEF07 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BE22793F18F3DBEC007CEF07 /* Cronos RoomsTests-Info.plist */,
+				BE22794018F3DBEC007CEF07 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BE22791418F3DBEC007CEF07 /* Cronos Rooms */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BE22794718F3DBEC007CEF07 /* Build configuration list for PBXNativeTarget "Cronos Rooms" */;
+			buildPhases = (
+				EA91092517B143C4AF0D6A10 /* Check Pods Manifest.lock */,
+				BE22791118F3DBEC007CEF07 /* Sources */,
+				BE22791218F3DBEC007CEF07 /* Frameworks */,
+				BE22791318F3DBEC007CEF07 /* Resources */,
+				CEE6A8F8B4F74F5A9763AF19 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Cronos Rooms";
+			productName = "Cronos Rooms";
+			productReference = BE22791518F3DBEC007CEF07 /* Cronos Rooms.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BE22793418F3DBEC007CEF07 /* Cronos RoomsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BE22794A18F3DBEC007CEF07 /* Build configuration list for PBXNativeTarget "Cronos RoomsTests" */;
+			buildPhases = (
+				BE22793118F3DBEC007CEF07 /* Sources */,
+				BE22793218F3DBEC007CEF07 /* Frameworks */,
+				BE22793318F3DBEC007CEF07 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BE22793C18F3DBEC007CEF07 /* PBXTargetDependency */,
+			);
+			name = "Cronos RoomsTests";
+			productName = "Cronos RoomsTests";
+			productReference = BE22793518F3DBEC007CEF07 /* Cronos RoomsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BE22790D18F3DBEC007CEF07 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = KaWi;
+				TargetAttributes = {
+					BE22793418F3DBEC007CEF07 = {
+						TestTargetID = BE22791418F3DBEC007CEF07;
+					};
+				};
+			};
+			buildConfigurationList = BE22791018F3DBEC007CEF07 /* Build configuration list for PBXProject "Cronos Rooms" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = BE22790C18F3DBEC007CEF07;
+			productRefGroup = BE22791618F3DBEC007CEF07 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+			);
+			projectRoot = "";
+			targets = (
+				BE22791418F3DBEC007CEF07 /* Cronos Rooms */,
+				BE22793418F3DBEC007CEF07 /* Cronos RoomsTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BE22791318F3DBEC007CEF07 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE22792518F3DBEC007CEF07 /* InfoPlist.strings in Resources */,
+				BE22793018F3DBEC007CEF07 /* Images.xcassets in Resources */,
+				2DA5E4BD509223C95A6619F8 /* config.plist in Resources */,
+				2DA5EDF37D6DE20EE987A8E5 /* edit-512.png in Resources */,
+				2DA5E25C4139E392C36BB0F8 /* delete-512.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE22793318F3DBEC007CEF07 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE22794218F3DBEC007CEF07 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		CEE6A8F8B4F74F5A9763AF19 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EA91092517B143C4AF0D6A10 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BE22791118F3DBEC007CEF07 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE22792E18F3DBEC007CEF07 /* Cronos_Rooms.xcdatamodeld in Sources */,
+				BE22792718F3DBEC007CEF07 /* main.m in Sources */,
+				2DA5E7CB6562E7B3B4C41FF0 /* DatePickerView.m in Sources */,
+				2DA5E8422FE2BCADC5B2DB11 /* DetailCellView.m in Sources */,
+				2DA5E9AA0D85AAEA7EFA7233 /* GroupTitleView.m in Sources */,
+				2DA5E126AED8B541A6E198D3 /* MeetingRoomOverview.m in Sources */,
+				2DA5E5ED75C20D6250D36A56 /* UserService.m in Sources */,
+				2DA5E4296F0321F022CE8220 /* ReservationService.m in Sources */,
+				2DA5E0C49F1E84AC88345641 /* MeetingRoomService.m in Sources */,
+				2DA5E6678CFCE970E856066E /* MainService.m in Sources */,
+				2DA5E882C84F6A7F53F747D8 /* User.m in Sources */,
+				2DA5E67D5B7BB94982491D0E /* MeetingRoom.m in Sources */,
+				2DA5E77AA31FDDE65E9A03D0 /* Reservation.m in Sources */,
+				2DA5E465BFF88250370523C3 /* EditReservationView.m in Sources */,
+				2DA5E97970C602467A27FD26 /* DetailReservationView.m in Sources */,
+				2DA5E96234DCC4D1FEE14CE2 /* TestViewController.m in Sources */,
+				2DA5EE709564B1454DAE7E93 /* EditReservationViewController.m in Sources */,
+				2DA5EB2254F739C347029A02 /* AppConfig.m in Sources */,
+				2DA5EB655C7A58378B283386 /* AppDelegate.m in Sources */,
+				2DA5EE35AD623F8973E4C61D /* SearchViewController.m in Sources */,
+				2DA5ED54539E91B9BAD965A7 /* MeetingOverviewController.m in Sources */,
+				2DA5E987DA03188BE2738B5E /* Room.m in Sources */,
+				2DA5EB51048593815CEC4C7B /* Meeting.m in Sources */,
+				2DA5EC0F25542D5668A2E80D /* MeetingTableVIewCell.m in Sources */,
+				2DA5E12D73EA08ACDA7E1A0A /* MeetingTableViewHeader.m in Sources */,
+				2DA5EF6F7F6DFEDE71336AC5 /* MeetingOverview.m in Sources */,
+				2DA5EAF87B233800F6CA723D /* SearchTableViewCell.m in Sources */,
+				2DA5E43404E04B8A91F02A64 /* SearchView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE22793118F3DBEC007CEF07 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE22794418F3DBEC007CEF07 /* Cronos_RoomsTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BE22793C18F3DBEC007CEF07 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BE22791418F3DBEC007CEF07 /* Cronos Rooms */;
+			targetProxy = BE22793B18F3DBEC007CEF07 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		BE22792318F3DBEC007CEF07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BE22792418F3DBEC007CEF07 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		BE22794018F3DBEC007CEF07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BE22794118F3DBEC007CEF07 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		BE22794518F3DBEC007CEF07 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BE22794618F3DBEC007CEF07 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BE22794818F3DBEC007CEF07 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 70776AE194574176BCE58F8B /* Pods.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Cronos Rooms/Cronos Rooms-Prefix.pch";
+				INFOPLIST_FILE = "Cronos Rooms/Cronos Rooms-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/**";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		BE22794918F3DBEC007CEF07 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 70776AE194574176BCE58F8B /* Pods.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Cronos Rooms/Cronos Rooms-Prefix.pch";
+				INFOPLIST_FILE = "Cronos Rooms/Cronos Rooms-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/**";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		BE22794B18F3DBEC007CEF07 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Cronos Rooms.app/Cronos Rooms";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Cronos Rooms/Cronos Rooms-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Cronos RoomsTests/Cronos RoomsTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		BE22794C18F3DBEC007CEF07 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Cronos Rooms.app/Cronos Rooms";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Cronos Rooms/Cronos Rooms-Prefix.pch";
+				INFOPLIST_FILE = "Cronos RoomsTests/Cronos RoomsTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BE22791018F3DBEC007CEF07 /* Build configuration list for PBXProject "Cronos Rooms" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BE22794518F3DBEC007CEF07 /* Debug */,
+				BE22794618F3DBEC007CEF07 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BE22794718F3DBEC007CEF07 /* Build configuration list for PBXNativeTarget "Cronos Rooms" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BE22794818F3DBEC007CEF07 /* Debug */,
+				BE22794918F3DBEC007CEF07 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		BE22794A18F3DBEC007CEF07 /* Build configuration list for PBXNativeTarget "Cronos RoomsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BE22794B18F3DBEC007CEF07 /* Debug */,
+				BE22794C18F3DBEC007CEF07 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		BE22792C18F3DBEC007CEF07 /* Cronos_Rooms.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				BE22792D18F3DBEC007CEF07 /* Cronos_Rooms.xcdatamodel */,
+			);
+			currentVersion = BE22792D18F3DBEC007CEF07 /* Cronos_Rooms.xcdatamodel */;
+			path = Cronos_Rooms.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = BE22790D18F3DBEC007CEF07 /* Project object */;
+}
