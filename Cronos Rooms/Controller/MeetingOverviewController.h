@@ -27,6 +27,8 @@
 
 
 //TODO
+
+//HOPSAKEE
 @property (nonatomic, strong) UILabel * lblDate;
 @property (nonatomic, strong) UILabel * lblDescription;
 @property (nonatomic, strong) UILabel * lblRoom;
