@@ -26,7 +26,7 @@
 @property (nonatomic,strong) Meeting *meeting7;
 
 
-
+//TODO
 @property (nonatomic, strong) UILabel * lblDate;
 @property (nonatomic, strong) UILabel * lblDescription;
 @property (nonatomic, strong) UILabel * lblRoom;

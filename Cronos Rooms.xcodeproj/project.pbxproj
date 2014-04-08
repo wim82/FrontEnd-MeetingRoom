@@ -447,8 +447,6 @@
 			mainGroup = BE22790C18F3DBEC007CEF07;
 			productRefGroup = BE22791618F3DBEC007CEF07 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-			);
 			projectRoot = "";
 			targets = (
 				BE22791418F3DBEC007CEF07 /* Cronos Rooms */,
@@ -668,6 +666,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Cronos Rooms/Cronos Rooms-Prefix.pch";
 				INFOPLIST_FILE = "Cronos Rooms/Cronos Rooms-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/**";
 				WRAPPER_EXTENSION = app;
@@ -683,6 +682,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Cronos Rooms/Cronos Rooms-Prefix.pch";
 				INFOPLIST_FILE = "Cronos Rooms/Cronos Rooms-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/**";
 				WRAPPER_EXTENSION = app;
@@ -748,6 +748,7 @@
 				BE22794918F3DBEC007CEF07 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BE22794A18F3DBEC007CEF07 /* Build configuration list for PBXNativeTarget "Cronos RoomsTests" */ = {
 			isa = XCConfigurationList;
@@ -756,6 +757,7 @@
 				BE22794C18F3DBEC007CEF07 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
