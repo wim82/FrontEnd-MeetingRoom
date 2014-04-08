@@ -26,6 +26,8 @@
 @property (nonatomic,strong) Meeting *meeting7;
 
 
+//testing git merge
+
 //TODO
 @property (nonatomic, strong) UILabel * lblDate;
 @property (nonatomic, strong) UILabel * lblDescription;
