@@ -33,7 +33,9 @@
 		2DA5EB51048593815CEC4C7B /* Meeting.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EA7D2718BDAB8D059F0B /* Meeting.m */; };
 		2DA5EB655C7A58378B283386 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EB32E0852C3E1F2BECD0 /* AppDelegate.m */; };
 		2DA5EC0F25542D5668A2E80D /* ReservationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5ECB0E22FE9BEEFAA21B6 /* ReservationTableViewCell.m */; };
+		2DA5ECE61C9B137957CD167D /* DayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E0C8985E2A1F92649EBA /* DayViewController.m */; };
 		2DA5ED54539E91B9BAD965A7 /* ReservationOverviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E87239DFF246109960F7 /* ReservationOverviewController.m */; };
+		2DA5EDEC4DB4C43A95DEAEC0 /* DayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E225C37222D8D3B98D92 /* DayView.m */; };
 		2DA5EDF37D6DE20EE987A8E5 /* edit-512.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DA5EA7DCD6CECDBA3B4FC08 /* edit-512.png */; };
 		2DA5EE35AD623F8973E4C61D /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EC3960C79D56CDF362D3 /* SearchViewController.m */; };
 		2DA5EE709564B1454DAE7E93 /* EditReservationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E2E0126BB0554FFC5242 /* EditReservationViewController.m */; };
@@ -67,8 +69,12 @@
 
 /* Begin PBXFileReference section */
 		2DA5E03B4F82B2D0D7563FCA /* MeetingRoomOverview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeetingRoomOverview.m; sourceTree = "<group>"; };
+		2DA5E0766D8B0E38D49E61D5 /* DayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DayViewController.h; sourceTree = "<group>"; };
+		2DA5E0C8985E2A1F92649EBA /* DayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DayViewController.m; sourceTree = "<group>"; };
 		2DA5E12E594ED552C75B7A90 /* UserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserService.h; sourceTree = "<group>"; };
 		2DA5E14C8C9843781D4F69F1 /* Room.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Room.m; sourceTree = "<group>"; };
+		2DA5E1DC25D388ADE7981306 /* DayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DayView.h; sourceTree = "<group>"; };
+		2DA5E225C37222D8D3B98D92 /* DayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DayView.m; sourceTree = "<group>"; };
 		2DA5E268632BA829E63ECF1C /* SearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchView.h; sourceTree = "<group>"; };
 		2DA5E2C6618A3CDCFC2D51D8 /* EditReservationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditReservationView.h; sourceTree = "<group>"; };
 		2DA5E2E0126BB0554FFC5242 /* EditReservationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditReservationViewController.m; sourceTree = "<group>"; };
@@ -220,6 +226,8 @@
 				2DA5E87239DFF246109960F7 /* ReservationOverviewController.m */,
 				2DA5ED41C05A0490B8BBDD0B /* ReservationOverviewController.h */,
 				2DA5E705CBAD27EDB209F12F /* SearchViewController.h */,
+				2DA5E0C8985E2A1F92649EBA /* DayViewController.m */,
+				2DA5E0766D8B0E38D49E61D5 /* DayViewController.h */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -265,6 +273,8 @@
 				2DA5E7ED4F42FFA459685AE4 /* ReservationTableViewHeader.h */,
 				2DA5EC034C31FE488D52D60D /* ReservationOverview.h */,
 				2DA5E357785755DB10A28E9F /* SearchView.m */,
+				2DA5E225C37222D8D3B98D92 /* DayView.m */,
+				2DA5E1DC25D388ADE7981306 /* DayView.h */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -562,6 +572,8 @@
 				2DA5EAF87B233800F6CA723D /* SearchTableViewCell.m in Sources */,
 				2DA5E43404E04B8A91F02A64 /* SearchView.m in Sources */,
 				2DA5E9C70C522F64DCA7079B /* DateHelper.m in Sources */,
+				2DA5ECE61C9B137957CD167D /* DayViewController.m in Sources */,
+				2DA5EDEC4DB4C43A95DEAEC0 /* DayView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

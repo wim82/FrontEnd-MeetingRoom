@@ -48,12 +48,24 @@
 
 }
 
++ (NSDateFormatter *)datetimeFormatter {
+    static NSDateFormatter *timeFormatter = nil;
+
+    if (timeFormatter == nil) {
+        timeFormatter = [[NSDateFormatter alloc] init];
+        [timeFormatter setDateFormat:@"yyyyMMdd hh:mm"];
+    }
+
+    return timeFormatter;
+
+}
+
 - (NSDateFormatter *)timeFormatter {
     static NSDateFormatter *timeFormatter = nil;
 
     if (timeFormatter == nil) {
         timeFormatter = [[NSDateFormatter alloc] init];
-        [timeFormatter setDateFormat:@"mm:ss"];
+        [timeFormatter setDateFormat:@"hh:mm"];
     }
 
     return timeFormatter;

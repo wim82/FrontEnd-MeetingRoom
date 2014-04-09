@@ -14,6 +14,8 @@
 + (NSDate *)dateWithOutTime:(NSDate *)date;
 + (NSDate *)timeWithoutDate:(NSDate *)time;
 
+
 + (NSDateFormatter *)timeFormatter;
++ (NSDateFormatter *)datetimeFormatter;
 
 @end

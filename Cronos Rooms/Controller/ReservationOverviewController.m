@@ -68,18 +68,21 @@
 
         //build an array of dates for the sections
         for (Reservation *reservation  in reservations) {
-            if (![self.reservationDates containsObject:reservation.date]) {
-                [self.reservationDates addObject:reservation.date];
+            NSDate *dateWithoutTime = [DateHelper dateWithOutTime:reservation.startTime];
+            if (![self.reservationDates containsObject:dateWithoutTime]) {
+                [self.reservationDates addObject:dateWithoutTime];
             }
         }
 
         //build a dictionary of reservations by date
         for (NSDate *date in self.reservationDates) {
+
             NSMutableArray *reservationsPerDate = [[NSMutableArray alloc] init];
             for (Reservation *reservation in reservations) {
-                if (date == reservation.date) {
+                if ([date compare: [DateHelper dateWithOutTime:reservation.startTime]] == NSOrderedSame) {
                     [reservationsPerDate addObject:reservation];
                 }
+
 
             }
             [self.reservationsByDate setObject:reservationsPerDate forKey:date];
@@ -169,7 +172,9 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    NSLog(@"kom ik in numbersofrowsinsection");
     NSDate *date = [self.reservationDates objectAtIndex:section];
+    NSLog(@"datum %@ ", date);
     return [[self.reservationsByDate objectForKey:date] count];
 }
 
@@ -212,9 +217,10 @@
     Reservation *reservation = [meetingArray objectAtIndex:indexPath.row];
 
     //TODO maak eigen labels
+
     cell.textLabel.text = reservation.reservationDescription;
     cell.textLabel.backgroundColor = [UIColor redColor];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@           %@", reservation.meetingRoom.roomName, reservation.startTime];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@           %@", reservation.meetingRoom.roomName, [[DateHelper datetimeFormatter] stringFromDate:reservation.startTime]];
 
     return cell;
 }

@@ -80,7 +80,9 @@
 
             NSMutableArray *result = [[NSMutableArray alloc] init];
             for (id responseElement in [responseObject objectForKey:@"data"]) {
+
                 Reservation *reservation = [[Reservation alloc] initWithStringDictionary:responseElement];
+                NSLog(@"reservation date komt zo binnen %@ voor %@", reservation.startTime, reservation.reservationDescription);
                 [result addObject:reservation];
             }
             success(result);

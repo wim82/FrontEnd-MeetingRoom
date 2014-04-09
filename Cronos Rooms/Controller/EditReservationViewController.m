@@ -148,7 +148,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
     //START DATE
     self.startDatePickerView = [[DatePickerView alloc] initWithFrame:CGRectMake(0, self.timeTitleView.frame.origin.y + self.timeTitleView.frame.size.height, self.view.frame.size.width, 44)
                                                                title:@"Start"
-                                                                date:self.reservation.date ? self.reservation.date : [NSDate dateWithTimeIntervalSinceNow:60 * 60 * 24]
+                                                                date:self.reservation.startTime ? self.reservation.startTime : [NSDate dateWithTimeIntervalSinceNow:60 * 60 * 24]
                                                                 mode:(UIDatePickerModeDateAndTime)
                                                          andDelegate:self];
     [self addBottomBorder:IndentedBorder forView:self.startDatePickerView];

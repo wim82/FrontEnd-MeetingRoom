@@ -12,7 +12,6 @@
 @property (nonatomic, assign) NSInteger id;
 @property (nonatomic, strong) User *user;
 @property (nonatomic, strong) MeetingRoom *meetingRoom;
-@property (nonatomic, strong) NSDate *date;
 @property (nonatomic, strong) NSDate *startTime;
 @property (nonatomic, strong) NSDate *endTime;
 @property (nonatomic, strong) NSString *reservationDescription;
