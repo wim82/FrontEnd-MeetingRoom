@@ -21,7 +21,7 @@
 @property(nonatomic, strong) DatePickerView *startDatePickerView;
 @property(nonatomic, strong) DatePickerView *endDatePickerView;
 @property(nonatomic, strong) MeetingRoomOverview *meetingRoomOverview;
-@property(nonatomic, strong) NSString *currentMeetingRoom;
+@property(nonatomic, strong) MeetingRoom *currentMeetingRoom;
 @property(nonatomic, strong) UITextField *activeTextField;
 @property(nonatomic, strong) UIScrollView *scrollView;
 
@@ -49,7 +49,17 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc]
+                                  initWithBarButtonSystemItem:UIBarButtonSystemItemSave
+                                  target:self
+                                  action:@selector(_didTapSave)];
+    self.navigationItem.rightBarButtonItem=saveButton;
+    
+    //TODO make left nav bar button to be cancel button
+   // self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(_didTapCancel)];
 
+    
     [self _setUpTimeView];
     [self _setUpDetailView];
     [self _setUpMeetingRoomTableView];
@@ -262,6 +272,51 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
             20;
 }
 
+#pragma mark - Navigation
+
+
+- (void)_dismissController{
+    //FIX IT : keert nog niet terug
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+- (void)_didTapCancel{
+    NSLog(@"tapped cancel");
+    [self _dismissController];
+}
+
+- (void)_didTapSave {
+    
+    //todo  continue working on save
+    
+    //build element that needs to be "posted"
+    int userNumber=1; //TODO zoek met rest call op wat userid is van de meeting owner
+    Reservation *finalReservation=[[Reservation alloc]init];
+    
+    User *user=[[User alloc]init];
+    user.userId=userNumber;
+    finalReservation.user=user;
+    
+    MeetingRoom *meetingRoom = self.currentMeetingRoom;
+    finalReservation.meetingRoom=meetingRoom;
+    
+    finalReservation.reservationDescription=self.descriptionTextView.detailTextField.text;
+    
+    finalReservation.startTime=self.startDatePickerView.datePicker.date;
+    
+    finalReservation.endTime=self.endDatePickerView.datePicker.date;
+    
+    
+    NSLog(@"in didtapSave: ");
+    NSLog(@"%@", finalReservation);
+    
+    
+   
+    
+    
+}
+
+
+
 
 
 #pragma mark - DetailView Methods
@@ -312,11 +367,11 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MyIdentifier];
     }
 
-    MeetingRoom *meetingRoom = [self.meetingRooms objectAtIndex:indexPath.row];
+    MeetingRoom *meetingRoom = (MeetingRoom*) [self.meetingRooms objectAtIndex:indexPath.row];
     cell.textLabel.text = meetingRoom.roomName;
 
     if (meetingRoom.roomId == self.reservation.meetingRoom.roomId) {
-        self.currentMeetingRoom = (id) meetingRoom;
+        self.currentMeetingRoom = meetingRoom;  //TODO krijgen we die warning weg??
         [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
     }
     return cell;
