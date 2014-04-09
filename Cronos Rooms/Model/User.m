@@ -15,7 +15,7 @@
     self = [super init];
     if(self){
         self.fullName = [dictionary objectForKey:@"fullName"];
-        self.userId = [dictionary objectForKey:@"userId"];
+        self.userId = [[dictionary objectForKey:@"userId"] integerValue];
     }
 
     return self;

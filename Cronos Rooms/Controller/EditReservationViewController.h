@@ -4,9 +4,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Reservation.h"
 
 
 @interface EditReservationViewController : UIViewController
-@property(nonatomic, strong) NSArray *meetingRooms;
+@property (nonatomic, strong) NSArray *meetingRooms;
+@property (nonatomic, strong) Reservation *reservation;
 
 @end

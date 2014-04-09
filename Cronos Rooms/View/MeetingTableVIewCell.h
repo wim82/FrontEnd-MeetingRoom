@@ -1,5 +1,5 @@
 //
-//  MeetingTableVIewCell.h
+//  MeetingTableViewCell.h
 //  testProject
 //
 //  Created by Katrien De Mey on 03/04/14.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SWTableViewCell.h"
 
-@interface MeetingTableVIewCell : SWTableViewCell
+@interface MeetingTableViewCell : SWTableViewCell
 
 
 

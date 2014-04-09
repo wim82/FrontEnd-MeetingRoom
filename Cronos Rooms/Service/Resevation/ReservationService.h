@@ -12,4 +12,5 @@
 
 + (ReservationService *)sharedService;
 - (void)getReservationsForRoomId:(NSInteger) roomId fromDate:(NSDate *) date forAmountOfDays:(NSInteger) amount withSuccesHandler:(void (^)(NSMutableArray *))success andErrorHandler:(void (^)(NSException *))error;
+- (void)getReservationsForUserId:(NSInteger) userId withSuccesHandler:(void (^)(NSMutableArray *))success andErrorHandler:(void (^)(NSException *))error;
 @end

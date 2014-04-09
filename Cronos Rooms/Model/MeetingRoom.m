@@ -13,7 +13,7 @@
 - (instancetype) initWithDictionary:(NSDictionary *) dictionary{
     self = [super init];
     if(self){
-        self.roomId = [dictionary objectForKey:@"roomId"];
+        self.roomId = [[dictionary objectForKey:@"roomId"] integerValue];
         self.roomName = [dictionary objectForKey:@"roomName"];
         self.buildingName = [dictionary objectForKey:@"buildingName"];
     }

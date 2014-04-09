@@ -4,12 +4,17 @@
 //
 
 #import "Reservation.h"
+#import "DateHelper.h"
 
 
 @implementation Reservation {
 
 }
-
+/*
+@synthesize date = _date;
+@synthesize startTime = _startTime;
+@synthesize endTime = _endTime;
+  */
 + (NSDateFormatter *)dateFormatter {
     static NSDateFormatter *dateFormatter = nil;
 
@@ -22,11 +27,11 @@
 
 }
 
-+ (NSDateFormatter *)timeFormatter{
++ (NSDateFormatter *)timeFormatter {
     static NSDateFormatter *timeFormatter = nil;
 
     if (timeFormatter == nil) {
-    timeFormatter = [[NSDateFormatter alloc] init];
+        timeFormatter = [[NSDateFormatter alloc] init];
         [timeFormatter setDateFormat:@"mm:ss"];
     }
 
@@ -36,7 +41,7 @@
 
 - (instancetype)initWithStringDictionary:(NSDictionary *)dictionary {
     if (self) {
-        self.id = [dictionary objectForKey:@"id"];
+        self.id = [[dictionary objectForKey:@"id"] integerValue];
         self.user = [[User alloc] initWithDictionary:[dictionary objectForKey:@"user"]];
         self.meetingRoom = [[MeetingRoom alloc] initWithDictionary:[dictionary objectForKey:@"meetingRoom"]];
         self.date = [[Reservation dateFormatter] dateFromString:[dictionary objectForKey:@"date"]];
@@ -47,5 +52,31 @@
     return self;
 }
 
+
+/*
+- (NSDate *)date {
+    return _date;
+}
+
+- (void)setDate:(NSDate *)date {
+    _date = [DateHelper dateWithOutTime:date];;
+}
+
+- (NSDate *)startTime {
+    return _startTime;
+}
+
+- (void)setStartTime:(NSDate *)startTime {
+    _startTime = [DateHelper timeWithoutDate:startTime];;
+}
+
+- (NSDate *)endTime {
+    return _endTime;
+}
+
+- (void)setEndTime:(NSDate *)endTime {
+    _date = [DateHelper timeWithoutDate:endTime];;
+}
+  */
 
 @end

@@ -7,6 +7,8 @@
 #import "EditReservationView.h"
 #import "DetailReservationView.h"
 #import "IDatePickerSlider.h"
+#import "Reservation.h"
+#import "MeetingRoomService.h"
 
 
 @interface EditReservationViewController () <IDatePickerSlider, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
@@ -33,13 +35,15 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 @implementation EditReservationViewController
 
 - (void)loadView {
-    self.meetingRooms = [[NSArray alloc] initWithObjects:@"China", @"Rusland", @"IJsland", @"Groenland",@"Paaseiland", nil];
+
     self.scrollView = [[UIScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    [self.scrollView setBackgroundColor:[UIColor whiteColor]];
     self.view = self.scrollView;
+
     self.navigationItem.title = @"Reservations";
     self.navigationController.navigationBar.translucent = NO;
+    [self loadMeetingRooms];
 }
-
 
 
 - (void)viewDidLoad {
@@ -53,17 +57,14 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 }
 
 
-
 - (void)viewWillAppear:(BOOL)animated {
 }
-
 
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -76,6 +77,25 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 }
 
 
+#pragma mark - Set Up Methods
+
+- (void)loadMeetingRooms {
+    MeetingRoomService *service = [MeetingRoomService sharedService];
+    [service getAllMeetingRoomsWithSuccessHandler:^(NSMutableArray *meetingRooms) {
+        self.meetingRooms = [[NSArray alloc] initWithArray:meetingRooms];
+        NSLog(@"meeting rooms: %@", self.meetingRooms);
+
+        [self.meetingRoomOverview.tableView reloadData];
+        [self updateViewSizeToMatchContents];
+
+
+    }                             andErrorHandler:^(NSException *exception) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:exception.reason delegate:self cancelButtonTitle:@"het zou niet mogen" otherButtonTitles:nil];
+        [alertView show];
+    }];
+
+}
+
 
 - (void)_setUpMeetingRoomTableView {
     self.roomTitleView = [[GroupTitleView alloc] initWithFrame:CGRectMake(0, self.reservedByTextView.frame.origin.y + self.reservedByTextView.frame.size.height, self.view.frame.size.width, 64)
@@ -87,23 +107,24 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
     self.meetingRoomOverview = [[MeetingRoomOverview alloc] initWithFrame:CGRectMake(0, self.roomTitleView.frame.origin.y + self.roomTitleView.frame.size.height, self.view.frame.size.width, 0)
                                                               andDelegate:self];
     [self.meetingRoomOverview.tableView reloadData];
-
-    //autoresizing tableview to match contents, happens after reloadData
-    CGRect loadedTableViewFrame = self.meetingRoomOverview.tableView.frame;  //general property of the meetingroom frame
-    loadedTableViewFrame.size.height = self.meetingRoomOverview.tableView.contentSize.height; //get the dynamic height depending on the rows
-    self.meetingRoomOverview.frame = loadedTableViewFrame; //set the overview frame to the new one
-
-    //this is the mystery line that needs to be added.
-    self.meetingRoomOverview.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, loadedTableViewFrame.size.height);
-
-    //update the general scrollview with the size of all elements + dynamically set table heigth
-    [self.scrollView setContentSize:CGSizeMake(self.scrollView.contentSize.width, [self heigthForAllElementsInCurrentView])];
+    [self updateViewSizeToMatchContents];
 
 
     [self.scrollView addSubview:self.meetingRoomOverview];
 
 }
 
+- (void)updateViewSizeToMatchContents {
+    //autoresizing tableview to match contents, happens after reloadData
+    CGRect loadedTableViewFrame = CGRectMake(0, self.roomTitleView.frame.origin.y + self.roomTitleView.frame.size.height, self.view.frame.size.width, 0);  //general property of the meetingroom frame
+    loadedTableViewFrame.size.height = self.meetingRoomOverview.tableView.contentSize.height; //get the dynamic height depending on the rows
+    self.meetingRoomOverview.frame = loadedTableViewFrame; //set the overview frame to the new one
+
+    self.meetingRoomOverview.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, loadedTableViewFrame.size.height);
+
+    //update the general scrollview with the size of all elements + dynamically set table heigth
+    [self.scrollView setContentSize:CGSizeMake(self.scrollView.contentSize.width, [self heigthForAllElementsInCurrentView])];
+}
 
 
 - (void)_registerKeyboardNotifications {
@@ -119,7 +140,6 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 }
 
 
-
 - (void)_setUpTimeView {
     self.timeTitleView = [[GroupTitleView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 64)
                                                       andTitle:@"Time"];
@@ -128,7 +148,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
     //START DATE
     self.startDatePickerView = [[DatePickerView alloc] initWithFrame:CGRectMake(0, self.timeTitleView.frame.origin.y + self.timeTitleView.frame.size.height, self.view.frame.size.width, 44)
                                                                title:@"Start"
-                                                                date:[NSDate dateWithTimeIntervalSinceNow:60 * 60 * 24]
+                                                                date:self.reservation.date ? self.reservation.date : [NSDate dateWithTimeIntervalSinceNow:60 * 60 * 24]
                                                                 mode:(UIDatePickerModeDateAndTime)
                                                          andDelegate:self];
     [self addBottomBorder:IndentedBorder forView:self.startDatePickerView];
@@ -138,7 +158,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
     //END TIME
     self.endDatePickerView = [[DatePickerView alloc] initWithFrame:CGRectMake(0, self.startDatePickerView.frame.origin.y + self.startDatePickerView.frame.size.height, self.view.frame.size.width, 44)
                                                              title:@"End"
-                                                              date:[NSDate dateWithTimeIntervalSinceNow:60 * 60 * 24.5]
+                                                              date:self.reservation.endTime ? self.reservation.endTime : [NSDate dateWithTimeIntervalSinceNow:60 * 60 * 24.5]
                                                               mode:(UIDatePickerModeTime)
                                                        andDelegate:self];
     [self addBottomBorder:FullBorder forView:self.endDatePickerView];
@@ -169,20 +189,18 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 }
 
 
-
 - (void)keyboardWasShown:(NSNotification *)notification {
     CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
 
-    //set to 64 because of navController?
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0, 0.0, keyboardSize.height, 0.0);
     self.scrollView.contentInset = contentInsets;
     self.scrollView.scrollIndicatorInsets = contentInsets;
 
-   CGRect aRect = self.view.frame;
+    CGRect aRect = self.view.frame;
     aRect.size.height -= keyboardSize.height;
     self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, [self heigthForAllElementsInCurrentView]);
 
-   if (!CGRectContainsPoint(aRect, self.activeTextField.frame.origin) ) {
+    if (!CGRectContainsPoint(aRect, self.activeTextField.frame.origin)) {
         [self.scrollView scrollRectToVisible:self.activeTextField.frame animated:YES];
     }
 
@@ -190,17 +208,11 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 }
 
 
-
 - (void)keyboardWillHide:(NSNotification *)notification {
-
-    //do i need this??
-    NSLog(@"keyboard will hide");
-    //need to make it 64, to have room for navigation controller
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0, 0, 0, 0);
     self.scrollView.contentInset = contentInsets;
     self.scrollView.scrollIndicatorInsets = contentInsets;
 }
-
 
 
 - (void)datePickerDidSlideOpen:(BOOL)slideDown sentBy:(id)sender {
@@ -228,7 +240,6 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 }
 
 
-
 - (CGRect)slideFrame:(UIView *)view direction:(BOOL)down {
     if (down) {
         return CGRectMake(view.frame.origin.x, view.frame.origin.y + 216, view.frame.size.width, view.frame.size.height);
@@ -237,7 +248,6 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
         return CGRectMake(view.frame.origin.x, view.frame.origin.y - 216, view.frame.size.width, view.frame.size.height);
     }
 }
-
 
 
 - (CGFloat)heigthForAllElementsInCurrentView {
@@ -256,14 +266,14 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
 #pragma mark - DetailView Methods
 
-- (void)_setUpDetailView{
+- (void)_setUpDetailView {
     self.detailTitleView = [[GroupTitleView alloc] initWithFrame:CGRectMake(0, self.endDatePickerView.frame.origin.y + self.endDatePickerView.frame.size.height, self.view.frame.size.width, 64)
                                                         andTitle:@"Details"];
     [self.scrollView addSubview:self.detailTitleView];
 
     self.descriptionTextView = [[DetailCellView alloc] initWithFrame:CGRectMake(0, self.detailTitleView.frame.origin.y + self.detailTitleView.frame.size.height, self.view.frame.size.width - 20, 64)
                                                                title:@"Description"
-                                                            andValue:@"Gasthuisberg"
+                                                            andValue:self.reservation.reservationDescription
                                                          andDelegate:self];
 
     self.descriptionTextView.detailTextField.returnKeyType = UIReturnKeyNext;
@@ -272,7 +282,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
     self.reservedByTextView = [[DetailCellView alloc] initWithFrame:CGRectMake(0, self.descriptionTextView.frame.origin.y + self.descriptionTextView.frame.size.height, self.view.frame.size.width, 64)
                                                               title:@"Reserved by"
-                                                           andValue:nil
+                                                           andValue:self.reservation.user.fullName
                                                         andDelegate:self];
 
     self.reservedByTextView.detailTextField.returnKeyType = UIReturnKeyDone;
@@ -289,11 +299,10 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 }
 
 
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    NSLog(@"hop %i", self.meetingRooms.count);
     return self.meetingRooms.count;
 }
-
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -303,16 +312,20 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MyIdentifier];
     }
 
-    cell.textLabel.text = [self.meetingRooms objectAtIndex:indexPath.row];
+    MeetingRoom *meetingRoom = [self.meetingRooms objectAtIndex:indexPath.row];
+    cell.textLabel.text = meetingRoom.roomName;
+
+    if (meetingRoom.roomId == self.reservation.meetingRoom.roomId) {
+        self.currentMeetingRoom = (id) meetingRoom;
+        [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+    }
     return cell;
 }
-
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 44.0;
 }
-
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -346,7 +359,6 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 }
 
 
-
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     self.activeTextField = textField;
     if (textField == self.descriptionTextView.detailTextField) {
@@ -357,7 +369,6 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
         self.reservedByTextView.detailLabel.hidden = NO;
     }
 }
-
 
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {

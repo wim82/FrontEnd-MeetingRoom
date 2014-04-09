@@ -11,32 +11,4 @@
 #import "SWTableViewCell.h"
 
 @interface MeetingOverviewController : UIViewController <UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, UISearchBarDelegate, UISearchDisplayDelegate>
-
-
-
-@property (nonatomic) NSMutableDictionary *meetings;
-@property (nonatomic) NSMutableArray *meetingsAll;
-@property (nonatomic) NSMutableArray *dates;
-@property (nonatomic,strong) Meeting *meeting1;
-@property (nonatomic,strong) Meeting *meeting2;
-@property (nonatomic,strong) Meeting *meeting3;
-@property (nonatomic,strong) Meeting *meeting4;
-@property (nonatomic,strong) Meeting *meeting5;
-@property (nonatomic,strong) Meeting *meeting6;
-@property (nonatomic,strong) Meeting *meeting7;
-
-
-//testing git merge
-
-//TODO
-
-//HOPSAKEE
-@property (nonatomic, strong) UILabel * lblDate;
-@property (nonatomic, strong) UILabel * lblDescription;
-@property (nonatomic, strong) UILabel * lblRoom;
-@property (nonatomic, strong) UILabel * lblTime;
-
-
-
-
 @end

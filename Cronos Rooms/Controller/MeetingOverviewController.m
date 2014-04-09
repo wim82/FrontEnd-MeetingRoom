@@ -8,349 +8,263 @@
 
 #import "MeetingOverviewController.h"
 #import "MeetingOverview.h"
-#import "MeetingTableVIewCell.h"
-#import "Meeting.h"
+#import "MeetingTableViewCell.h"
 #import "MeetingTableViewHeader.h"
 #import "SearchViewController.h"
-#import "SWTableViewCell.h"
-
-NSString *localeNameForTimeZoneNameComponents(NSArray *nameComponents);
-NSMutableDictionary *regionDictionaryWithNameInArray(NSString *name, NSArray *array);
-
-NSMutableArray *dates;
-NSInteger dateSection;
-
+#import "ReservationService.h"
+#import "Reservation.h"
+#import "EditReservationViewController.h"
+#import "DateHelper.h"
 
 
 #define TABLEVIEWCELL_IDENTIFIER @"meetingCell"
 #define TABLEVIEWHEADER_IDENTIFIER @"meetingHeader"
 
-@interface MeetingOverviewController () <UITableViewDataSource, UITableViewDelegate,SWTableViewCellDelegate, UISearchBarDelegate, UISearchDisplayDelegate>
+@interface MeetingOverviewController () <UITableViewDataSource, UITableViewDelegate, SWTableViewCellDelegate, UISearchBarDelegate, UISearchDisplayDelegate>
 
-@property (nonatomic, strong) MeetingOverview  * meetingOverview;
-
-//@property (nonatomic) BOOL useCustomCells;
-@property (nonatomic, weak) UIRefreshControl *refreshControl;
-
+@property(nonatomic, strong) MeetingOverview *meetingOverview;
+@property(nonatomic, strong) NSMutableDictionary *reservationsByDate;
+@property(nonatomic) NSMutableArray *reservationDates;
 
 @end
 
 @implementation MeetingOverviewController
 
 
--(void)loadView{
+- (void)loadView {
     self.meetingOverview = [[MeetingOverview alloc] initWithFrame:[UIScreen mainScreen].bounds andDelegate:self];
     self.view = self.meetingOverview;
-    
-    self.meetings=[[NSMutableDictionary alloc]init];
-    self.meetingsAll=[[NSMutableArray alloc]init];
-    
-    //fake data opbouwen
-    
-    self.meeting1=[[Meeting alloc]init];
-    self.meeting1.date=(@"20140406");
-    self.meeting1.title=@"customer meeting";
-    self.meeting1.room=@"China";
-    self.meeting1.timeInterval=@"time interval: 11:00-12:00";
-    [self.meetingsAll addObject:self.meeting1];
-    
-    self.meeting2=[[Meeting alloc]init];
-    self.meeting2.date=(@"20140722");
-    self.meeting2.title=@"internal meeting";
-    self.meeting2.room=@"China";
-    self.meeting2.timeInterval=@"time interval: 11:00-12:00";
-    [self.meetingsAll addObject:self.meeting2];
-    
-    self.meeting3=[[Meeting alloc]init];
-    self.meeting3.date=(@"20140406");
-    self.meeting3.title=@"sh** meeting";
-    self.meeting3.room=@"Iceland";
-    self.meeting3.timeInterval=@"time interval: 11:00-12:00";
-    [self.meetingsAll addObject:self.meeting3];
-    
-    self.meeting4=[[Meeting alloc]init];
-    self.meeting4.date=(@"20140508");
-    self.meeting4.title=@"internal meeting";
-    self.meeting4.room=@"Iceland";
-    self.meeting4.timeInterval=@"time interval: 11:00-12:00";
-    [self.meetingsAll addObject:self.meeting4];
-    
-    self.meeting5=[[Meeting alloc]init];
-    self.meeting5.date=(@"20140722");
-    self.meeting5.title=@"internal meeting";
-    self.meeting5.room=@"Iceland";
-    self.meeting5.timeInterval=@"time interval: 11:00-12:00";
-    [self.meetingsAll addObject:self.meeting5];
-    
-    self.meeting6=[[Meeting alloc]init];
-    self.meeting6.date=(@"20140508");
-    self.meeting6.title=@"internal meeting";
-    self.meeting6.room=@"Iceland";
-    self.meeting6.timeInterval=@"time interval: 11:00-12:00";
-    [self.meetingsAll addObject:self.meeting6];
-    
-    self.meeting7=[[Meeting alloc]init];
-    self.meeting7.date=(@"20140722");
-    self.meeting7.title=@"internal meeting";
-    self.meeting7.room=@"Iceland";
-    self.meeting7.timeInterval=@"time interval: 11:00-12:00";
-    [self.meetingsAll addObject:self.meeting7];
 
-    
-    
-  self.dates = [[NSMutableArray alloc]initWithObjects:@"20140406",@"20140722",@"20140508",nil];
-  
-    
-    
-    for (NSString *date in self.dates){
-        NSMutableArray *meetingPerDate=[[NSMutableArray alloc]init];
-        for (Meeting *meeting in self.meetingsAll){
-            if (date==meeting.date){
-                [meetingPerDate addObject:meeting];
-            }
-            
-        }
-        [self.meetings setObject:meetingPerDate forKey:date];
-        
-        NSLog(@"meetingperdate : %@, %lu", meetingPerDate, (unsigned long)meetingPerDate.count);
-    }
-    
-    
-
-    
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
-    
-  
-    [self _createNavBar];
-    
-    
-    [self.meetingOverview.tableView registerClass:[MeetingTableVIewCell class]  forCellReuseIdentifier:TABLEVIEWCELL_IDENTIFIER];
+
+    //init arrays
+    self.reservationDates = [[NSMutableArray alloc] init];
+    self.reservationsByDate = [[NSMutableDictionary alloc] init];
+
+
+    //register reuseable cells
+    [self.meetingOverview.tableView registerClass:[MeetingTableViewCell class] forCellReuseIdentifier:TABLEVIEWCELL_IDENTIFIER];
     [self.meetingOverview.tableView registerClass:[MeetingTableViewHeader class] forHeaderFooterViewReuseIdentifier:TABLEVIEWHEADER_IDENTIFIER];
-    
+
     // If you set the seperator inset on iOS 6 you get a NSInvalidArgumentException...weird
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
         self.meetingOverview.tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0); // Makes the horizontal row seperator stretch the entire length of the table view
     }
 
-    
+    //set up
+    [self _setUpNavigationBar];
+    [self loadReservations];
+
+
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)loadReservations {
+
+    //make the call
+    [[ReservationService sharedService] getReservationsForUserId:1 withSuccesHandler:^(NSMutableArray *reservations) {
+
+        //build an array of dates for the sections
+        for (Reservation *reservation  in reservations) {
+            if (![self.reservationDates containsObject:reservation.date]) {
+                [self.reservationDates addObject:reservation.date];
+            }
+        }
+
+        //build a dictionary of reservations by date
+        for (NSDate *date in self.reservationDates) {
+            NSMutableArray *reservationsPerDate = [[NSMutableArray alloc] init];
+            for (Reservation *reservation in reservations) {
+                if (date == reservation.date) {
+                    [reservationsPerDate addObject:reservation];
+                }
+
+            }
+            [self.reservationsByDate setObject:reservationsPerDate forKey:date];
+        }
+        [self.meetingOverview.tableView reloadData];
+
+    }                            andErrorHandler:^(NSException *exception) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:exception.reason delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+    }];
+
+
+}
+
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 
 #pragma mark - Navigationbar
-- (void) _createNavBar{
-    //define the navigationbar and its' items (buttons, title, ....)
-    
+
+- (void)_setUpNavigationBar {
+
     // create an array for the buttons
-    NSMutableArray* buttons = [[NSMutableArray alloc] initWithCapacity:2];
-    
+    NSMutableArray *buttons = [[NSMutableArray alloc] initWithCapacity:2];
+
     // create  standard  buttons
-    UIBarButtonItem* addButton = [[UIBarButtonItem alloc]
-                                  initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-                                  target:self
-                                  action:@selector(_addButtonClicked:)];
-    
-    UIBarButtonItem* searchButton = [[UIBarButtonItem alloc]
-                                     initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
-                                     target:self
-                                     action:@selector(_searchButtonClicked)];
-    //add to array of rightbuttons
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc]
+            initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                 target:self
+                                 action:@selector(_didTapAdd)];
+
+    UIBarButtonItem *searchButton = [[UIBarButtonItem alloc]
+            initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
+                                 target:self
+                                 action:@selector(_didTapSearch)];
+
+    //add to array of right buttons
     [buttons addObject:addButton];
     [buttons addObject:searchButton];
-    self.navigationItem.rightBarButtonItems=buttons;
-    
-    //create leftbutton:searchButton
-    self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc]
-                                           initWithImage:[UIImage imageNamed:@"1396879915_FEZ-04.png"] style:UIBarButtonItemStylePlain
-                                           target:self
-                                           action:@selector(_settingsButtonClicked:)];
+    self.navigationItem.rightBarButtonItems = buttons;
+
+    //create left button: searchButton
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
+            initWithImage:[UIImage imageNamed:@"1396879915_FEZ-04.png"] style:UIBarButtonItemStylePlain
+                   target:self
+                   action:@selector(_didTapSettings)];
+
     //add Title
     self.navigationItem.title = @"Reservations";
 }
 
-#pragma mark - Search functionality
--(void) _searchButtonClicked{
-  
-    SearchViewController *searchViewController=[[SearchViewController alloc]init];
-    [self.navigationController pushViewController:searchViewController animated:YES];
-    /*
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
-    
-   
-    
-    UISearchBar* searchBar = [[UISearchBar alloc] initWithFrame:CGRectZero];
-    searchBar.barStyle = UIBarStyleDefault;
-    
-    searchBar.showsCancelButton=YES;
-    searchBar.autocorrectionType=UITextAutocorrectionTypeNo;
-    searchBar.autocapitalizationType=UITextAutocapitalizationTypeNone;
-    
-    searchBar.scopeButtonTitles = [NSArray arrayWithObjects:@"User", @"Room",@"Description", nil];
-    searchBar.showsScopeBar = YES;
-    searchBar.tintColor=[UIColor darkGrayColor];
-   
-   
-    searchBar.delegate=self;
-    self.meetingOverview.tableView.tableHeaderView=searchBar;
-    
-    
-    searchBar.frame = CGRectMake(0, 0, self.meetingOverview.tableView.frame.size.width, 44 + 40);
-    
-    [searchBar becomeFirstResponder];  */
- 
-    }
-    
 
--(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
-    searchBar.hidden=YES;
-    self.meetingOverview.tableView.tableHeaderView=nil;
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-    
-    
+
+
+#pragma mark - Navigation
+
+- (void)_didTapAdd {
+    //todo implement add
+
 }
+
+- (void)_didTapSettings {
+    //todo implement settings screen
+
+}
+
+- (void)_didTapSearch {
+    SearchViewController *searchViewController = [[SearchViewController alloc] init];
+    [self.navigationController pushViewController:searchViewController animated:YES];
+}
+
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    searchBar.hidden = YES;
+    self.meetingOverview.tableView.tableHeaderView = nil;
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+}
+
 
 
 #pragma mark - UITableViewDelegate & UITableViewDataSource
 
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    NSLog(@"aantal dates : %lu", (unsigned long)self.dates.count);
-    return [self.dates count];
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return [self.reservationDates count];
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSString *date = [self.dates objectAtIndex:section];
-    NSMutableArray * meetingsPerDay=[self.meetings objectForKey:date];
-    dateSection=section;
-    return meetingsPerDay.count;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    NSDate *date = [self.reservationDates objectAtIndex:section];
+    return [[self.reservationsByDate objectForKey:date] count];
 }
 
-/*
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 80.0;
-}*/
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 25.0;
-
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 24.0;
 }
 
 
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    MeetingTableViewHeader *header=[tableView dequeueReusableHeaderFooterViewWithIdentifier:TABLEVIEWHEADER_IDENTIFIER];
-        
-        header.lblDate.text=([self.dates objectAtIndex:section]);
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    MeetingTableViewHeader *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:TABLEVIEWHEADER_IDENTIFIER];
+    header.lblDate.text = [DateHelper displayStringFromDate:[self.reservationDates objectAtIndex:section]];
     return header;
 }
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"cell selected at index path %d:%d", indexPath.section, indexPath.row);
-    NSLog(@"selected cell index path is %@", [self.meetingOverview.tableView indexPathForSelectedRow]);
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];}
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    NSDate *date = self.reservationDates[indexPath.section];
+    Reservation *reservation = [self.reservationsByDate objectForKey:date][indexPath.row];
 
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
- 
-    SWTableViewCell *cell = (SWTableViewCell *)[tableView dequeueReusableCellWithIdentifier:TABLEVIEWCELL_IDENTIFIER];
-    
-    
-        
-        cell = [[SWTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
-                                      reuseIdentifier:TABLEVIEWCELL_IDENTIFIER
-                                  containingTableView:self.meetingOverview.tableView // Used for row height and selection
-                                   leftUtilityButtons:[self leftButtons]
-                                  rightUtilityButtons:[self rightButtons]];
-        cell.delegate = self;
-    
-    
-    NSMutableArray *meetingArray=[self.meetings valueForKey:self.dates[indexPath.section]];
-    NSLog (@" %lu",(unsigned long)meetingArray.count);
-    NSLog (@"meetingsarray %@",meetingArray);
-    
-    Meeting *meeting=[Meeting alloc];
-    meeting=[meetingArray objectAtIndex:indexPath.row];
-    cell.backgroundColor=[UIColor greenColor];
-   
-    //TODO maak eigen labels
-    cell.textLabel.text = meeting.title;
-     cell.textLabel.backgroundColor = [UIColor redColor];
-    cell.detailTextLabel.text= [NSString stringWithFormat:@"%@           %@", meeting.room, meeting.timeInterval];
-        
-    //   cell.lblRoom.text=meeting.room;
-    //  cell.lblTime.text=meeting.timeInterval;
-
-    
-    
-    return cell;
-    
+    EditReservationViewController *editReservationViewController = [[EditReservationViewController alloc] init];
+    editReservationViewController.reservation = reservation;
+    [self.navigationController pushViewController:editReservationViewController animated:YES];
 }
 
 
-#pragma marks - Swipe related methods
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    SWTableViewCell *cell = [[SWTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+                                                   reuseIdentifier:TABLEVIEWCELL_IDENTIFIER
+                                               containingTableView:self.meetingOverview.tableView // Used for row height and selection
+                                                leftUtilityButtons:[self leftButtons]
+                                               rightUtilityButtons:[self rightButtons]];
+    cell.delegate = self;
+
+    [cell setCellHeight:64];
+
+    NSMutableArray *meetingArray =[self.reservationsByDate objectForKey:self.reservationDates[indexPath.section]];
+    Reservation *reservation = [meetingArray objectAtIndex:indexPath.row];
+
+    //TODO maak eigen labels
+    cell.textLabel.text = reservation.reservationDescription;
+    cell.textLabel.backgroundColor = [UIColor redColor];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@           %@", reservation.meetingRoom.roomName, reservation.startTime];
+
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 64;
+}
 
 
+#pragma marks - Swipe Methods
 
-- (NSArray *)rightButtons
-{
+- (NSArray *)rightButtons {
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
     [rightUtilityButtons sw_addUtilityButtonWithColor:
-     [UIColor lightGrayColor]
+            [UIColor lightGrayColor]
                                                  icon:[UIImage imageNamed:@"edit-512.png"]];
     [rightUtilityButtons sw_addUtilityButtonWithColor:
-     [UIColor redColor]
+            [UIColor redColor]
                                                  icon:[UIImage imageNamed:@"delete-512.png"]];
-    
+
     return rightUtilityButtons;
 }
 
 
-- (NSArray *)leftButtons
-{
+- (NSArray *)leftButtons {
     NSMutableArray *leftUtilityButtons = [NSMutableArray new];
-    
-    
     return leftUtilityButtons;
 }
 
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor=[UIColor whiteColor];
-    
-    // Set background color of cell here if you don't want default white
+    cell.backgroundColor = [UIColor whiteColor];
 }
 
 
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
     switch (index) {
-        case 0:
-        {   //TODO  edit button is pressed. Implement action: trigger edit view
-            NSLog(@"More button was pressed");
-            UIAlertView *alertTest = [[UIAlertView alloc] initWithTitle:@"Hello" message:@"More more more" delegate:nil cancelButtonTitle:@"cancel" otherButtonTitles: nil];
+        case 0: {   //TODO  edit button is pressed. Implement action: trigger edit view
+            UIAlertView *alertTest = [[UIAlertView alloc] initWithTitle:@"Hello" message:@"More more more" delegate:nil cancelButtonTitle:@"cancel" otherButtonTitles:nil];
             [alertTest show];
-            
+
             [cell hideUtilityButtonsAnimated:YES];
             break;
         }
-        case 1:
-        {
+        case 1: {
             // Delete button was pressed
             NSIndexPath *cellIndexPath = [self.meetingOverview.tableView indexPathForCell:cell];
             //TODO implement delete action
-          //  [_testArray[cellIndexPath.section] removeObjectAtIndex:cellIndexPath.row];
-          //  [self.meetingOverview.tableView deleteRowsAtIndexPaths:@[cellIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
+            //  [_testArray[cellIndexPath.section] removeObjectAtIndex:cellIndexPath.row];
+            //  [self.meetingOverview.tableView deleteRowsAtIndexPaths:@[cellIndexPath] withRowAnimation:UITableViewRowAnimationLeft];
             break;
         }
         default:
