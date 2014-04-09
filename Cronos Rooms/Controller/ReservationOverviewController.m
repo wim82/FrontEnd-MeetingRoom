@@ -143,6 +143,18 @@
 
 - (void)_didTapAdd {
     //todo implement add
+    Reservation *reservation=[[Reservation alloc]init];
+    User *user=[[User alloc]init];
+    user.fullName=@"KatrienDeMey";
+    NSLog(@"user: %@",user);
+    reservation.user=user;
+    
+    
+    
+    EditReservationViewController *editReservationViewController = [[EditReservationViewController alloc] init];
+    editReservationViewController.reservation = reservation;
+    [self.navigationController pushViewController:editReservationViewController animated:YES];
+    NSLog(@"in didtap: %@",reservation.user.fullName);
 
 }
 
@@ -172,9 +184,9 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSLog(@"kom ik in numbersofrowsinsection");
+   // NSLog(@"kom ik in numbersofrowsinsection");
     NSDate *date = [self.reservationDates objectAtIndex:section];
-    NSLog(@"datum %@ ", date);
+  //  NSLog(@"datum %@ ", date);
     return [[self.reservationsByDate objectForKey:date] count];
 }
 
@@ -259,13 +271,22 @@
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
     switch (index) {
         case 0: {   //TODO  edit button is pressed. Implement action: trigger edit view
+            NSIndexPath *cellIndexPath = [self.meetingOverview.tableView indexPathForCell:cell];
+            NSDate *date = self.reservationDates[cellIndexPath.section];
+            Reservation *reservation = [self.reservationsByDate objectForKey:date][cellIndexPath.row];
+            EditReservationViewController *editReservationViewController = [[EditReservationViewController alloc] init];
+            editReservationViewController.reservation = reservation;
+            [self.navigationController pushViewController:editReservationViewController animated:YES];
+            
+          /*
             UIAlertView *alertTest = [[UIAlertView alloc] initWithTitle:@"Hello" message:@"More more more" delegate:nil cancelButtonTitle:@"cancel" otherButtonTitles:nil];
             [alertTest show];
-
+*/
             [cell hideUtilityButtonsAnimated:YES];
             break;
         }
         case 1: {
+            //TODO
             // Delete button was pressed
             NSIndexPath *cellIndexPath = [self.meetingOverview.tableView indexPathForCell:cell];
             //TODO implement delete action

@@ -225,10 +225,10 @@
 				2DA5EAE3A346D90FBE083961 /* TestViewController.m */,
 				2DA5E8E4B8E0C5396F61295D /* EditReservationViewController.h */,
 				2DA5E2E0126BB0554FFC5242 /* EditReservationViewController.m */,
-				2DA5EC3960C79D56CDF362D3 /* SearchViewController.m */,
-				2DA5E87239DFF246109960F7 /* ReservationOverviewController.m */,
-				2DA5ED41C05A0490B8BBDD0B /* ReservationOverviewController.h */,
 				2DA5E705CBAD27EDB209F12F /* SearchViewController.h */,
+				2DA5EC3960C79D56CDF362D3 /* SearchViewController.m */,
+				2DA5ED41C05A0490B8BBDD0B /* ReservationOverviewController.h */,
+				2DA5E87239DFF246109960F7 /* ReservationOverviewController.m */,
 				2DA5E0C8985E2A1F92649EBA /* DayViewController.m */,
 				2DA5E0766D8B0E38D49E61D5 /* DayViewController.h */,
 			);
