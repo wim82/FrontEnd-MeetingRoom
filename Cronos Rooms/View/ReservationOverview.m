@@ -1,20 +1,20 @@
 //
-//  MeetingOverview.m
+//  ReservationOverview.m
 //  testProject
 //
 //  Created by Katrien De Mey on 03/04/14.
 //  Copyright (c) 2014 Katrien De Mey. All rights reserved.
 //
 
-#import "MeetingOverview.h"
+#import "ReservationOverview.h"
 
-@interface MeetingOverview(){
+@interface ReservationOverview (){
     id _delegate;
 }
 @end
 
 
-@implementation MeetingOverview
+@implementation ReservationOverview
 
 
 - (id)initWithFrame:(CGRect)frame andDelegate:(id)delegate

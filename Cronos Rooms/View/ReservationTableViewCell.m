@@ -1,14 +1,14 @@
 //
-//  MeetingTableViewCell.m
+//  ReservationTableViewCell.m
 //  testProject
 //
 //  Created by Katrien De Mey on 03/04/14.
 //  Copyright (c) 2014 Katrien De Mey. All rights reserved.
 //
 
-#import "MeetingTableViewCell.h"
+#import "ReservationTableViewCell.h"
 
-@implementation MeetingTableViewCell
+@implementation ReservationTableViewCell
 
 //- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 //{

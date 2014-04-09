@@ -1,5 +1,5 @@
 //
-//  MeetingTableViewHeader.h
+//  ReservationTableViewHeader.h
 //  testProject
 //
 //  Created by Jean Smits on 04/04/14.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MeetingTableViewHeader : UITableViewHeaderFooterView
+@interface ReservationTableViewHeader : UITableViewHeaderFooterView
 @property (nonatomic, strong) UILabel * lblDate;
 
 @end

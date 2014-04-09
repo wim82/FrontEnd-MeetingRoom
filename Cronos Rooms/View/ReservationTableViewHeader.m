@@ -1,14 +1,14 @@
 //
-//  MeetingTableViewHeader.m
+//  ReservationTableViewHeader.m
 //  testProject
 //
 //  Created by Jean Smits on 04/04/14.
 //  Copyright (c) 2014 Katrien De Mey. All rights reserved.
 //
 
-#import "MeetingTableViewHeader.h"
+#import "ReservationTableViewHeader.h"
 
-@implementation MeetingTableViewHeader
+@implementation ReservationTableViewHeader
 
 - (id)initWithFrame:(CGRect)frame
 {

@@ -1,5 +1,5 @@
 //
-//  MeetingOverview.h
+//  ReservationOverview.h
 //  testProject
 //
 //  Created by Katrien De Mey on 03/04/14.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MeetingOverview : UIView
+@interface ReservationOverview : UIView
 
 @property (nonatomic, strong) UITableView * tableView;
 - (id)initWithFrame:(CGRect)frame andDelegate:(id)delegate;

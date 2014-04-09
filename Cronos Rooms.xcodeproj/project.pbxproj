@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		2DA5E0C49F1E84AC88345641 /* MeetingRoomService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EE5BFA5435D08F8ECB2D /* MeetingRoomService.m */; };
 		2DA5E126AED8B541A6E198D3 /* MeetingRoomOverview.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E03B4F82B2D0D7563FCA /* MeetingRoomOverview.m */; };
-		2DA5E12D73EA08ACDA7E1A0A /* MeetingTableViewHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E40CDAECC49811A0214C /* MeetingTableViewHeader.m */; };
+		2DA5E12D73EA08ACDA7E1A0A /* ReservationTableViewHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E40CDAECC49811A0214C /* ReservationTableViewHeader.m */; };
 		2DA5E25C4139E392C36BB0F8 /* delete-512.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DA5E89962CF6D7DD83F089C /* delete-512.png */; };
 		2DA5E4296F0321F022CE8220 /* ReservationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E370B6CFAED88099447B /* ReservationService.m */; };
 		2DA5E43404E04B8A91F02A64 /* SearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E357785755DB10A28E9F /* SearchView.m */; };
@@ -32,12 +32,12 @@
 		2DA5EB2254F739C347029A02 /* AppConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E3C19CD1EE812D1025E4 /* AppConfig.m */; };
 		2DA5EB51048593815CEC4C7B /* Meeting.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EA7D2718BDAB8D059F0B /* Meeting.m */; };
 		2DA5EB655C7A58378B283386 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EB32E0852C3E1F2BECD0 /* AppDelegate.m */; };
-		2DA5EC0F25542D5668A2E80D /* MeetingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5ECB0E22FE9BEEFAA21B6 /* MeetingTableViewCell.m */; };
-		2DA5ED54539E91B9BAD965A7 /* MeetingOverviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E87239DFF246109960F7 /* MeetingOverviewController.m */; };
+		2DA5EC0F25542D5668A2E80D /* ReservationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5ECB0E22FE9BEEFAA21B6 /* ReservationTableViewCell.m */; };
+		2DA5ED54539E91B9BAD965A7 /* ReservationOverviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E87239DFF246109960F7 /* ReservationOverviewController.m */; };
 		2DA5EDF37D6DE20EE987A8E5 /* edit-512.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DA5EA7DCD6CECDBA3B4FC08 /* edit-512.png */; };
 		2DA5EE35AD623F8973E4C61D /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EC3960C79D56CDF362D3 /* SearchViewController.m */; };
 		2DA5EE709564B1454DAE7E93 /* EditReservationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E2E0126BB0554FFC5242 /* EditReservationViewController.m */; };
-		2DA5EF6F7F6DFEDE71336AC5 /* MeetingOverview.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EE74671B1B57C0803A14 /* MeetingOverview.m */; };
+		2DA5EF6F7F6DFEDE71336AC5 /* ReservationOverview.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EE74671B1B57C0803A14 /* ReservationOverview.m */; };
 		BE22791918F3DBEC007CEF07 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE22791818F3DBEC007CEF07 /* Foundation.framework */; };
 		BE22791B18F3DBEC007CEF07 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE22791A18F3DBEC007CEF07 /* CoreGraphics.framework */; };
 		BE22791D18F3DBEC007CEF07 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE22791C18F3DBEC007CEF07 /* UIKit.framework */; };
@@ -79,8 +79,8 @@
 		2DA5E375D19D1B00E103F552 /* DetailReservationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailReservationView.h; sourceTree = "<group>"; };
 		2DA5E389451E24D10285F0BA /* Reservation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reservation.h; sourceTree = "<group>"; };
 		2DA5E3C19CD1EE812D1025E4 /* AppConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppConfig.m; sourceTree = "<group>"; };
-		2DA5E3DAEF213276D3BD5D63 /* MeetingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeetingTableViewCell.h; sourceTree = "<group>"; };
-		2DA5E40CDAECC49811A0214C /* MeetingTableViewHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeetingTableViewHeader.m; sourceTree = "<group>"; };
+		2DA5E3DAEF213276D3BD5D63 /* ReservationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReservationTableViewCell.h; sourceTree = "<group>"; };
+		2DA5E40CDAECC49811A0214C /* ReservationTableViewHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReservationTableViewHeader.m; sourceTree = "<group>"; };
 		2DA5E4A2521546E625B24FA1 /* DatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerView.h; sourceTree = "<group>"; };
 		2DA5E4B107A20151022D86FC /* DateHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateHelper.h; sourceTree = "<group>"; };
 		2DA5E4E41DD36F88ABDC539D /* MainService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainService.m; sourceTree = "<group>"; };
@@ -92,8 +92,8 @@
 		2DA5E6B7C4243F3BEADFB74A /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		2DA5E705CBAD27EDB209F12F /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		2DA5E73595C6313B5DE4A015 /* DatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerView.m; sourceTree = "<group>"; };
-		2DA5E7ED4F42FFA459685AE4 /* MeetingTableViewHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeetingTableViewHeader.h; sourceTree = "<group>"; };
-		2DA5E87239DFF246109960F7 /* MeetingOverviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeetingOverviewController.m; sourceTree = "<group>"; };
+		2DA5E7ED4F42FFA459685AE4 /* ReservationTableViewHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReservationTableViewHeader.h; sourceTree = "<group>"; };
+		2DA5E87239DFF246109960F7 /* ReservationOverviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReservationOverviewController.m; sourceTree = "<group>"; };
 		2DA5E89962CF6D7DD83F089C /* delete-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delete-512.png"; sourceTree = "<group>"; };
 		2DA5E8A75CFF5C9FC280C71D /* config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = config.plist; sourceTree = "<group>"; };
 		2DA5E8B9959AD4121AB79D4E /* Reservation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reservation.m; sourceTree = "<group>"; };
@@ -114,13 +114,13 @@
 		2DA5EBB55D2E0BB4E40F2F0D /* DetailCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailCellView.h; sourceTree = "<group>"; };
 		2DA5EBEFFABF35E36ED4CA73 /* MeetingRoomService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeetingRoomService.h; sourceTree = "<group>"; };
 		2DA5EC006FE339CFC08CE75F /* SearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewCell.m; sourceTree = "<group>"; };
-		2DA5EC034C31FE488D52D60D /* MeetingOverview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeetingOverview.h; sourceTree = "<group>"; };
+		2DA5EC034C31FE488D52D60D /* ReservationOverview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReservationOverview.h; sourceTree = "<group>"; };
 		2DA5EC3960C79D56CDF362D3 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
-		2DA5ECB0E22FE9BEEFAA21B6 /* MeetingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeetingTableViewCell.m; sourceTree = "<group>"; };
-		2DA5ED41C05A0490B8BBDD0B /* MeetingOverviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeetingOverviewController.h; sourceTree = "<group>"; };
+		2DA5ECB0E22FE9BEEFAA21B6 /* ReservationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReservationTableViewCell.m; sourceTree = "<group>"; };
+		2DA5ED41C05A0490B8BBDD0B /* ReservationOverviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReservationOverviewController.h; sourceTree = "<group>"; };
 		2DA5EE08FBEF4448610D3BA6 /* 1396879915_FEZ-04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1396879915_FEZ-04.png"; sourceTree = "<group>"; };
 		2DA5EE5BFA5435D08F8ECB2D /* MeetingRoomService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeetingRoomService.m; sourceTree = "<group>"; };
-		2DA5EE74671B1B57C0803A14 /* MeetingOverview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeetingOverview.m; sourceTree = "<group>"; };
+		2DA5EE74671B1B57C0803A14 /* ReservationOverview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReservationOverview.m; sourceTree = "<group>"; };
 		2DA5EECB04A26EF3FE05EFC4 /* Room.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Room.h; sourceTree = "<group>"; };
 		2DA5EF24257D05A58A45977C /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		2DA5EF599263BA98838BBA45 /* SearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableViewCell.h; sourceTree = "<group>"; };
@@ -217,8 +217,8 @@
 				2DA5E8E4B8E0C5396F61295D /* EditReservationViewController.h */,
 				2DA5E2E0126BB0554FFC5242 /* EditReservationViewController.m */,
 				2DA5EC3960C79D56CDF362D3 /* SearchViewController.m */,
-				2DA5E87239DFF246109960F7 /* MeetingOverviewController.m */,
-				2DA5ED41C05A0490B8BBDD0B /* MeetingOverviewController.h */,
+				2DA5E87239DFF246109960F7 /* ReservationOverviewController.m */,
+				2DA5ED41C05A0490B8BBDD0B /* ReservationOverviewController.h */,
 				2DA5E705CBAD27EDB209F12F /* SearchViewController.h */,
 			);
 			path = Controller;
@@ -255,15 +255,15 @@
 				2DA5E330CCE81230F2E66EE9 /* GroupTitleView.m */,
 				2DA5E68FE7A1F91B6DB1F1BB /* MeetingRoomOverview.h */,
 				2DA5E03B4F82B2D0D7563FCA /* MeetingRoomOverview.m */,
-				2DA5ECB0E22FE9BEEFAA21B6 /* MeetingTableViewCell.m */,
-				2DA5E40CDAECC49811A0214C /* MeetingTableViewHeader.m */,
+				2DA5ECB0E22FE9BEEFAA21B6 /* ReservationTableViewCell.m */,
+				2DA5E40CDAECC49811A0214C /* ReservationTableViewHeader.m */,
 				2DA5E268632BA829E63ECF1C /* SearchView.h */,
 				2DA5EF599263BA98838BBA45 /* SearchTableViewCell.h */,
-				2DA5EE74671B1B57C0803A14 /* MeetingOverview.m */,
-				2DA5E3DAEF213276D3BD5D63 /* MeetingTableViewCell.h */,
+				2DA5EE74671B1B57C0803A14 /* ReservationOverview.m */,
+				2DA5E3DAEF213276D3BD5D63 /* ReservationTableViewCell.h */,
 				2DA5EC006FE339CFC08CE75F /* SearchTableViewCell.m */,
-				2DA5E7ED4F42FFA459685AE4 /* MeetingTableViewHeader.h */,
-				2DA5EC034C31FE488D52D60D /* MeetingOverview.h */,
+				2DA5E7ED4F42FFA459685AE4 /* ReservationTableViewHeader.h */,
+				2DA5EC034C31FE488D52D60D /* ReservationOverview.h */,
 				2DA5E357785755DB10A28E9F /* SearchView.m */,
 			);
 			path = View;
@@ -553,12 +553,12 @@
 				2DA5EB2254F739C347029A02 /* AppConfig.m in Sources */,
 				2DA5EB655C7A58378B283386 /* AppDelegate.m in Sources */,
 				2DA5EE35AD623F8973E4C61D /* SearchViewController.m in Sources */,
-				2DA5ED54539E91B9BAD965A7 /* MeetingOverviewController.m in Sources */,
+				2DA5ED54539E91B9BAD965A7 /* ReservationOverviewController.m in Sources */,
 				2DA5E987DA03188BE2738B5E /* Room.m in Sources */,
 				2DA5EB51048593815CEC4C7B /* Meeting.m in Sources */,
-				2DA5EC0F25542D5668A2E80D /* MeetingTableViewCell.m in Sources */,
-				2DA5E12D73EA08ACDA7E1A0A /* MeetingTableViewHeader.m in Sources */,
-				2DA5EF6F7F6DFEDE71336AC5 /* MeetingOverview.m in Sources */,
+				2DA5EC0F25542D5668A2E80D /* ReservationTableViewCell.m in Sources */,
+				2DA5E12D73EA08ACDA7E1A0A /* ReservationTableViewHeader.m in Sources */,
+				2DA5EF6F7F6DFEDE71336AC5 /* ReservationOverview.m in Sources */,
 				2DA5EAF87B233800F6CA723D /* SearchTableViewCell.m in Sources */,
 				2DA5E43404E04B8A91F02A64 /* SearchView.m in Sources */,
 				2DA5E9C70C522F64DCA7079B /* DateHelper.m in Sources */,

@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "EditReservationViewController.h"
-#import "MeetingOverviewController.h"
+#import "ReservationOverviewController.h"
 
 @implementation AppDelegate
 
@@ -23,7 +23,7 @@
 
         //EditReservationViewController *editReservationViewController = [[EditReservationViewController alloc] init];
         //TestViewController*testViewController = [[TestViewController alloc] init];
-        MeetingOverviewController *meetingOverviewController = [[MeetingOverviewController alloc] init];
+        ReservationOverviewController *meetingOverviewController = [[ReservationOverviewController alloc] init];
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:meetingOverviewController];
         self.window.rootViewController = navController;
 

@@ -1,15 +1,15 @@
 //
-//  MeetingOverviewController.m
+//  ReservationOverviewController.m
 //  testProject
 //
 //  Created by Katrien De Mey on 03/04/14.
 //  Copyright (c) 2014 Katrien De Mey. All rights reserved.
 //
 
-#import "MeetingOverviewController.h"
-#import "MeetingOverview.h"
-#import "MeetingTableViewCell.h"
-#import "MeetingTableViewHeader.h"
+#import "ReservationOverviewController.h"
+#import "ReservationOverview.h"
+#import "ReservationTableViewCell.h"
+#import "ReservationTableViewHeader.h"
 #import "SearchViewController.h"
 #import "ReservationService.h"
 #import "Reservation.h"
@@ -20,19 +20,19 @@
 #define TABLEVIEWCELL_IDENTIFIER @"meetingCell"
 #define TABLEVIEWHEADER_IDENTIFIER @"meetingHeader"
 
-@interface MeetingOverviewController () <UITableViewDataSource, UITableViewDelegate, SWTableViewCellDelegate, UISearchBarDelegate, UISearchDisplayDelegate>
+@interface ReservationOverviewController () <UITableViewDataSource, UITableViewDelegate, SWTableViewCellDelegate, UISearchBarDelegate, UISearchDisplayDelegate>
 
-@property(nonatomic, strong) MeetingOverview *meetingOverview;
+@property(nonatomic, strong) ReservationOverview *meetingOverview;
 @property(nonatomic, strong) NSMutableDictionary *reservationsByDate;
 @property(nonatomic) NSMutableArray *reservationDates;
 
 @end
 
-@implementation MeetingOverviewController
+@implementation ReservationOverviewController
 
 
 - (void)loadView {
-    self.meetingOverview = [[MeetingOverview alloc] initWithFrame:[UIScreen mainScreen].bounds andDelegate:self];
+    self.meetingOverview = [[ReservationOverview alloc] initWithFrame:[UIScreen mainScreen].bounds andDelegate:self];
     self.view = self.meetingOverview;
 
 }
@@ -46,8 +46,8 @@
 
 
     //register reuseable cells
-    [self.meetingOverview.tableView registerClass:[MeetingTableViewCell class] forCellReuseIdentifier:TABLEVIEWCELL_IDENTIFIER];
-    [self.meetingOverview.tableView registerClass:[MeetingTableViewHeader class] forHeaderFooterViewReuseIdentifier:TABLEVIEWHEADER_IDENTIFIER];
+    [self.meetingOverview.tableView registerClass:[ReservationTableViewCell class] forCellReuseIdentifier:TABLEVIEWCELL_IDENTIFIER];
+    [self.meetingOverview.tableView registerClass:[ReservationTableViewHeader class] forHeaderFooterViewReuseIdentifier:TABLEVIEWHEADER_IDENTIFIER];
 
     // If you set the seperator inset on iOS 6 you get a NSInvalidArgumentException...weird
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
@@ -179,7 +179,7 @@
 
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    MeetingTableViewHeader *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:TABLEVIEWHEADER_IDENTIFIER];
+    ReservationTableViewHeader *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:TABLEVIEWHEADER_IDENTIFIER];
     header.lblDate.text = [DateHelper displayStringFromDate:[self.reservationDates objectAtIndex:section]];
     return header;
 }
