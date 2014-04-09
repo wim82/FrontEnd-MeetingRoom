@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "EditReservationViewController.h"
 #import "ReservationOverviewController.h"
+#import "DayViewController.h"
 
 @implementation AppDelegate
 
@@ -23,8 +24,9 @@
 
         //EditReservationViewController *editReservationViewController = [[EditReservationViewController alloc] init];
         //TestViewController*testViewController = [[TestViewController alloc] init];
-        ReservationOverviewController *meetingOverviewController = [[ReservationOverviewController alloc] init];
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:meetingOverviewController];
+        DayViewController *dayViewController = [[DayViewController alloc] init];
+        //ReservationOverviewController *meetingOverviewController = [[ReservationOverviewController alloc] init];
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:dayViewController];
         self.window.rootViewController = navController;
 
 

@@ -30,14 +30,6 @@
     return [[NSCalendar currentCalendar] dateFromComponents:comps];
 }
 
-+ (NSDate *)timeWithoutDate:(NSDate *)time {
-    if (time == nil ) {
-        time = [NSDate date];
-    }
-
-    NSDateComponents *comps = [[NSCalendar currentCalendar] components:NSHourCalendarUnit | NSMinuteCalendarUnit fromDate:time];
-    return [[NSCalendar currentCalendar] dateFromComponents:comps];
-}
 
 
 + (NSString *)displayStringFromDate:(NSDate *)date {

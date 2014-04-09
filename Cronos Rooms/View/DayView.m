@@ -19,12 +19,14 @@
     if (self) {
         _delegate = delegate;
 
-        self.backgroundColor = [UIColor redColor];
 
-        self.tableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
-        self.tableView.delegate = _delegate;
-        self.tableView.dataSource = _delegate;
-        [self addSubview:self.tableView];
+
+        self.dayTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
+        self.dayTableView.delegate = _delegate;
+        self.dayTableView.dataSource = _delegate;
+        self.backgroundColor = [UIColor redColor];
+        self.dayTableView.backgroundColor = [UIColor yellowColor];
+        [self addSubview:self.dayTableView];
 
     }
     return self;

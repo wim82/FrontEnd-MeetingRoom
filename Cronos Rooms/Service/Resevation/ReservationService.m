@@ -5,6 +5,7 @@
 
 #import "ReservationService.h"
 #import "Reservation.h"
+#import "DateHelper.h"
 
 
 @implementation ReservationService {
@@ -24,11 +25,12 @@
     return instance;
 }
 
-- (void)getReservationsForRoomId:(NSInteger) roomId fromDate:(NSDate *) date forAmountOfDays:(NSInteger) amount withSuccesHandler:(void (^)(NSMutableArray *))success andErrorHandler:(void (^)(NSException *))error{
+- (void)getReservationsForRoomId:(NSInteger)roomId fromDate:(NSDate *)date forAmountOfDays:(NSInteger)amount withSuccesHandler:(void (^)(NSMutableArray *))success andErrorHandler:(void (^)(NSException *))error {
 
     //set path
-    NSString *dateString = [[Reservation dateFormatter] stringFromDate:date];
-    NSString *path = [NSString stringWithFormat:@"reservations/meetingroom/%i/%@/%i", roomId,dateString,amount];
+    NSString *dateString = [[DateHelper jsonDateFormatter] stringFromDate:date];
+    NSString *path = [NSString stringWithFormat:@"reservations/meetingroom/%i/%@/%i", roomId, dateString, amount];
+    NSLog(@"path = %@", path);
     NSMutableURLRequest *request = [self getRequestWithPath:path];
 
     //init request
@@ -38,21 +40,23 @@
 
     //set up failure + completion blocks
     [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+
         if (responseObject != nil && [responseObject isKindOfClass:[NSDictionary class]]) {
 
             NSMutableArray *result = [[NSMutableArray alloc] init];
             for (id responseElement in [responseObject objectForKey:@"data"]) {
+
                 Reservation *reservation = [[Reservation alloc] initWithStringDictionary:responseElement];
                 [result addObject:reservation];
             }
             success(result);
         }
         else {
-            //put in the message from json response
+            //TODO: use the message from json response  --> implement this for all rest calls!!!
             error([NSException exceptionWithName:@"No Reservations Rooms" reason:@"Ditmoet ik nog uitzoeken" userInfo:nil]);
         }
 
-    }failure:^(AFHTTPRequestOperation *operation, NSError *callbackError) {
+    }                                       failure:^(AFHTTPRequestOperation *operation, NSError *callbackError) {
         if (error) {
             error([NSException exceptionWithName:@"Reservation problem: " reason:[callbackError.userInfo objectForKey:NSLocalizedDescriptionKey] userInfo:nil]);
         }
@@ -63,7 +67,7 @@
 
 }
 
-- (void)getReservationsForUserId:(NSInteger) userId withSuccesHandler:(void (^)(NSMutableArray *))success andErrorHandler:(void (^)(NSException *))error{
+- (void)getReservationsForUserId:(NSInteger)userId withSuccesHandler:(void (^)(NSMutableArray *))success andErrorHandler:(void (^)(NSException *))error {
 
 
     NSString *path = [NSString stringWithFormat:@"reservations/user/%i", userId];
@@ -80,9 +84,7 @@
 
             NSMutableArray *result = [[NSMutableArray alloc] init];
             for (id responseElement in [responseObject objectForKey:@"data"]) {
-
                 Reservation *reservation = [[Reservation alloc] initWithStringDictionary:responseElement];
-                NSLog(@"reservation date komt zo binnen %@ voor %@", reservation.startTime, reservation.reservationDescription);
                 [result addObject:reservation];
             }
             success(result);
@@ -92,7 +94,7 @@
             error([NSException exceptionWithName:@"No Reservations Rooms" reason:@"Ditmoet ik nog uitzoeken" userInfo:nil]);
         }
 
-    }failure:^(AFHTTPRequestOperation *operation, NSError *callbackError) {
+    }                                       failure:^(AFHTTPRequestOperation *operation, NSError *callbackError) {
         if (error) {
             error([NSException exceptionWithName:@"Reservation problem: " reason:[callbackError.userInfo objectForKey:NSLocalizedDescriptionKey] userInfo:nil]);
         }

@@ -8,7 +8,7 @@
 
 @interface DayView : UIView
 
-@property(nonatomic, strong) UITableView *tableView;
+@property(nonatomic, strong) UITableView *dayTableView;
 
 - (id)initWithFrame:(CGRect)frame andDelegate:(id)delegate;
 
