@@ -14,6 +14,7 @@
 #import "ReservationService.h"
 #import "Reservation.h"
 #import "EditReservationViewController.h"
+#import "NSDate+Helper.h"
 #import "DateHelper.h"
 
 
@@ -61,6 +62,11 @@
 
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [self.meetingOverview.tableView reloadData];
+    NSLog(@"okee!");
+}
+
 - (void)loadReservations {
 
     //make the call
@@ -68,9 +74,10 @@
 
         //build an array of dates for the sections
         for (Reservation *reservation  in reservations) {
-            NSDate *dateWithoutTime = [DateHelper dateWithOutTime:reservation.startTime];
+            NSDate *dateWithoutTime = [reservation.startTime dateWithoutTime];
             if (![self.reservationDates containsObject:dateWithoutTime]) {
                 [self.reservationDates addObject:dateWithoutTime];
+                NSLog(@"hallo");
             }
         }
 
@@ -79,7 +86,7 @@
 
             NSMutableArray *reservationsPerDate = [[NSMutableArray alloc] init];
             for (Reservation *reservation in reservations) {
-                if ([date compare: [DateHelper dateWithOutTime:reservation.startTime]] == NSOrderedSame) {
+                if ([date compare: [reservation.endTime dateWithoutTime]] == NSOrderedSame) {
                     [reservationsPerDate addObject:reservation];
                 }
 
@@ -197,7 +204,8 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     ReservationTableViewHeader *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:TABLEVIEWHEADER_IDENTIFIER];
-    header.lblDate.text = [DateHelper displayStringFromDate:[self.reservationDates objectAtIndex:section]];
+
+    header.lblDate.text = [[self.reservationDates objectAtIndex:section] stringWithFormat:DATEFORMAT_SHORT_DATE];
     return header;
 }
 
@@ -229,10 +237,10 @@
     Reservation *reservation = [meetingArray objectAtIndex:indexPath.row];
 
     //TODO maak eigen labels
-
     cell.textLabel.text = reservation.reservationDescription;
     cell.textLabel.backgroundColor = [UIColor redColor];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@           %@", reservation.meetingRoom.roomName, [[DateHelper datetimeFormatter] stringFromDate:reservation.startTime]];
+    cell.detailTextLabel.textColor = [UIColor grayColor];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@           %@ - %@", reservation.meetingRoom.roomName, [reservation.startTime stringWithFormat:DATEFORMAT_SHORT_TIME],[reservation.endTime stringWithFormat:DATEFORMAT_SHORT_TIME]];
 
     return cell;
 }

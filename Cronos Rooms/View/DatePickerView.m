@@ -1,5 +1,6 @@
 #import "DatePickerView.h"
 #import "IDatePickerSlider.h"
+#import "NSDate+Helper.h"
 
 @interface DatePickerView ()
 @end
@@ -44,7 +45,7 @@
 
 - (void)updateDateValue {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:self.datePicker.datePickerMode == UIDatePickerModeDateAndTime ? @"d/M/yy    HH:mm" : @"HH:mm"];
+    [formatter setDateFormat:self.datePicker.datePickerMode == UIDatePickerModeDateAndTime ? DATEFORMAT_SHORT_DATE_AND_SHORT_TIME : DATEFORMAT_SHORT_TIME];
     self.dateValueLabel.text = [formatter stringFromDate:self.datePicker.date];
 }
 

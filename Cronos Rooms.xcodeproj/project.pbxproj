@@ -27,6 +27,7 @@
 		2DA5E96234DCC4D1FEE14CE2 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EAE3A346D90FBE083961 /* TestViewController.m */; };
 		2DA5E97970C602467A27FD26 /* DetailReservationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EB8C760FB9B768C9850A /* DetailReservationView.m */; };
 		2DA5E987DA03188BE2738B5E /* Room.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E14C8C9843781D4F69F1 /* Room.m */; };
+		2DA5E995B12F41FB0BF704C0 /* NSDate+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E09442F0A9F0910E4BC1 /* NSDate+Helper.m */; };
 		2DA5E9C70C522F64DCA7079B /* DateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EFAA0225AF026BA29816 /* DateHelper.m */; };
 		2DA5EA4CD58699DAA1B72CD1 /* MeetingRoomOverview.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E275E2A59EB3D673A887 /* MeetingRoomOverview.m */; };
 		2DA5EB2254F739C347029A02 /* AppConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E3C19CD1EE812D1025E4 /* AppConfig.m */; };
@@ -71,6 +72,7 @@
 /* Begin PBXFileReference section */
 		2DA5E0766D8B0E38D49E61D5 /* DayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DayViewController.h; sourceTree = "<group>"; };
 		2DA5E090722B3D94CDF03698 /* DetailCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailCellView.m; sourceTree = "<group>"; };
+		2DA5E09442F0A9F0910E4BC1 /* NSDate+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Helper.m"; sourceTree = "<group>"; };
 		2DA5E0C8985E2A1F92649EBA /* DayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DayViewController.m; sourceTree = "<group>"; };
 		2DA5E0E0F79AAD2B99529BC4 /* DatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerView.h; sourceTree = "<group>"; };
 		2DA5E0F312E2C1275668BF3C /* GroupTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupTitleView.h; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 		2DA5E8E4B8E0C5396F61295D /* EditReservationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditReservationViewController.h; sourceTree = "<group>"; };
 		2DA5E9575D6DE37C8DB9036C /* MainService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainService.h; sourceTree = "<group>"; };
 		2DA5E9EB5850D31F67C35668 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
+		2DA5EA0DEDBD1B549DA45CA4 /* NSDate+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Helper.h"; sourceTree = "<group>"; };
 		2DA5EA38E7E723CDE9B00662 /* EditReservationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditReservationView.m; sourceTree = "<group>"; };
 		2DA5EA7D2718BDAB8D059F0B /* Meeting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Meeting.m; sourceTree = "<group>"; };
 		2DA5EA7DCD6CECDBA3B4FC08 /* edit-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "edit-512.png"; sourceTree = "<group>"; };
@@ -234,6 +237,15 @@
 				2DA5E0766D8B0E38D49E61D5 /* DayViewController.h */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		2DA5E70C3A8ADBF9ADA2DFCB /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				2DA5E09442F0A9F0910E4BC1 /* NSDate+Helper.m */,
+				2DA5EA0DEDBD1B549DA45CA4 /* NSDate+Helper.h */,
+			);
+			path = Categories;
 			sourceTree = "<group>";
 		};
 		2DA5E7B8E67C8AF7A5F03C9A /* User */ = {
@@ -383,6 +395,7 @@
 				2DA5EE08FBEF4448610D3BA6 /* 1396879915_FEZ-04.png */,
 				2DA5E322280E6105A2B421CE /* Helper */,
 				2DA5E87C12658C8E7495DF24 /* View */,
+				2DA5E70C3A8ADBF9ADA2DFCB /* Categories */,
 			);
 			path = "Cronos Rooms";
 			sourceTree = "<group>";
@@ -582,6 +595,7 @@
 				2DA5EC5136D2127B54C2BCD0 /* SearchView.m in Sources */,
 				2DA5E282671CC239819548BA /* DayView.m in Sources */,
 				2DA5EC705A16909C413EB6DB /* DayQuarterHourViewCell.m in Sources */,
+				2DA5E995B12F41FB0BF704C0 /* NSDate+Helper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
