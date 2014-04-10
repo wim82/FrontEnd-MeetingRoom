@@ -40,4 +40,22 @@
     return request;
 }
 
+- (NSMutableURLRequest *)putRequestWithPath:(NSString *) pathToService{
+    NSURL *url = [NSURL URLWithString:pathToService relativeToURL:self.operationManager.baseURL];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    [request setHTTPMethod:HTTP_METHOD_PUT];
+    [request setValue:CONTENT_TYPE_JSON forHTTPHeaderField:HTTP_HEADER_FIELD_CONTENT_TYPE];
+    return request;
+}
+
+- (NSMutableURLRequest *)deleteRequestWithPath:(NSString *) pathToService{
+    NSURL *url = [NSURL URLWithString:pathToService relativeToURL:self.operationManager.baseURL];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    [request setHTTPMethod:HTTP_METHOD_DELETE];
+    [request setValue:CONTENT_TYPE_JSON forHTTPHeaderField:HTTP_HEADER_FIELD_CONTENT_TYPE];
+    return request;
+}
+
+
+
 @end

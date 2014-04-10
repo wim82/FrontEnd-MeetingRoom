@@ -58,6 +58,15 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
                                   action:@selector(_didTapSave)];
     self.navigationItem.rightBarButtonItem=saveButton;
     
+    /*
+    UIBarButtonItem *deleteButton = [[UIBarButtonItem alloc]
+                                   initWithBarButtonSystemItem:UIBarButtonSystemItemAction
+                                   target:self
+                                   action:@selector(_didTapDelete)];
+    self.navigationItem.rightBarButtonItem=deleteButton;
+    */
+    
+    
     //TODO make left nav bar button to be cancel button
    // self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(_didTapCancel)];
 
@@ -66,6 +75,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
     [self _setUpDetailView];
     [self _setUpMeetingRoomTableView];
     [self _registerKeyboardNotifications];
+
 }
 
 
@@ -305,32 +315,79 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
     
     MeetingRoom *meetingRoom = self.currentMeetingRoom;
     finalReservation.meetingRoom=meetingRoom;
+    finalReservation.reservationId=self.reservation.reservationId;
     finalReservation.reservationDescription=self.descriptionTextView.detailTextField.text;
     finalReservation.startTime=self.startDatePickerView.datePicker.date;
     finalReservation.endTime=self.endDatePickerView.datePicker.date;
     
     NSLog(@"in didtapSave: ");
     
-    [self saveReservation:(Reservation *) finalReservation];
+    //if reservation is an existing reservation, update should be triggered. Else, create reservation is triggered
+    NSLog(@"reservation id : %d", self.reservation.reservationId);
+    if (self.reservation.reservationId==0){
+        NSLog(@"create");
+        NSLog(@"reservation id : %d", self.reservation.reservationId);
+        [self createReservation:(Reservation *) finalReservation];
+    }
+    else{
+        NSLog(@"update");
+        NSLog(@"reservation id : %d", self.reservation.reservationId);
+        [self updateReservation:(Reservation *) finalReservation];
+    }
+    
     [self.navigationController popViewControllerAnimated:YES];
         
+}
+
+//TODO een delete button creeren waar deze actie getriggered wordt
+
+- (void)_didTapDelete {
+    
+    [self deleteReservation:(NSInteger) self.reservation.reservationId];
+    [self.navigationController popViewControllerAnimated:YES];
+    
 }
 
 
 #pragma mark - access database
 
 
-- (void)saveReservation: (Reservation *)reservation{
+- (void)createReservation: (Reservation *)reservation{
    
     ReservationService *reservationService = [ReservationService sharedService];
     
-    [reservationService createReservation:reservation withSuccesHandler:^(Reservation *reservations) {
+    [reservationService createReservation:reservation withSuccesHandler:^(Reservation *reservation) {
         
     } andErrorHandler:^(NSException *exception) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error " message:exception.reason delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
     }];
+}
+
+- (void)updateReservation: (Reservation *)reservation{
+        
+        ReservationService *reservationService = [ReservationService sharedService];
+        
+        [reservationService updateReservation:reservation withSuccesHandler:^(Reservation *reservation) {
+            
+        } andErrorHandler:^(NSException *exception) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error " message:exception.reason delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alertView show];
+        }];
     
+}
+
+- (void)deleteReservation: (NSInteger)reservationId{
+    ReservationService *reservationService = [ReservationService sharedService];
+   NSLog(@"reservationId in deletreservation method,%i", reservationId);
+    
+    [reservationService deleteReservation:reservationId withSuccesHandler:^(Reservation *reservation) {
+        ;
+        
+    } andErrorHandler:^(NSException *exception) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error " message:exception.reason delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+    }];
 }
 
 

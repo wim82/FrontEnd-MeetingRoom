@@ -9,7 +9,7 @@
 
 
 @interface Reservation : NSObject
-@property (nonatomic, assign) NSInteger id;
+@property (nonatomic, assign) NSInteger reservationId;
 @property (nonatomic, strong) User *user;
 @property (nonatomic, strong) MeetingRoom *meetingRoom;
 @property (nonatomic, strong) NSDate *startTime;

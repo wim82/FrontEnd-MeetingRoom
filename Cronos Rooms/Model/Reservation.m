@@ -29,7 +29,7 @@
 
 - (instancetype)initWithStringDictionary:(NSDictionary *)dictionary {
     if (self) {
-        self.id = [[dictionary objectForKey:@"id"] integerValue];
+        self.reservationId = [[dictionary objectForKey:@"id"] integerValue];
         self.user = [[User alloc] initWithDictionary:[dictionary objectForKey:@"user"]];
         self.meetingRoom = [[MeetingRoom alloc] initWithDictionary:[dictionary objectForKey:@"meetingRoom"]];
         self.startTime = [[DateHelper datetimeFormatter] dateFromString:[dictionary objectForKey:@"startTime"]];
@@ -45,13 +45,14 @@
     
     NSMutableDictionary *reservationDictionary = [[NSMutableDictionary alloc]init];
     
-    [reservationDictionary setObject:[NSString stringWithFormat:@"%i", self.id] forKey:@"id"];
+    [reservationDictionary setValue: [NSNumber numberWithInt:self.reservationId] forKey:@"id"];
     [reservationDictionary setObject:[self.user convertToDictionary] forKey:@"user"];
     [reservationDictionary setObject:[self.meetingRoom convertToDictionary] forKey:@"meetingRoom"];
     [reservationDictionary setObject:[self createStringFromDateTime:self.startTime] forKey:@"startTime"];
     [reservationDictionary setObject:[self createStringFromDateTime:self.endTime] forKey:@"endTime"];
     [reservationDictionary setObject:self.reservationDescription forKey:@"description"];
-
+    
+    NSLog(@"update dictionary: %@", [reservationDictionary objectForKey:@"id"]);
     
     return reservationDictionary;
 }

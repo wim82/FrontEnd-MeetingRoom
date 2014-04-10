@@ -143,4 +143,81 @@
     [self.operationManager.operationQueue addOperation:requestOperation];
 }
 
+
+- (void)updateReservation:(Reservation*) reservation  withSuccesHandler:(void (^)(Reservation *)) success andErrorHandler:(void (^)(NSException *))error {
+    NSString *path = [NSString stringWithFormat:@"reservations/update"];
+    NSMutableURLRequest *request = [self putRequestWithPath:path];
+    NSLog(@"in updatereservation restcall : %@",reservation.startTime);
+    [self addParametersToRequest:request parameters:[reservation convertToDictionary]];
+    
+    NSLog(@"Update Put request : %@", request);
+    
+    
+    //init request
+    AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    AFJSONResponseSerializer *serializer = [AFJSONResponseSerializer serializer];
+    NSLog(@"serializer : %@",serializer);
+    [requestOperation setResponseSerializer:serializer];
+    
+    //set up failure + completion blocks
+    [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if (responseObject != nil && [responseObject isKindOfClass:[NSDictionary class]]) {
+            
+            Reservation *reservation = [[Reservation alloc] initWithStringDictionary:[responseObject objectForKey:@"data"]];
+            
+            success(reservation);
+        }
+        else {
+            //TODO: use the message from json response  --> implement this for all rest calls!!!
+            error([NSException exceptionWithName:@"Creation failed" reason:@"Ditmoet ik nog uitzoeken" userInfo:nil]);
+        }
+        
+    }                                       failure:^(AFHTTPRequestOperation *operation, NSError *callbackError) {
+        if (error) {
+            error([NSException exceptionWithName:@"Reservation problem: " reason:[callbackError.userInfo objectForKey:NSLocalizedDescriptionKey] userInfo:nil]);
+        }
+    }];
+    //start request
+    [self.operationManager.operationQueue addOperation:requestOperation];
+}
+
+
+- (void)deleteReservation:(NSInteger) reservationId  withSuccesHandler:(void (^)(Reservation *)) success andErrorHandler:(void (^)(NSException *))error {
+    NSString *path = [NSString stringWithFormat:@"reservations/%i",reservationId];
+    NSMutableURLRequest *request = [self deleteRequestWithPath:path];
+    NSLog(@"in deletereservation restcall : %@",path);
+   // [self addParametersToRequest:request parameters:[reservation convertToDictionary]];
+    
+    NSLog(@"Delete request : %@", request);
+    
+    
+    //init request
+    AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    AFJSONResponseSerializer *serializer = [AFJSONResponseSerializer serializer];
+    [requestOperation setResponseSerializer:serializer];
+    
+    //set up failure + completion blocks
+    [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if (responseObject != nil && [responseObject isKindOfClass:[NSDictionary class]]) {
+            NSLog(@"lukt het deleten");
+            
+            success(nil);
+        }
+        else {
+            //TODO: use the message from json response  --> implement this for all rest calls!!!
+            error([NSException exceptionWithName:@"Creation failed" reason:@"Ditmoet ik nog uitzoeken" userInfo:nil]);
+        }
+        
+    }                                       failure:^(AFHTTPRequestOperation *operation, NSError *callbackError) {
+        if (error) {
+            error([NSException exceptionWithName:@"Reservation problem: " reason:[callbackError.userInfo objectForKey:NSLocalizedDescriptionKey] userInfo:nil]);
+        }
+    }];
+    //start request
+    [self.operationManager.operationQueue addOperation:requestOperation];
+}
+
+
+
+
 @end
