@@ -25,8 +25,8 @@
         //EditReservationViewController *editReservationViewController = [[EditReservationViewController alloc] init];
         //TestViewController*testViewController = [[TestViewController alloc] init];
         DayViewController *dayViewController = [[DayViewController alloc] init];
-        //ReservationOverviewController *meetingOverviewController = [[ReservationOverviewController alloc] init];
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:dayViewController];
+        ReservationOverviewController *meetingOverviewController = [[ReservationOverviewController alloc] init];
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:meetingOverviewController];
         self.window.rootViewController = navController;
 
 

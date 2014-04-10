@@ -5,6 +5,7 @@
 
 #import "ReservationService.h"
 #import "Reservation.h"
+#import "DateHelper.h"
 
 
 @implementation ReservationService {
@@ -102,6 +103,13 @@
     //start request
     [self.operationManager.operationQueue addOperation:requestOperation];
 
+}
+
+
+- (void)createReservation:(Reservation*) reservation  withSuccesHandler:(void (^)(NSMutableArray *))success andErrorHandler:(void (^)(NSException *))error {
+    NSString *path = [NSString stringWithFormat:@"reservations/create"];
+    NSMutableURLRequest *request = [self postRequestWithPath:path];
+    
 }
 
 @end
