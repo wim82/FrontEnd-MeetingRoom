@@ -14,6 +14,6 @@
 @property (nonatomic, strong) UIView *hourSeparator;
 @property (nonatomic, strong) Reservation *reservation;
 
-- (void)setMeetingDescriptionHeight:(int)quarterHours;
+- (void)colorReservationBlockWithLength:(int)quarterHours;
 - (instancetype)initWithFrame:(CGRect)frame andDelegate:(id <IReservationSelector>)delegate;
 @end

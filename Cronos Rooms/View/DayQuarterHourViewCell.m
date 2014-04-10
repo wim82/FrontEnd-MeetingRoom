@@ -14,8 +14,6 @@
 
 @implementation DayQuarterHourViewCell {
     id <IReservationSelector> _delegate;
-
-
 }
 
 //TODO: convert hardcoded numbers to constants
@@ -67,7 +65,7 @@
 
 
 //adjust the meeting description textview heigth to match the amount of quarter hours the reservation lasts
-- (void)setMeetingDescriptionHeight:(int)quarterHours {
+- (void)colorReservationBlockWithLength:(int)quarterHours {
     self.reservationDescription.frame =  CGRectMake(50, self.reservationDescription.frame.origin.y, self.reservationDescription.frame.size.width,quarterHours*16);
     self.reservationDescription.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.5f];
     CALayer *leftBorder = [CALayer layer];

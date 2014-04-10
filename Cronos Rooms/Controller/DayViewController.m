@@ -6,10 +6,10 @@
 #import "DayViewController.h"
 #import "DayView.h"
 #import "DayQuarterHourViewCell.h"
-#import "DateHelper.h"
 #import "ReservationService.h"
 #import "IReservationSelector.h"
 #import "EditReservationViewController.h"
+#import "NSDate+Helper.h"
 
 #define DAYQUARTERHOURVIEWCELL_IDENTIFIER @"DayQuarterHourViewCell"
 
@@ -17,7 +17,7 @@
 
 @property(nonatomic, strong) DayView *dayView;
 @property(nonatomic, strong) NSArray *hours;
-@property(nonatomic, strong) NSDate *date;
+
 @property(nonatomic, strong) NSMutableArray *reservations;
 @property(nonatomic, strong) UIScrollView *scrollView;
 
@@ -33,8 +33,9 @@
     self.view = self.scrollView;
 
     //TODO: make sure navigationcontroller displays current date & meeting room as title +
-    self.date = [[DateHelper datetimeFormatter] dateFromString:@"20140509 09:30"];
-    self.navigationItem.title = [[DateHelper datetimeFormatter] stringFromDate:self.date];
+    self.date = [NSDate dateFromString:@"2014-05-09" withFormat:@"yyyy-MM-dd"];
+    self.navigationItem.title = [self.date stringWithFormat:@"cccc, d MMM yyyy"];
+    self.navigationItem.prompt = @"hier komt de meeting room titel"; //TODO: use a custom view for navigationController.titleView
 
     //hours needed to display
     self.hours = [[NSArray alloc] initWithObjects:@"", @"01:00", @"02:00", @"03:00", @"04:00", @"05:00", @"06:00", @"07:00", @"08:00", @"09:00", @"10:00", @"11:00", @"12:00", @"13:00", @"14:00", @"15:00", @"16:00", @"17:00", @"18:00", @"19:00", @"20:00", @"21:00", @"22:00", @"23:00", nil];
@@ -49,7 +50,7 @@
     [self.view addSubview:self.dayView];
     [self.dayView.dayTableView registerClass:[DayQuarterHourViewCell class] forCellReuseIdentifier:DAYQUARTERHOURVIEWCELL_IDENTIFIER];
 
-     //load data
+    //load data
     [self _loadReservations];
 
     //scroll to about 7am. -> test this look look on different screens?
@@ -57,22 +58,10 @@
 
 }
 
-- (void)_loadReservations {
-
-    [[ReservationService sharedService] getReservationsForRoomId:1 fromDate:self.date forAmountOfDays:1 withSuccesHandler:^(NSMutableArray *reservations) {
-        self.reservations = [[NSMutableArray alloc] initWithArray:reservations];
-        [self.dayView.dayTableView reloadData];
-
-
-    }                                            andErrorHandler:^(NSException *exception) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:exception.reason delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alertView show];
-    }];
-
-}
 
 - (void)viewWillAppear:(BOOL)animated {
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -104,41 +93,36 @@
     //TODO: optimize this code
     for (Reservation *reservation in self.reservations) {
 
-        NSCalendar *calendar = [NSCalendar currentCalendar];
-        NSDateComponents *components = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:reservation.startTime];
-        NSInteger startHour = [components hour];
-        NSInteger startMinute = [components minute];
-        NSInteger startInQuarterHours = (startHour * 4) + (startMinute / 15);
+        NSInteger startInQuarterHours = [self timeInQuarterHours:reservation.startTime];
+        NSInteger endInQuarterHours = [self timeInQuarterHours:reservation.endTime];
+        NSInteger lengthOfReservationInQuarterHours = endInQuarterHours - startInQuarterHours;
 
-        NSDateComponents *endComponents = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:reservation.endTime];
-        NSInteger endHour = [endComponents hour];
-        NSInteger endMinute = [endComponents minute];
-        NSInteger endInQuarterHours = (endHour * 4) + (endMinute / 15);
-        NSInteger lengthOfMeeting = endInQuarterHours - startInQuarterHours;
-
-        //if we have a meeting
+        //if we have a reservation
         if (indexPath.row == startInQuarterHours) {
-            if (lengthOfMeeting < 2) {
+            //connect a reservation to a cell
+            cell.reservation = reservation;
+
+            //if the cell is too small to show text
+            if (lengthOfReservationInQuarterHours < 2) {
                 //TODO: repair this silly hack to display dots.
                 cell.reservationDescription.text = @"°°°";
             } else {
                 cell.reservationDescription.text = [NSString stringWithFormat:@"%@\nby %@", [reservation.reservationDescription capitalizedString], [reservation.user.fullName lowercaseString]];
             }
+
             cell.hourSeparator.hidden = NO;
-            [cell setMeetingDescriptionHeight:lengthOfMeeting];
-            cell.reservation = reservation;
+            [cell colorReservationBlockWithLength:lengthOfReservationInQuarterHours];
         }
 
-
+        //the cells beloning to a reservation should contain all necessary reservation info as well
         if (indexPath.row > startInQuarterHours && indexPath.row < (endInQuarterHours - startInQuarterHours) + startInQuarterHours) {
-            // cell.backgroundColor = [UIColor lightGrayColor];
             cell.reservation = reservation;
         }
-
     }
-
     return cell;
 }
+
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 16;
@@ -157,6 +141,10 @@
     return NO;
 }
 
+
+
+#pragma mark - Navigation
+
 - (void)didTapReservation:(Reservation *)reservation {
     if (reservation) {
         EditReservationViewController *editReservationViewController = [[EditReservationViewController alloc] init];
@@ -164,6 +152,36 @@
         [self.navigationController pushViewController:editReservationViewController animated:YES];
     }
 }
+
+
+
+#pragma mark - Private Methods
+
+//TODO: Put this methods in a NSDate category ?
+- (NSInteger)timeInQuarterHours:(NSDate *)time {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:time];
+    NSInteger hours = [components hour];
+    NSInteger minutes = [components minute];
+    return (hours * 4) + (minutes / 15);
+
+}
+
+- (void)_loadReservations {
+
+    [[ReservationService sharedService] getReservationsForRoomId:1
+                                                        fromDate:self.date forAmountOfDays:1
+                                               withSuccesHandler:^(NSMutableArray *reservations) {
+        self.reservations = [[NSMutableArray alloc] initWithArray:reservations];
+        [self.dayView.dayTableView reloadData];
+    }
+                                                 andErrorHandler:^(NSException *exception) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:exception.reason delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+    }];
+
+}
+
 
 
 @end

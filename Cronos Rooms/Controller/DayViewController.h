@@ -4,7 +4,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MeetingRoom.h"
 
 
 @interface DayViewController : UIViewController
+@property(nonatomic, strong) NSDate *date;
+@property(nonatomic, strong) MeetingRoom *meetingRoom;
 @end
