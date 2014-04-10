@@ -43,9 +43,8 @@
 }
 
 - (void)updateDateValue {
-    NSLog(@"in updateDateValue");
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:self.datePicker.datePickerMode == UIDatePickerModeDateAndTime ? @"d/M/yy    hh:mm" : @"hh:mm"];
+    [formatter setDateFormat:self.datePicker.datePickerMode == UIDatePickerModeDateAndTime ? @"d/M/yy    HH:mm" : @"HH:mm"];
     self.dateValueLabel.text = [formatter stringFromDate:self.datePicker.date];
 }
 

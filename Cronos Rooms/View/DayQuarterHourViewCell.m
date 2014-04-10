@@ -4,44 +4,77 @@
 //
 
 #import "DayQuarterHourViewCell.h"
+#import "UIColor+Expanded.h"
+#import "IReservationSelector.h"
 
 @interface DayQuarterHourViewCell ()
+
 
 @end
 
 @implementation DayQuarterHourViewCell {
+    id <IReservationSelector> _delegate;
+
 
 }
 
-- (instancetype)initWithFrame:(CGRect)frame {
+//TODO: convert hardcoded numbers to constants
+- (instancetype)initWithFrame:(CGRect)frame andDelegate:(id <IReservationSelector>)delegate {
     self = [super initWithFrame:frame];
     if (self) {
-        /*
-      //  self.backgroundColor = [UIColor groupTableViewBackgroundColor];
-       // self.groupTitleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-        //CALayer *bottomBorder = [CALayer layer];
-        //bottomBorder.frame = CGRectMake(0.0f, self.groupTitleView.frame.size.height - 1, self.groupTitleView.frame.size.width, 0.5f);
-        //bottomBorder.backgroundColor = [UIColor grayColor].CGColor;
-        [self.groupTitleView.layer addSublayer:bottomBorder];
-        [self addSubview:self.groupTitleView];
+        _delegate = delegate;
+        self.backgroundColor = [UIColor clearColor];
 
-        self.groupTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(16, 30, frame.size.width, 24)];
-        self.groupTitleLabel.textColor = [UIColor grayColor];
-        self.groupTitleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
-        self.groupTitleLabel.text = [title uppercaseString];
-        //self.descriptionLabel.hidden = YES;
-        [self.groupTitleView addSubview:self.groupTitleLabel];
-                   */
-        self.hourTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 64, 16)];
-        [self.hourTitle setBackgroundColor:[UIColor cyanColor]];
+
+        //hour
+        self.hourTitle = [[UILabel alloc] initWithFrame:CGRectMake(6, -8, 64, 16)];
+        self.hourTitle.textColor = [UIColor darkGrayColor];
+        [self.hourTitle setFont: [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1]];
         [self addSubview:self.hourTitle];
 
-        self.meetingDescription =  [[UILabel alloc] initWithFrame:CGRectMake(64, 0, frame.size.width-64,16)];
-        self.meetingDescription.backgroundColor = [UIColor magentaColor];
-        [self addSubview:self.meetingDescription];
+        //hourly separator
+        self.hourSeparator = [[UIView alloc] initWithFrame:CGRectMake(50,0,frame.size.width,0.5)];
+        [self.hourSeparator setBackgroundColor:[UIColor randomColor]];
+        self.hourSeparator.hidden = YES;
+        [self addSubview:self.hourSeparator];
 
+        //quarterly separator
+        CALayer *bottomBorder = [CALayer layer];
+        bottomBorder.frame = CGRectMake(54,0,frame.size.width,0.5);
+        bottomBorder.backgroundColor =[[UIColor grayColor] colorWithAlphaComponent:0.2f].CGColor;
+        [self.layer addSublayer:bottomBorder];
+
+        //description of meeting
+        self.reservationDescription =  [[UITextView alloc] initWithFrame:CGRectMake(50, 0, frame.size.width-50,16)];
+        self.reservationDescription.scrollEnabled = NO;
+        self.reservationDescription.editable = NO;
+        self.reservationDescription.backgroundColor = [UIColor clearColor];
+
+        [self _addGestureRecognizers];
     }
     return self;
+}
+
+- (void)_addGestureRecognizers {
+    UITapGestureRecognizer *uiTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapReservation)];
+    [self.reservationDescription addGestureRecognizer:uiTapGestureRecognizer];
+    [self addSubview:self.reservationDescription];
+}
+
+- (void)didTapReservation {
+    [_delegate didTapReservation:self.reservation];
+}
+
+
+//adjust the meeting description textview heigth to match the amount of quarter hours the reservation lasts
+- (void)setMeetingDescriptionHeight:(int)quarterHours {
+    self.reservationDescription.frame =  CGRectMake(50, self.reservationDescription.frame.origin.y, self.reservationDescription.frame.size.width,quarterHours*16);
+    self.reservationDescription.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.5f];
+    CALayer *leftBorder = [CALayer layer];
+    leftBorder.frame = CGRectMake(0.0f, 0, 2, quarterHours*16);
+    leftBorder.backgroundColor = [UIColor blueColor].CGColor;
+    [self.reservationDescription.layer addSublayer:leftBorder];
+
 }
 
 

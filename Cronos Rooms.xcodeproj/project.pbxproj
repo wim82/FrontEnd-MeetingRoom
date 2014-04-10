@@ -100,6 +100,7 @@
 		2DA5E705CBAD27EDB209F12F /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		2DA5E7243B20F64530C8E160 /* ReservationOverview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReservationOverview.m; sourceTree = "<group>"; };
 		2DA5E7C2F354877E1E6AC058 /* DayQuarterHourViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DayQuarterHourViewCell.m; sourceTree = "<group>"; };
+		2DA5E7E461182FA844F533EE /* IReservationSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IReservationSelector.h; sourceTree = "<group>"; };
 		2DA5E87239DFF246109960F7 /* ReservationOverviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReservationOverviewController.m; sourceTree = "<group>"; };
 		2DA5E8978F518D9AB31A988E /* ReservationTableViewHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReservationTableViewHeader.h; sourceTree = "<group>"; };
 		2DA5E89962CF6D7DD83F089C /* delete-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delete-512.png"; sourceTree = "<group>"; };
@@ -305,6 +306,7 @@
 			isa = PBXGroup;
 			children = (
 				2DA5E69C8454DFE8A634E3CF /* IDatePickerSlider.h */,
+				2DA5E7E461182FA844F533EE /* IReservationSelector.h */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
