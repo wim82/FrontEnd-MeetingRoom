@@ -34,6 +34,7 @@
         self.meetingRoom = [[MeetingRoom alloc] initWithDictionary:[dictionary objectForKey:@"meetingRoom"]];
         self.startTime = [[DateHelper datetimeFormatter] dateFromString:[dictionary objectForKey:@"startTime"]];
         self.endTime = [[DateHelper datetimeFormatter] dateFromString:[dictionary objectForKey:@"endTime"]];
+       // NSLog(@"endtime in in init %@", self.endTime);
         self.reservationDescription = [dictionary objectForKey:@"description"];
     }
     return self;

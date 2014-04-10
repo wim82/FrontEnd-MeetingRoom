@@ -52,6 +52,7 @@
     [[ReservationService sharedService] getReservationsForRoomId:1 fromDate:self.startTime forAmountOfDays:1 withSuccesHandler:^(NSMutableArray *reservations) {
         self.reservations = [[NSMutableArray alloc] initWithArray:reservations];
         NSLog(@"ik heb er weer eentje binnen");
+      //  NSLog(@"reservations = %@",((Reservation *)reservations[1]).endTime);
         [self.dayView.dayTableView reloadData];
 
 
@@ -90,32 +91,30 @@
 
     //TODO: optimize this code
     for (Reservation *reservation in self.reservations) {
+
         NSCalendar *calendar = [NSCalendar currentCalendar];
         NSDateComponents *components = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:reservation.startTime];
-        NSInteger hour = [components hour];
-        NSLog(@"date: %@", self.startTime);
-        // NSLog(@"%i", hour);
-        NSInteger minute = [components minute];
-        // NSLog(@"%i", minute);
-        NSInteger result = hour * 4 + minute;
+        NSInteger startHour = [components hour];
+        NSInteger startMinute = [components minute];
+        NSInteger startInQuarterHours = startHour * 4 + startMinute;
+
+        NSDateComponents *endComponents = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:reservation.endTime];
+        NSInteger endHour = [endComponents hour];
+        NSInteger endMinute = [endComponents minute];
+        NSInteger endInQuarterHours = endHour * 4 + endMinute;
+
+        NSLog(@"start in quarter hours = %i voor reservation %@ met startTime %@", startInQuarterHours, reservation.reservationDescription,reservation.startTime);
+        NSLog(@"end in quarter hours = %i voor reservation %@met endTime %@", endInQuarterHours, reservation.reservationDescription, reservation.endTime);
 
         // NSLog(@"%i == indexpath.row %i",result, indexPath.row);
-        if (indexPath.row == result) {
+        if (indexPath.row == startInQuarterHours) {
             cell.meetingDescription.text = @"hoppppppa";
             cell.meetingDescription.backgroundColor = [UIColor redColor];
             //   NSLog(@"allez");
         }
 
-       /* unsigned int unitFlags = NSHourCalendarUnit | NSMinuteCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit;
-
-        NSDateComponents *conversionInfo = [currentCa components:unitFlags fromDate:m_fromDepTime  toDate:m_toArrTime  options:0];
-
-        int months = [conversionInfo month];
-        int days = [conversionInfo day];
-        int hours = [conversionInfo hour];
-        int minutes = [conversionInfo minute];
-         */
-        if (indexPath.row > result && indexPath.row < 3 + result) {
+       
+        if (indexPath.row > startInQuarterHours && indexPath.row < (endInQuarterHours-startInQuarterHours) + startInQuarterHours) {
 
             cell.meetingDescription.backgroundColor = [UIColor redColor];
             // NSLog(@"allez");

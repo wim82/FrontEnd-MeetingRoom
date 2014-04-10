@@ -45,7 +45,7 @@
 
     if (timeFormatter == nil) {
         timeFormatter = [[NSDateFormatter alloc] init];
-        [timeFormatter setDateFormat:@"yyyyMMdd hh:mm"];
+        [timeFormatter setDateFormat:@"yyyyMMdd HH:mm"];
     }
 
     return timeFormatter;
@@ -57,7 +57,7 @@
 
     if (timeFormatter == nil) {
         timeFormatter = [[NSDateFormatter alloc] init];
-        [timeFormatter setDateFormat:@"hh:mm"];
+        [timeFormatter setDateFormat:@"HH:mm"];
     }
 
     return timeFormatter;
