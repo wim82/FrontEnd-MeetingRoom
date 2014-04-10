@@ -45,7 +45,7 @@
 
             NSMutableArray *result = [[NSMutableArray alloc] init];
             for (id responseElement in [responseObject objectForKey:@"data"]) {
-
+                NSLog(@"%@", responseElement);
                 Reservation *reservation = [[Reservation alloc] initWithStringDictionary:responseElement];
                 [result addObject:reservation];
             }
