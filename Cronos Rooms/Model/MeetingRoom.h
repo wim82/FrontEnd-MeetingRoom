@@ -12,5 +12,6 @@
 @property (nonatomic, assign) NSInteger roomId;
 @property (nonatomic, strong) NSString *buildingName;
 - (instancetype) initWithDictionary:(NSDictionary *) dictionary;
+-(NSMutableDictionary *)convertToDictionary;
 
 @end

@@ -10,4 +10,5 @@
 @property (nonatomic, strong) NSString *fullName;
 @property (nonatomic, assign) NSInteger userId;
 - (instancetype) initWithDictionary:(NSDictionary *) dictionary;
+-(NSMutableDictionary *)convertToDictionary;
 @end

@@ -106,10 +106,41 @@
 }
 
 
-- (void)createReservation:(Reservation*) reservation  withSuccesHandler:(void (^)(NSMutableArray *))success andErrorHandler:(void (^)(NSException *))error {
+- (void)createReservation:(Reservation*) reservation  withSuccesHandler:(void (^)(Reservation *)) success andErrorHandler:(void (^)(NSException *))error {
     NSString *path = [NSString stringWithFormat:@"reservations/create"];
     NSMutableURLRequest *request = [self postRequestWithPath:path];
+    NSLog(@"in createreservation restcall : %@",reservation.startTime);
+    [self addParametersToRequest:request parameters:[reservation convertToDictionary]];
     
+    NSLog(@"Create Post request : %@", request);
+    
+    
+    //init request
+    AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    AFJSONResponseSerializer *serializer = [AFJSONResponseSerializer serializer];
+    NSLog(@"serializer : %@",serializer);
+    [requestOperation setResponseSerializer:serializer];
+    
+    //set up failure + completion blocks
+    [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if (responseObject != nil && [responseObject isKindOfClass:[NSDictionary class]]) {
+        
+                Reservation *reservation = [[Reservation alloc] initWithStringDictionary:[responseObject objectForKey:@"data"]];
+           
+            success(reservation);
+        }
+        else {
+            //TODO: use the message from json response  --> implement this for all rest calls!!!
+            error([NSException exceptionWithName:@"Creation failed" reason:@"Ditmoet ik nog uitzoeken" userInfo:nil]);
+        }
+        
+    }                                       failure:^(AFHTTPRequestOperation *operation, NSError *callbackError) {
+        if (error) {
+            error([NSException exceptionWithName:@"Reservation problem: " reason:[callbackError.userInfo objectForKey:NSLocalizedDescriptionKey] userInfo:nil]);
+        }
+    }];
+    //start request
+    [self.operationManager.operationQueue addOperation:requestOperation];
 }
 
 @end

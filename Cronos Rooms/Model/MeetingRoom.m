@@ -22,4 +22,15 @@
 
 }
 
+-(NSMutableDictionary *)convertToDictionary {
+
+NSMutableDictionary *meetingRoomDictionary=[[NSMutableDictionary alloc]init];
+
+[meetingRoomDictionary setObject:[NSString stringWithFormat:@"%i",self.roomId] forKey:@"roomId"];
+[meetingRoomDictionary setObject:self.roomName forKey:@"roomName"];
+[meetingRoomDictionary setObject:self.buildingName forKey:@"buildingName"];
+    
+    return meetingRoomDictionary;
+}
+
 @end

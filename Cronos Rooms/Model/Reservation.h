@@ -16,6 +16,7 @@
 @property (nonatomic, strong) NSDate *endTime;
 @property (nonatomic, strong) NSString *reservationDescription;
 - (instancetype)initWithStringDictionary:(NSDictionary *) dictionary;
+-(NSMutableDictionary *)convertToDictionary;
 + (NSDateFormatter *)dateFormatter;
 
 

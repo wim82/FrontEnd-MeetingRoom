@@ -41,6 +41,29 @@
 }
 
 
+-(NSMutableDictionary *)convertToDictionary {
+    
+    NSMutableDictionary *reservationDictionary = [[NSMutableDictionary alloc]init];
+    
+    [reservationDictionary setObject:[NSString stringWithFormat:@"%i", self.id] forKey:@"id"];
+    [reservationDictionary setObject:[self.user convertToDictionary] forKey:@"user"];
+    [reservationDictionary setObject:[self.meetingRoom convertToDictionary] forKey:@"meetingRoom"];
+    [reservationDictionary setObject:[self createStringFromDateTime:self.startTime] forKey:@"startTime"];
+    [reservationDictionary setObject:[self createStringFromDateTime:self.endTime] forKey:@"endTime"];
+    [reservationDictionary setObject:self.reservationDescription forKey:@"description"];
+
+    
+    return reservationDictionary;
+}
+
+- (NSString *)createStringFromDateTime:(NSDate *)date {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyyMMdd HH:mm"];
+    return [dateFormatter stringFromDate:date];
+}
+
+
+
 /*
 - (NSDate *)date {
     return _date;

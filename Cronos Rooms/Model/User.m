@@ -22,4 +22,13 @@
 
 }
 
+-(NSMutableDictionary *)convertToDictionary {
+    
+    NSMutableDictionary *userDictionary=[[NSMutableDictionary alloc]init];
+    
+    [userDictionary setObject:[NSString stringWithFormat:@"%i", self.userId] forKey:@"userId"];
+    [userDictionary setObject:self.fullName forKey:@"fullName"];
+    return userDictionary;
+}
+
 @end

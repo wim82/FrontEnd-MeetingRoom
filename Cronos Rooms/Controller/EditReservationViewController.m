@@ -9,6 +9,8 @@
 #import "IDatePickerSlider.h"
 #import "Reservation.h"
 #import "MeetingRoomService.h"
+#import "ReservationService.h"
+
 
 
 @interface EditReservationViewController () <IDatePickerSlider, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
@@ -294,24 +296,36 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
     
     User *user=[[User alloc]init];
     user.userId=userNumber;
+    user.fullName=@"";
     finalReservation.user=user;
     
     MeetingRoom *meetingRoom = self.currentMeetingRoom;
     finalReservation.meetingRoom=meetingRoom;
-    
     finalReservation.reservationDescription=self.descriptionTextView.detailTextField.text;
-    
     finalReservation.startTime=self.startDatePickerView.datePicker.date;
-    
     finalReservation.endTime=self.endDatePickerView.datePicker.date;
     
-    
     NSLog(@"in didtapSave: ");
-    NSLog(@"%@", finalReservation);
     
-    
+    [self saveReservation:(Reservation *) finalReservation];
+    [self.navigationController popViewControllerAnimated:YES];
+        
+}
+
+
+#pragma mark - access database
+
+
+- (void)saveReservation: (Reservation *)reservation{
    
+    ReservationService *reservationService = [ReservationService sharedService];
     
+    [reservationService createReservation:reservation withSuccesHandler:^(Reservation *reservations) {
+        
+    } andErrorHandler:^(NSException *exception) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error " message:exception.reason delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+    }];
     
 }
 
