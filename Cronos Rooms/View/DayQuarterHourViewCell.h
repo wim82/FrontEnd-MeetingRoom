@@ -4,10 +4,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Reservation.h"
 
+@protocol IReservationSelector;
 
 @interface DayQuarterHourViewCell : UITableViewCell
 @property (nonatomic, strong) UILabel *hourTitle;
-@property (nonatomic, strong) UILabel *meetingDescription;
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
+@property (nonatomic, strong) UITextView *reservationDescription;
+@property (nonatomic, strong) UIView *hourSeparator;
+@property (nonatomic, strong) Reservation *reservation;
+
+- (void)setMeetingDescriptionHeight:(int)quarterHours;
+- (instancetype)initWithFrame:(CGRect)frame andDelegate:(id <IReservationSelector>)delegate;
 @end

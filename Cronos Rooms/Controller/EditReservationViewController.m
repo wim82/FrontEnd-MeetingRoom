@@ -272,17 +272,21 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
             20;
 }
 
-#pragma mark - Navigation
 
+
+#pragma mark - Navigation
 
 - (void)_dismissController{
     //FIX IT : keert nog niet terug
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+
 - (void)_didTapCancel{
     NSLog(@"tapped cancel");
     [self _dismissController];
 }
+
 
 - (void)_didTapSave {
     
@@ -308,14 +312,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
     
     NSLog(@"in didtapSave: ");
     NSLog(@"%@", finalReservation);
-    
-    
-   
-    
-    
 }
-
-
 
 
 
@@ -344,7 +341,6 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
     [self addBottomBorder:FullBorder forView:self.reservedByTextView];
     [self.scrollView addSubview:self.reservedByTextView];
 }
-
 
 
 #pragma mark - MeetingRoom TableView Methods
