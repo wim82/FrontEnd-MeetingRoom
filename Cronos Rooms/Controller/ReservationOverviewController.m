@@ -15,7 +15,8 @@
 #import "Reservation.h"
 #import "EditReservationViewController.h"
 #import "NSDate+Helper.h"
-#import "DateHelper.h"
+#import "UIColor+AppColor.h"
+#import "DTCustomColoredAccessory.h"
 
 
 #define TABLEVIEWCELL_IDENTIFIER @"meetingCell"
@@ -35,58 +36,53 @@
 - (void)loadView {
     self.meetingOverview = [[ReservationOverview alloc] initWithFrame:[UIScreen mainScreen].bounds andDelegate:self];
     self.view = self.meetingOverview;
-
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+
     //init arrays
     self.reservationDates = [[NSMutableArray alloc] init];
     self.reservationsByDate = [[NSMutableDictionary alloc] init];
-
 
     //register reuseable cells
     [self.meetingOverview.tableView registerClass:[ReservationTableViewCell class] forCellReuseIdentifier:TABLEVIEWCELL_IDENTIFIER];
     [self.meetingOverview.tableView registerClass:[ReservationTableViewHeader class] forHeaderFooterViewReuseIdentifier:TABLEVIEWHEADER_IDENTIFIER];
 
-    // If you set the seperator inset on iOS 6 you get a NSInvalidArgumentException...weird
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
-        self.meetingOverview.tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0); // Makes the horizontal row seperator stretch the entire length of the table view
-    }
-
     //set up
     [self _setUpNavigationBar];
-    [self loadReservations];
 
 
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [self.meetingOverview.tableView reloadData];
-    NSLog(@"okee!");
+    NSLog(@"in view will appear");
+    [self loadReservations];
 }
 
 - (void)loadReservations {
 
+
+    NSLog(@"in load reservations");
     //make the call
     [[ReservationService sharedService] getReservationsForUserId:1 withSuccesHandler:^(NSMutableArray *reservations) {
 
         //build an array of dates for the sections
         for (Reservation *reservation  in reservations) {
+            NSLog(@"reservatie op nieuw binnen geladen: %@", reservation.reservationDescription);
             NSDate *dateWithoutTime = [reservation.startTime dateWithoutTime];
             if (![self.reservationDates containsObject:dateWithoutTime]) {
                 [self.reservationDates addObject:dateWithoutTime];
-                NSLog(@"hallo");
             }
         }
 
         //build a dictionary of reservations by date
         for (NSDate *date in self.reservationDates) {
-
+            NSLog(@"in load reservations met date %@", date);
             NSMutableArray *reservationsPerDate = [[NSMutableArray alloc] init];
             for (Reservation *reservation in reservations) {
-                if ([date compare: [reservation.endTime dateWithoutTime]] == NSOrderedSame) {
+                if ([date compare:[reservation.endTime dateWithoutTime]] == NSOrderedSame) {
                     [reservationsPerDate addObject:reservation];
                 }
 
@@ -94,9 +90,10 @@
             }
             [self.reservationsByDate setObject:reservationsPerDate forKey:date];
         }
-        [self.meetingOverview.tableView reloadData];
 
-    }                            andErrorHandler:^(NSException *exception) {
+        NSLog(@"in load reservations vlak voor reload data");
+        [self.meetingOverview.tableView reloadData];
+    }                                            andErrorHandler:^(NSException *exception) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:exception.reason delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
     }];
@@ -123,10 +120,14 @@
                                  target:self
                                  action:@selector(_didTapAdd)];
 
+
     UIBarButtonItem *searchButton = [[UIBarButtonItem alloc]
             initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
                                  target:self
                                  action:@selector(_didTapSearch)];
+
+    //align the searchbutton a bit more to the right.
+    searchButton.imageInsets = UIEdgeInsetsMake(0.0, 10, 0, -10);
 
     //add to array of right buttons
     [buttons addObject:addButton];
@@ -135,33 +136,31 @@
 
     //create left button: searchButton
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
-            initWithImage:[UIImage imageNamed:@"1396879915_FEZ-04.png"] style:UIBarButtonItemStylePlain
+            initWithImage:[UIImage imageNamed:@"settings-44"] style:UIBarButtonItemStylePlain
                    target:self
                    action:@selector(_didTapSettings)];
 
-    //add Title
-    self.navigationItem.title = @"Reservations";
+    self.navigationItem.leftBarButtonItem.imageInsets = UIEdgeInsetsMake(0.0, -8, 0, 0);
+
+    self.title = @"Reservations";
+
 }
-
-
 
 
 #pragma mark - Navigation
 
 - (void)_didTapAdd {
     //todo implement add
-    Reservation *reservation=[[Reservation alloc]init];
-    User *user=[[User alloc]init];
-    user.fullName=@"KatrienDeMey";
-    NSLog(@"user: %@",user);
-    reservation.user=user;
-    
-    
-    
+    Reservation *reservation = [[Reservation alloc] init];
+    User *user = [[User alloc] init];
+    user.fullName = @"KatrienDeMey";
+    NSLog(@"user: %@", user);
+    reservation.user = user;
+
+
     EditReservationViewController *editReservationViewController = [[EditReservationViewController alloc] init];
     editReservationViewController.reservation = reservation;
     [self.navigationController pushViewController:editReservationViewController animated:YES];
-    NSLog(@"in didtap: %@",reservation.user.fullName);
 
 }
 
@@ -191,21 +190,18 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-   // NSLog(@"kom ik in numbersofrowsinsection");
     NSDate *date = [self.reservationDates objectAtIndex:section];
-  //  NSLog(@"datum %@ ", date);
     return [[self.reservationsByDate objectForKey:date] count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 24.0;
+    return 32.0;
 }
 
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     ReservationTableViewHeader *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:TABLEVIEWHEADER_IDENTIFIER];
-
-    header.lblDate.text = [[self.reservationDates objectAtIndex:section] stringWithFormat:DATEFORMAT_SHORT_DATE];
+    header.lblDate.text = [[[self.reservationDates objectAtIndex:section] stringWithFormat:DATEFORMAT_DAYNAME_AND_SHORT_DATE] lowercaseString];
     return header;
 }
 
@@ -216,8 +212,14 @@
     Reservation *reservation = [self.reservationsByDate objectForKey:date][indexPath.row];
 
 
+
     EditReservationViewController *editReservationViewController = [[EditReservationViewController alloc] init];
     editReservationViewController.reservation = reservation;
+    self.navigationItem.backBarButtonItem =
+            [[UIBarButtonItem alloc] initWithTitle:@""
+                                              style:UIBarButtonItemStyleBordered
+                                             target:nil
+                                             action:nil];
     [self.navigationController pushViewController:editReservationViewController animated:YES];
 }
 
@@ -233,17 +235,34 @@
 
     [cell setCellHeight:64];
 
-    NSMutableArray *meetingArray =[self.reservationsByDate objectForKey:self.reservationDates[indexPath.section]];
+    NSMutableArray *meetingArray = [self.reservationsByDate objectForKey:self.reservationDates[indexPath.section]];
     Reservation *reservation = [meetingArray objectAtIndex:indexPath.row];
 
     //TODO maak eigen labels
-    cell.textLabel.text = reservation.reservationDescription;
-    cell.textLabel.backgroundColor = [UIColor redColor];
-    cell.detailTextLabel.textColor = [UIColor grayColor];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@           %@ - %@", reservation.meetingRoom.roomName, [reservation.startTime stringWithFormat:DATEFORMAT_SHORT_TIME],[reservation.endTime stringWithFormat:DATEFORMAT_SHORT_TIME]];
+
+    cell.textLabel.textColor = [UIColor app_darkGrey];
+    cell.textLabel.text = [reservation.reservationDescription capitalizedString];
+
+
+    cell.detailTextLabel.textColor = [UIColor app_grey];
+    cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica" size:12];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@           %@ - %@", reservation.meetingRoom.roomName, [reservation.startTime stringWithFormat:DATEFORMAT_SHORT_TIME], [reservation.endTime stringWithFormat:DATEFORMAT_SHORT_TIME]];
+
+    //Custom Accessory
+    DTCustomColoredAccessory *accessory = [DTCustomColoredAccessory accessoryWithColor:[UIColor app_red]];
+    accessory.highlightedColor = [UIColor blackColor];
+   cell.accessoryView = accessory;
+
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+    //this doesn't work as i expected -> probably because of SWTableViewCell?
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+    cell.tintColor = [UIColor app_darkYellow];
 
     return cell;
 }
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 64;
@@ -254,13 +273,15 @@
 
 - (NSArray *)rightButtons {
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
-    [rightUtilityButtons sw_addUtilityButtonWithColor:
-            [UIColor lightGrayColor]
-                                                 icon:[UIImage imageNamed:@"edit-512.png"]];
-    [rightUtilityButtons sw_addUtilityButtonWithColor:
-            [UIColor redColor]
-                                                 icon:[UIImage imageNamed:@"delete-512.png"]];
 
+
+
+    [rightUtilityButtons sw_addUtilityButtonWithColor:
+            [UIColor app_lightGrey]
+                                                 title:@"edit"];
+    [rightUtilityButtons sw_addUtilityButtonWithColor:
+            [UIColor app_red]
+                                                title:@"delete"];
     return rightUtilityButtons;
 }
 
@@ -285,11 +306,11 @@
             EditReservationViewController *editReservationViewController = [[EditReservationViewController alloc] init];
             editReservationViewController.reservation = reservation;
             [self.navigationController pushViewController:editReservationViewController animated:YES];
-            
-          /*
-            UIAlertView *alertTest = [[UIAlertView alloc] initWithTitle:@"Hello" message:@"More more more" delegate:nil cancelButtonTitle:@"cancel" otherButtonTitles:nil];
-            [alertTest show];
-*/
+
+            /*
+              UIAlertView *alertTest = [[UIAlertView alloc] initWithTitle:@"Hello" message:@"More more more" delegate:nil cancelButtonTitle:@"cancel" otherButtonTitles:nil];
+              [alertTest show];
+  */
             [cell hideUtilityButtonsAnimated:YES];
             break;
         }
@@ -307,8 +328,30 @@
     }
 }
 
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    return NO;
+}
+
+- (void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    //do nothing;
+}
+
+
 - (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell {
+
     return YES;
+}
+
+//hides the custom accessory on swipe
+//TODO: it responds too slow, fix this
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell scrollingToState:(SWCellState)state {
+    if (state == kCellStateRight) {
+        cell.accessoryView.hidden = YES;
+    } else {
+        cell.accessoryView.hidden = NO;
+    }
+
+
 }
 
 

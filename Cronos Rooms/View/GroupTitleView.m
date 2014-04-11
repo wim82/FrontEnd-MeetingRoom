@@ -4,6 +4,7 @@
 //
 
 #import "GroupTitleView.h"
+#import "UIColor+AppColor.h"
 
 
 @implementation GroupTitleView
@@ -11,16 +12,16 @@
     self = [super initWithFrame:frame];
     if (self) {
 
-        self.backgroundColor = [UIColor groupTableViewBackgroundColor];
+        self.backgroundColor = [UIColor app_lightBlue];
         self.groupTitleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         CALayer *bottomBorder = [CALayer layer];
-        bottomBorder.frame = CGRectMake(0.0f, self.groupTitleView.frame.size.height - 1, self.groupTitleView.frame.size.width, 0.5f);
-        bottomBorder.backgroundColor = [UIColor grayColor].CGColor;
+        bottomBorder.frame = CGRectMake(0.0f, self.groupTitleView.frame.size.height-1, self.groupTitleView.frame.size.width, 1);
+        bottomBorder.backgroundColor = [UIColor app_lightGrey].CGColor;
         [self.groupTitleView.layer addSublayer:bottomBorder];
         [self addSubview:self.groupTitleView];
 
         self.groupTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(16, 30, frame.size.width, 24)];
-        self.groupTitleLabel.textColor = [UIColor grayColor];
+        self.groupTitleLabel.textColor = [UIColor app_snowWhite];
         self.groupTitleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
         self.groupTitleLabel.text = [title uppercaseString];
         //self.descriptionLabel.hidden = YES;

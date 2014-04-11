@@ -1,6 +1,7 @@
 #import "DatePickerView.h"
 #import "IDatePickerSlider.h"
 #import "NSDate+Helper.h"
+#import "UIColor+AppColor.h"
 
 @interface DatePickerView ()
 @end
@@ -34,7 +35,7 @@
         self.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 44, frame.size.width, 216)];
         [self.datePicker setDate:date];
         [self.datePicker setDatePickerMode:mode];
-        [self.datePicker setMinuteInterval:5];
+        [self.datePicker setMinuteInterval:15];
         [self.datePicker addTarget:self action:@selector(updateDateValue) forControlEvents:UIControlEventValueChanged];
         [self addSubview:self.datePicker];
 

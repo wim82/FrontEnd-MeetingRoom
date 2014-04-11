@@ -10,7 +10,8 @@
 #import "Reservation.h"
 #import "MeetingRoomService.h"
 #import "ReservationService.h"
-
+#import "UIColor+AppColor.h"
+#import "NSDate+Helper.h"
 
 
 @interface EditReservationViewController () <IDatePickerSlider, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
@@ -51,13 +52,13 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc]
-                                  initWithBarButtonSystemItem:UIBarButtonSystemItemSave
-                                  target:self
-                                  action:@selector(_didTapSave)];
-    self.navigationItem.rightBarButtonItem=saveButton;
-    
+            initWithBarButtonSystemItem:UIBarButtonSystemItemSave
+                                 target:self
+                                 action:@selector(_didTapSave)];
+    self.navigationItem.rightBarButtonItem = saveButton;
+
     /*
     UIBarButtonItem *deleteButton = [[UIBarButtonItem alloc]
                                    initWithBarButtonSystemItem:UIBarButtonSystemItemAction
@@ -65,12 +66,8 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
                                    action:@selector(_didTapDelete)];
     self.navigationItem.rightBarButtonItem=deleteButton;
     */
-    
-    
-    //TODO make left nav bar button to be cancel button
-   // self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(_didTapCancel)];
 
-    
+
     [self _setUpTimeView];
     [self _setUpDetailView];
     [self _setUpMeetingRoomTableView];
@@ -80,6 +77,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
 
 - (void)viewWillAppear:(BOOL)animated {
+
 }
 
 
@@ -99,25 +97,8 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 }
 
 
+
 #pragma mark - Set Up Methods
-
-- (void)loadMeetingRooms {
-    MeetingRoomService *service = [MeetingRoomService sharedService];
-    [service getAllMeetingRoomsWithSuccessHandler:^(NSMutableArray *meetingRooms) {
-        self.meetingRooms = [[NSArray alloc] initWithArray:meetingRooms];
-        NSLog(@"meeting rooms: %@", self.meetingRooms);
-
-        [self.meetingRoomOverview.tableView reloadData];
-        [self updateViewSizeToMatchContents];
-
-
-    }                             andErrorHandler:^(NSException *exception) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:exception.reason delegate:self cancelButtonTitle:@"het zou niet mogen" otherButtonTitles:nil];
-        [alertView show];
-    }];
-
-}
-
 
 - (void)_setUpMeetingRoomTableView {
     self.roomTitleView = [[GroupTitleView alloc] initWithFrame:CGRectMake(0, self.reservedByTextView.frame.origin.y + self.reservedByTextView.frame.size.height, self.view.frame.size.width, 64)
@@ -131,21 +112,9 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
     [self.meetingRoomOverview.tableView reloadData];
     [self updateViewSizeToMatchContents];
 
-
+    self.meetingRoomOverview.tableView.tintColor = [UIColor app_red];
     [self.scrollView addSubview:self.meetingRoomOverview];
 
-}
-
-- (void)updateViewSizeToMatchContents {
-    //autoresizing tableview to match contents, happens after reloadData
-    CGRect loadedTableViewFrame = CGRectMake(0, self.roomTitleView.frame.origin.y + self.roomTitleView.frame.size.height, self.view.frame.size.width, 0);  //general property of the meetingroom frame
-    loadedTableViewFrame.size.height = self.meetingRoomOverview.tableView.contentSize.height; //get the dynamic height depending on the rows
-    self.meetingRoomOverview.frame = loadedTableViewFrame; //set the overview frame to the new one
-
-    self.meetingRoomOverview.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, loadedTableViewFrame.size.height);
-
-    //update the general scrollview with the size of all elements + dynamically set table heigth
-    [self.scrollView setContentSize:CGSizeMake(self.scrollView.contentSize.width, [self heigthForAllElementsInCurrentView])];
 }
 
 
@@ -161,7 +130,6 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
                                                object:nil];
 }
 
-
 - (void)_setUpTimeView {
     self.timeTitleView = [[GroupTitleView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 64)
                                                       andTitle:@"Time"];
@@ -174,6 +142,9 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
                                                                 mode:(UIDatePickerModeDateAndTime)
                                                          andDelegate:self];
     [self addBottomBorder:IndentedBorder forView:self.startDatePickerView];
+
+    [self.startDatePickerView.datePicker addTarget:self action:@selector(didChangeStartDate) forControlEvents:UIControlEventValueChanged];
+
     [self.scrollView addSubview:self.startDatePickerView];
 
 
@@ -189,7 +160,45 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
 
 
-#pragma mark - Set Up Methods
+
+- (void)_setUpDetailView {
+    self.detailTitleView = [[GroupTitleView alloc] initWithFrame:CGRectMake(0, self.endDatePickerView.frame.origin.y + self.endDatePickerView.frame.size.height, self.view.frame.size.width, 64)
+                                                        andTitle:@"Details"];
+    [self.scrollView addSubview:self.detailTitleView];
+
+    self.descriptionTextView = [[DetailCellView alloc] initWithFrame:CGRectMake(0, self.detailTitleView.frame.origin.y + self.detailTitleView.frame.size.height, self.view.frame.size.width - 20, 64)
+                                                               title:@"Description"
+                                                            andValue:self.reservation.reservationDescription
+                                                         andDelegate:self];
+
+    self.descriptionTextView.detailTextField.returnKeyType = UIReturnKeyNext;
+    [self addBottomBorder:IndentedBorder forView:self.descriptionTextView];
+    [self.scrollView addSubview:self.descriptionTextView];
+
+    self.reservedByTextView = [[DetailCellView alloc] initWithFrame:CGRectMake(0, self.descriptionTextView.frame.origin.y + self.descriptionTextView.frame.size.height, self.view.frame.size.width, 64)
+                                                              title:@"Reserved by"
+                                                           andValue:self.reservation.user.fullName
+                                                        andDelegate:self];
+
+    self.reservedByTextView.detailTextField.returnKeyType = UIReturnKeyDone;
+    [self addBottomBorder:FullBorder forView:self.reservedByTextView];
+    [self.scrollView addSubview:self.reservedByTextView];
+}
+
+
+#pragma mark - Private Methods
+
+- (void)updateViewSizeToMatchContents {
+    //autoresizing tableview to match contents, happens after reloadData
+    CGRect loadedTableViewFrame = CGRectMake(0, self.roomTitleView.frame.origin.y + self.roomTitleView.frame.size.height, self.view.frame.size.width, 0);  //general property of the meetingroom frame
+    loadedTableViewFrame.size.height = self.meetingRoomOverview.tableView.contentSize.height; //get the dynamic height depending on the rows
+    self.meetingRoomOverview.frame = loadedTableViewFrame; //set the overview frame to the new one
+
+    self.meetingRoomOverview.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, loadedTableViewFrame.size.height);
+
+    //update the general scrollview with the size of all elements + dynamically set table heigth
+    [self.scrollView setContentSize:CGSizeMake(self.scrollView.contentSize.width, [self heigthForAllElementsInCurrentView])];
+}
 
 - (void)addBottomBorder:(BorderStyle)borderStyle forView:(UIView *)view {
 
@@ -197,45 +206,110 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
     switch (borderStyle) {
         case FullBorder:
-            bottomBorder.frame = CGRectMake(0, view.frame.size.height - 1, view.frame.size.width, 0.5f);
+            bottomBorder.frame = CGRectMake(0, view.frame.size.height - 0.5, view.frame.size.width, 0.5f);
             break;
         case IndentedBorder:
-            bottomBorder.frame = CGRectMake(20, view.frame.size.height - 1, view.frame.size.width, 0.5f);
+            bottomBorder.frame = CGRectMake(20, view.frame.size.height - 0.5, view.frame.size.width, 0.5f);
             break;
         default:;
     }
 
-    bottomBorder.backgroundColor = [UIColor lightGrayColor].CGColor;
+    bottomBorder.backgroundColor = [UIColor app_lightGrey].CGColor;
     [view.layer addSublayer:bottomBorder];
 
 }
 
+- (CGFloat)heigthForAllElementsInCurrentView {
+    return self.timeTitleView.frame.size.height +
+            self.startDatePickerView.frame.size.height +
+            self.endDatePickerView.frame.size.height +
+            self.descriptionTextView.frame.size.height +
+            self.detailTitleView.frame.size.height +
+            self.reservedByTextView.frame.size.height +
+            self.roomTitleView.frame.size.height +
+            self.meetingRoomOverview.frame.size.height +
+            20;
+}
+
+//forces the date part of the endtime to always be the same as the starttime, as soon as the starttime changes
+- (void)didChangeStartDate {
+    NSDate *date = [self.startDatePickerView.datePicker.date dateWithoutTime];
+    self.endDatePickerView.datePicker.date = [date dateByAddingTimeInterval:[self.endDatePickerView.datePicker.date timeWithoutDate]];
+}
+
+//TODO: make this nicer
+- (void)saveReservation {
+
+
+    //build element that needs to be "posted"
+    int userNumber = 1; //TODO zoek met rest call op wat userid is van de Full Name die ingevuld staat -> als de usernaam niet gewijzigd is, is geen restcall nodig : de userid is reeds aanwezig
+
+    Reservation *finalReservation = [[Reservation alloc] init];
+
+    User *user = [[User alloc] init];
+    user.userId = userNumber;
+    user.fullName = @"";
+    finalReservation.user = user;
+
+    MeetingRoom *meetingRoom = self.currentMeetingRoom;
+    finalReservation.meetingRoom = meetingRoom;
+    finalReservation.reservationId = self.reservation.reservationId;
+    finalReservation.reservationDescription = self.descriptionTextView.detailTextField.text;
+    finalReservation.startTime = self.startDatePickerView.datePicker.date;
+    finalReservation.endTime = self.endDatePickerView.datePicker.date;
+
+    NSLog(@"in didtapSave: ");
+
+    //if reservation is an existing reservation, update should be triggered. Else, create reservation is triggered
+    NSLog(@"reservation id : %d", self.reservation.reservationId);
+    if (self.reservation.reservationId == 0) {
+        NSLog(@"create");
+        NSLog(@"reservation id : %d", self.reservation.reservationId);
+        [self createReservation:finalReservation];
+    }
+    else {
+        NSLog(@"update");
+        NSLog(@"reservation id : %d", self.reservation.reservationId);
+        [self updateReservation:finalReservation];
+    }
+
+    //REMARK: katrien, hier stond de popviewcontroller -> zolang we zonder lokale database werken, heb ik die in de respectievelijke completionblocks gezet
+    //op die manier staat op de overview altijd exact wat er op de database staat
+}
+
+
+
+
+#pragma mark - Keyboard Methods
 
 - (void)keyboardWasShown:(NSNotification *)notification {
+
     CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
 
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0, 0.0, keyboardSize.height, 0.0);
     self.scrollView.contentInset = contentInsets;
     self.scrollView.scrollIndicatorInsets = contentInsets;
 
+
     CGRect aRect = self.view.frame;
     aRect.size.height -= keyboardSize.height;
     self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, [self heigthForAllElementsInCurrentView]);
-
     if (!CGRectContainsPoint(aRect, self.activeTextField.frame.origin)) {
-        [self.scrollView scrollRectToVisible:self.activeTextField.frame animated:YES];
+        [self.scrollView scrollRectToVisible:self.activeTextField.frame animated:NO];
     }
-
-
 }
 
 
 - (void)keyboardWillHide:(NSNotification *)notification {
-    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-    self.scrollView.contentInset = contentInsets;
-    self.scrollView.scrollIndicatorInsets = contentInsets;
+    [UIView animateWithDuration:0.3 animations:^{
+        UIEdgeInsets contentInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+        self.scrollView.contentInset = contentInsets;
+        self.scrollView.scrollIndicatorInsets = contentInsets;
+    }];
 }
 
+
+#pragma mark - DatePickerDelegate Methods
 
 - (void)datePickerDidSlideOpen:(BOOL)slideDown sentBy:(id)sender {
 
@@ -272,119 +346,99 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 }
 
 
-- (CGFloat)heigthForAllElementsInCurrentView {
-    return self.timeTitleView.frame.size.height +
-            self.startDatePickerView.frame.size.height +
-            self.endDatePickerView.frame.size.height +
-            self.descriptionTextView.frame.size.height +
-            self.detailTitleView.frame.size.height +
-            self.reservedByTextView.frame.size.height +
-            self.roomTitleView.frame.size.height +
-            self.meetingRoomOverview.frame.size.height +
-            20;
-}
 
 
 
 #pragma mark - Navigation
 
-- (void)_dismissController{
+- (void)_dismissController {
     //FIX IT : keert nog niet terug
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-
-- (void)_didTapCancel{
+//hebben wij een cancel methode nodig? we hebben al back?
+- (void)_didTapCancel {
     NSLog(@"tapped cancel");
     [self _dismissController];
 }
 
 
 - (void)_didTapSave {
-    
-    //todo  continue working on save
-    
-    //build element that needs to be "posted"
-    int userNumber=1; //TODO zoek met rest call op wat userid is van de meeting owner
-    Reservation *finalReservation=[[Reservation alloc]init];
-    
-    User *user=[[User alloc]init];
-    user.userId=userNumber;
-    user.fullName=@"";
-    finalReservation.user=user;
-    
-    MeetingRoom *meetingRoom = self.currentMeetingRoom;
-    finalReservation.meetingRoom=meetingRoom;
-    finalReservation.reservationId=self.reservation.reservationId;
-    finalReservation.reservationDescription=self.descriptionTextView.detailTextField.text;
-    finalReservation.startTime=self.startDatePickerView.datePicker.date;
-    finalReservation.endTime=self.endDatePickerView.datePicker.date;
-    
-    NSLog(@"in didtapSave: ");
-    
-    //if reservation is an existing reservation, update should be triggered. Else, create reservation is triggered
-    NSLog(@"reservation id : %d", self.reservation.reservationId);
-    if (self.reservation.reservationId==0){
-        NSLog(@"create");
-        NSLog(@"reservation id : %d", self.reservation.reservationId);
-        [self createReservation:(Reservation *) finalReservation];
+    //TODO: perform necessary checks before actual saving, like: has the user chosen a meeting room
+    if (!self.currentMeetingRoom) {
+        //TODO: subclass alertview for a custom alertview
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Forgot something?" message:@"You didn't select a meeting room" delegate:nil cancelButtonTitle:@"Sorry, i'll correct that" otherButtonTitles:nil];
+        [alertView show];
+    } else {
+        [self saveReservation];
+
     }
-    else{
-        NSLog(@"update");
-        NSLog(@"reservation id : %d", self.reservation.reservationId);
-        [self updateReservation:(Reservation *) finalReservation];
-    }
-    
-    [self.navigationController popViewControllerAnimated:YES];
-        
+
 }
+
+
 
 //TODO een delete button creeren waar deze actie getriggered wordt
-
 - (void)_didTapDelete {
-    
+
     [self deleteReservation:(NSInteger) self.reservation.reservationId];
-    [self.navigationController popViewControllerAnimated:YES];
-    
+
 }
 
 
-#pragma mark - access database
+#pragma mark - Rest Calls
+
+- (void)loadMeetingRooms {
+    MeetingRoomService *service = [MeetingRoomService sharedService];
+    [service getAllMeetingRoomsWithSuccessHandler:^(NSMutableArray *meetingRooms) {
+        self.meetingRooms = [[NSArray alloc] initWithArray:meetingRooms];
+        NSLog(@"meeting rooms: %@", self.meetingRooms);
+
+        [self.meetingRoomOverview.tableView reloadData];
+        [self updateViewSizeToMatchContents];
 
 
-- (void)createReservation: (Reservation *)reservation{
-   
+    }                             andErrorHandler:^(NSException *exception) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:exception.reason delegate:self cancelButtonTitle:@"het zou niet mogen" otherButtonTitles:nil];
+        [alertView show];
+    }];
+
+}
+
+- (void)createReservation:(Reservation *)reservation {
+
     ReservationService *reservationService = [ReservationService sharedService];
-    
+
     [reservationService createReservation:reservation withSuccesHandler:^(Reservation *reservation) {
-        
-    } andErrorHandler:^(NSException *exception) {
+        [self.navigationController popViewControllerAnimated:YES];
+
+    }                     andErrorHandler:^(NSException *exception) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error " message:exception.reason delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
     }];
 }
 
-- (void)updateReservation: (Reservation *)reservation{
-        
-        ReservationService *reservationService = [ReservationService sharedService];
-        
-        [reservationService updateReservation:reservation withSuccesHandler:^(Reservation *reservation) {
-            
-        } andErrorHandler:^(NSException *exception) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error " message:exception.reason delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [alertView show];
-        }];
-    
-}
+- (void)updateReservation:(Reservation *)reservation {
 
-- (void)deleteReservation: (NSInteger)reservationId{
     ReservationService *reservationService = [ReservationService sharedService];
-   NSLog(@"reservationId in deletreservation method,%i", reservationId);
-    
+
+    [reservationService updateReservation:reservation withSuccesHandler:^(Reservation *reservation) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }                     andErrorHandler:^(NSException *exception) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error " message:exception.reason delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+    }];
+
+}
+
+- (void)deleteReservation:(NSInteger)reservationId {
+    ReservationService *reservationService = [ReservationService sharedService];
+    NSLog(@"reservationId in deletreservation method,%i", reservationId);
+
     [reservationService deleteReservation:reservationId withSuccesHandler:^(Reservation *reservation) {
-        ;
-        
-    } andErrorHandler:^(NSException *exception) {
+        [self.navigationController popViewControllerAnimated:YES];
+
+    }                     andErrorHandler:^(NSException *exception) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error " message:exception.reason delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
     }];
@@ -392,34 +446,9 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
 
 
-#pragma mark - DetailView Methods
-
-- (void)_setUpDetailView {
-    self.detailTitleView = [[GroupTitleView alloc] initWithFrame:CGRectMake(0, self.endDatePickerView.frame.origin.y + self.endDatePickerView.frame.size.height, self.view.frame.size.width, 64)
-                                                        andTitle:@"Details"];
-    [self.scrollView addSubview:self.detailTitleView];
-
-    self.descriptionTextView = [[DetailCellView alloc] initWithFrame:CGRectMake(0, self.detailTitleView.frame.origin.y + self.detailTitleView.frame.size.height, self.view.frame.size.width - 20, 64)
-                                                               title:@"Description"
-                                                            andValue:self.reservation.reservationDescription
-                                                         andDelegate:self];
-
-    self.descriptionTextView.detailTextField.returnKeyType = UIReturnKeyNext;
-    [self addBottomBorder:IndentedBorder forView:self.descriptionTextView];
-    [self.scrollView addSubview:self.descriptionTextView];
-
-    self.reservedByTextView = [[DetailCellView alloc] initWithFrame:CGRectMake(0, self.descriptionTextView.frame.origin.y + self.descriptionTextView.frame.size.height, self.view.frame.size.width, 64)
-                                                              title:@"Reserved by"
-                                                           andValue:self.reservation.user.fullName
-                                                        andDelegate:self];
-
-    self.reservedByTextView.detailTextField.returnKeyType = UIReturnKeyDone;
-    [self addBottomBorder:FullBorder forView:self.reservedByTextView];
-    [self.scrollView addSubview:self.reservedByTextView];
-}
 
 
-#pragma mark - MeetingRoom TableView Methods
+#pragma mark - MeetingRoom TableView Delegate Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -439,7 +468,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MyIdentifier];
     }
 
-    MeetingRoom *meetingRoom = (MeetingRoom*) [self.meetingRooms objectAtIndex:indexPath.row];
+    MeetingRoom *meetingRoom = (MeetingRoom *) [self.meetingRooms objectAtIndex:indexPath.row];
     cell.textLabel.text = meetingRoom.roomName;
 
     if (meetingRoom.roomId == self.reservation.meetingRoom.roomId) {
@@ -479,7 +508,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
 
 
-#pragma - TextField Delegate Methods
+#pragma mark - TextField Delegate Methods
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     self.activeTextField = nil;
@@ -488,7 +517,9 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     self.activeTextField = textField;
-    if (textField == self.descriptionTextView.detailTextField) {
+
+
+    if (textField == self.descriptionTextView.detailTextField || textField.text.length == 0) {
         self.descriptionTextView.detailLabel.hidden = NO;
     }
 

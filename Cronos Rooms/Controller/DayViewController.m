@@ -28,8 +28,11 @@
 
 - (void)loadView {
 
+    //hours needed to display
+    self.hours = [[NSArray alloc] initWithObjects:@"", @"01:00", @"02:00", @"03:00", @"04:00", @"05:00", @"06:00", @"07:00", @"08:00", @"09:00", @"10:00", @"11:00", @"12:00", @"13:00", @"14:00", @"15:00", @"16:00", @"17:00", @"18:00", @"19:00", @"20:00", @"21:00", @"22:00", @"23:00", nil];
+
     self.scrollView = [[UIScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.scrollView.contentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, 96 * 16);
+    self.scrollView.contentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, (self.hours.count*4) * 16);
     self.view = self.scrollView;
 
     //TODO: make sure navigationcontroller displays current date & meeting room as title +
@@ -37,8 +40,7 @@
     self.navigationItem.title = [self.date stringWithFormat:@"cccc, d MMM yyyy"];
     self.navigationItem.prompt = @"hier komt de meeting room titel"; //TODO: use a custom view for navigationController.titleView
 
-    //hours needed to display
-    self.hours = [[NSArray alloc] initWithObjects:@"", @"01:00", @"02:00", @"03:00", @"04:00", @"05:00", @"06:00", @"07:00", @"08:00", @"09:00", @"10:00", @"11:00", @"12:00", @"13:00", @"14:00", @"15:00", @"16:00", @"17:00", @"18:00", @"19:00", @"20:00", @"21:00", @"22:00", @"23:00", nil];
+
 }
 
 
@@ -54,7 +56,7 @@
     [self _loadReservations];
 
     //scroll to about 7am. -> test this look look on different screens?
-    [self.scrollView scrollRectToVisible:CGRectMake(0, 1000, 1, 1) animated:YES];
+    [self.scrollView scrollRectToVisible:CGRectMake(0, 7*4*16 + self.scrollView.frame.size.height - self.navigationController.navigationBar.frame.size.height, 1, 1) animated:YES];
 
 }
 
@@ -93,8 +95,8 @@
     //TODO: optimize this code
     for (Reservation *reservation in self.reservations) {
 
-        NSInteger startInQuarterHours = [self timeInQuarterHours:reservation.startTime];
-        NSInteger endInQuarterHours = [self timeInQuarterHours:reservation.endTime];
+        NSInteger startInQuarterHours = [reservation.startTime timeInQuarterHours];
+        NSInteger endInQuarterHours = [reservation.endTime timeInQuarterHours];
         NSInteger lengthOfReservationInQuarterHours = endInQuarterHours - startInQuarterHours;
 
         //if we have a reservation
@@ -122,12 +124,9 @@
     return cell;
 }
 
-
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 16;
 }
-
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -156,16 +155,6 @@
 
 
 #pragma mark - Private Methods
-
-//TODO: Put this methods in a NSDate category ?
-- (NSInteger)timeInQuarterHours:(NSDate *)time {
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *components = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:time];
-    NSInteger hours = [components hour];
-    NSInteger minutes = [components minute];
-    return (hours * 4) + (minutes / 15);
-
-}
 
 - (void)_loadReservations {
 

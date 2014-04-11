@@ -7,25 +7,33 @@
 //
 
 #import "ReservationTableViewHeader.h"
+#import "UIColor+AppColor.h"
+
+@interface ReservationTableViewHeader ()
+@property(nonatomic, strong) UIView *headerView;
+@end
 
 @implementation ReservationTableViewHeader
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        //this is superweird but it works
-        self.lblDate = [[UILabel alloc] initWithFrame:CGRectMake(330, 0, frame.size.width-310, 24)];
+        //this is superweird but it works - frame is empty when i get this
 
-        self.lblDate.font = [UIFont italicSystemFontOfSize:15.0];
-        self.lblDate.backgroundColor=[UIColor grayColor];
+        self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 32)];
+        self.headerView.backgroundColor = [UIColor app_lightBlue];
+        [self addSubview:self.headerView];
+        self.lblDate = [[UILabel alloc] initWithFrame:CGRectMake(16, 0, [UIScreen mainScreen].bounds.size.width, 32)];
+
+        self.lblDate.font = [UIFont fontWithName:@"Futura-CondensedMedium" size:14.0];
+        self.lblDate.textColor = [UIColor app_snowWhite];
+
         [self addSubview:self.lblDate];
 
     }
     return self;
 }
-
 
 
 @end

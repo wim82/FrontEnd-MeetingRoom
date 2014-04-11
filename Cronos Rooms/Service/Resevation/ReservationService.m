@@ -86,6 +86,7 @@
             for (id responseElement in [responseObject objectForKey:@"data"]) {
                 Reservation *reservation = [[Reservation alloc] initWithStringDictionary:responseElement];
                 [result addObject:reservation];
+                NSLog(@"in de originele rest call: %@",reservation.reservationDescription );
             }
             success(result);
         }

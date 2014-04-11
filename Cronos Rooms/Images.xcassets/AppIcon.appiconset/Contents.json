@@ -11,6 +11,7 @@
       "scale" : "2x"
     },
     {
+      "filename" : "cronosrooms-icon-120.png",
       "idiom" : "iphone",
       "size" : "60x60",
       "scale" : "2x"
@@ -41,6 +42,7 @@
       "scale" : "1x"
     },
     {
+      "filename" : "cronosrooms-icon-152.png",
       "idiom" : "ipad",
       "size" : "76x76",
       "scale" : "2x"
