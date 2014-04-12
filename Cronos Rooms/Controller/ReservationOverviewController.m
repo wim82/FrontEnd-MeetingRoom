@@ -91,8 +91,15 @@
             [self.reservationsByDate setObject:reservationsPerDate forKey:date];
         }
 
+
         NSLog(@"in load reservations vlak voor reload data");
         [self.meetingOverview.tableView reloadData];
+
+        //code needed to fix trailing row ) - i don't really understand this either.
+        [self.meetingOverview.tableView setContentInset:UIEdgeInsetsMake(0, 0, 84, 0)];
+
+
+
     }                                            andErrorHandler:^(NSException *exception) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:exception.reason delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
@@ -108,6 +115,7 @@
 
 
 #pragma mark - Navigationbar
+
 
 - (void)_setUpNavigationBar {
 
@@ -142,6 +150,7 @@
 
     self.navigationItem.leftBarButtonItem.imageInsets = UIEdgeInsetsMake(0.0, -8, 0, 0);
 
+    self.navigationController.navigationBar.translucent = NO;
     self.title = @"Reservations";
 
 }
@@ -160,6 +169,8 @@
 
     EditReservationViewController *editReservationViewController = [[EditReservationViewController alloc] init];
     editReservationViewController.reservation = reservation;
+    editReservationViewController.navigationItem.title = @"Add Reservation";
+
     [self.navigationController pushViewController:editReservationViewController animated:YES];
 
 }
@@ -195,7 +206,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 32.0;
+    return 24.0;
 }
 
 
@@ -240,25 +251,22 @@
 
     //TODO maak eigen labels
 
-    cell.textLabel.textColor = [UIColor app_darkGrey];
+    cell.textLabel.textColor = [UIColor darkTextColor];
     cell.textLabel.text = [reservation.reservationDescription capitalizedString];
 
 
     cell.detailTextLabel.textColor = [UIColor app_grey];
-    cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica" size:12];
+    cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica" size:10];
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@           %@ - %@", reservation.meetingRoom.roomName, [reservation.startTime stringWithFormat:DATEFORMAT_SHORT_TIME], [reservation.endTime stringWithFormat:DATEFORMAT_SHORT_TIME]];
 
     //Custom Accessory
     DTCustomColoredAccessory *accessory = [DTCustomColoredAccessory accessoryWithColor:[UIColor app_red]];
-    accessory.highlightedColor = [UIColor blackColor];
-   cell.accessoryView = accessory;
+    cell.accessoryView = accessory;
 
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
     //this doesn't work as i expected -> probably because of SWTableViewCell?
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
-    cell.tintColor = [UIColor app_darkYellow];
 
     return cell;
 }
@@ -277,7 +285,7 @@
 
 
     [rightUtilityButtons sw_addUtilityButtonWithColor:
-            [UIColor app_lightGrey]
+            [UIColor app_ultraLightGrey]
                                                  title:@"edit"];
     [rightUtilityButtons sw_addUtilityButtonWithColor:
             [UIColor app_red]
@@ -293,7 +301,7 @@
 
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor = [UIColor whiteColor];
+    cell.backgroundColor = [UIColor app_snowWhite];
 }
 
 

@@ -31,10 +31,8 @@
         
         
         [self addSubview:self.tableView];
-    
-       
-        
-        
+
+
     }
     return self;
 }

@@ -91,7 +91,7 @@
 
 
 
-- (CGFloat)heigthForAllElementsInCurrentView {
+- (CGFloat)_heigthForAllElementsInCurrentView {
     return self.timeTitleView.frame.size.height +
             self.startDatePickerView.frame.size.height +
             self.endDatePickerView.frame.size.height +

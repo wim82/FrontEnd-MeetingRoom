@@ -32,15 +32,17 @@
     DayViewController *dayViewController = [[DayViewController alloc] init];
     ReservationOverviewController *reservationOverviewController = [[ReservationOverviewController alloc] init];
 
-    self.navigationController = [[UINavigationController alloc] initWithRootViewController:dayViewController];
+    self.navigationController = [[UINavigationController alloc] initWithRootViewController:reservationOverviewController];
     [self styleNavigationController];
     self.window.rootViewController = self.navigationController;
-
-
     self.window.backgroundColor = [UIColor whiteColor];
+
+
+
     [self.window makeKeyAndVisible];
     return YES;
 }
+
 
 - (void)styleNavigationController {
     //general properties

@@ -17,5 +17,7 @@
 @property(nonatomic) BOOL datePickerSlideOpen;
 
 - (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title date:(NSDate *)date mode:(UIDatePickerMode)mode andDelegate:(id <IDatePickerSlider>)delegate;
+- (void)updateDateValue;
+- (void)slideDatePicker;
 
 @end

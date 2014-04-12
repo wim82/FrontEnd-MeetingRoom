@@ -148,6 +148,7 @@
 		2DA5EFCF18769249BD717384 /* UIColor+AppColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+AppColor.h"; sourceTree = "<group>"; };
 		70776AE194574176BCE58F8B /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		9401864DD14F47C1800A5260 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		943B94651854CF0F2F8E2F8F /* dimensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dimensions.h; sourceTree = "<group>"; };
 		BE22791518F3DBEC007CEF07 /* Cronos Rooms.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cronos Rooms.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE22791818F3DBEC007CEF07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		BE22791A18F3DBEC007CEF07 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -276,6 +277,7 @@
 				2DA5E3C19CD1EE812D1025E4 /* AppConfig.m */,
 				2DA5EB32E0852C3E1F2BECD0 /* AppDelegate.m */,
 				2DA5E5389A6668A8386E7173 /* AppDelegate.h */,
+				943B94651854CF0F2F8E2F8F /* dimensions.h */,
 			);
 			path = App;
 			sourceTree = "<group>";

@@ -1,11 +1,3 @@
-//
-//  ReservationTableViewHeader.m
-//  testProject
-//
-//  Created by Jean Smits on 04/04/14.
-//  Copyright (c) 2014 Katrien De Mey. All rights reserved.
-//
-
 #import "ReservationTableViewHeader.h"
 #import "UIColor+AppColor.h"
 
@@ -18,16 +10,21 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
-        //this is superweird but it works - frame is empty when i get this
 
-        self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 32)];
-        self.headerView.backgroundColor = [UIColor app_lightBlue];
+        //this is superweird but it works - frame always comes in as null
+        self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 24)];
+        self.headerView.backgroundColor = [UIColor app_ultraLightGrey];
         [self addSubview:self.headerView];
-        self.lblDate = [[UILabel alloc] initWithFrame:CGRectMake(16, 0, [UIScreen mainScreen].bounds.size.width, 32)];
 
-        self.lblDate.font = [UIFont fontWithName:@"Futura-CondensedMedium" size:14.0];
-        self.lblDate.textColor = [UIColor app_snowWhite];
+        CALayer *bottomBorder = [CALayer layer];
+        bottomBorder.frame = CGRectMake(0.0f, self.headerView.frame.size.height-1, self.headerView.frame.size.width, 1);
+        bottomBorder.backgroundColor = [UIColor app_lightGrey].CGColor;
+
+        [self.headerView.layer addSublayer:bottomBorder];
+        self.lblDate = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, [UIScreen mainScreen].bounds.size.width, 24)];
+
+        self.lblDate.font = [UIFont fontWithName:@"HelveticaNeue-Italic" size:12.0];
+        self.lblDate.textColor = [UIColor darkGrayColor];
 
         [self addSubview:self.lblDate];
 

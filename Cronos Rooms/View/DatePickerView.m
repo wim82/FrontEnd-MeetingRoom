@@ -51,18 +51,28 @@
 }
 
 - (void)slideDatePicker {
+
+    __block BOOL state;
     [UIView animateWithDuration:0.3 animations:^{
         if (self.datePickerSlideOpen) {
-            [_delegate datePickerDidSlideOpen:NO sentBy:self];
+                   state = NO;
+            [_delegate datePickerDidSlideOpen:state sentBy:self];
             self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.frame.size.height - 216);
         }
         else {
-            [_delegate datePickerDidSlideOpen:YES sentBy:self];
+            state = YES;
+            [_delegate datePickerDidSlideOpen:state sentBy:self];
             self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.frame.size.height + 216);
         }
+    } completion:^(BOOL finished){
+        //[_delegate datePickerDidSlideOpen:state sentBy:self];
+        self.datePickerSlideOpen = !self.datePickerSlideOpen;
+        NSLog(@"opened the datepicker");
     }];
 
-    self.datePickerSlideOpen = !self.datePickerSlideOpen;
+
+
+
 }
 
 
