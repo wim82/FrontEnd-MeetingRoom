@@ -52,7 +52,19 @@
 
 }
 
-- (NSDateFormatter *)timeFormatter {
++ (NSDateFormatter *)shortDateFormatter {
+    static NSDateFormatter *timeFormatter = nil;
+    
+    if (timeFormatter == nil) {
+        timeFormatter = [[NSDateFormatter alloc] init];
+        [timeFormatter setDateFormat:@"yyyy-MM-dd"];
+    }
+    
+    return timeFormatter;
+    
+}
+
++ (NSDateFormatter *)timeFormatter {
     static NSDateFormatter *timeFormatter = nil;
 
     if (timeFormatter == nil) {

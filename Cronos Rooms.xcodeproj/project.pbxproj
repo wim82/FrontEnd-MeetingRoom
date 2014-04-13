@@ -28,13 +28,11 @@
 		2DA5E882C84F6A7F53F747D8 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E6B7C4243F3BEADFB74A /* User.m */; };
 		2DA5E96234DCC4D1FEE14CE2 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EAE3A346D90FBE083961 /* TestViewController.m */; };
 		2DA5E97970C602467A27FD26 /* DetailReservationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EB8C760FB9B768C9850A /* DetailReservationView.m */; };
-		2DA5E987DA03188BE2738B5E /* Room.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E14C8C9843781D4F69F1 /* Room.m */; };
 		2DA5E995B12F41FB0BF704C0 /* NSDate+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E09442F0A9F0910E4BC1 /* NSDate+Helper.m */; };
 		2DA5E9B8929604D95CAEE3CE /* setting-navbar-44.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DA5E20C9DEE15A60BD7C871 /* setting-navbar-44.png */; };
 		2DA5E9C70C522F64DCA7079B /* DateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EFAA0225AF026BA29816 /* DateHelper.m */; };
 		2DA5EA4CD58699DAA1B72CD1 /* MeetingRoomOverview.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E275E2A59EB3D673A887 /* MeetingRoomOverview.m */; };
 		2DA5EB2254F739C347029A02 /* AppConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E3C19CD1EE812D1025E4 /* AppConfig.m */; };
-		2DA5EB51048593815CEC4C7B /* Meeting.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EA7D2718BDAB8D059F0B /* Meeting.m */; };
 		2DA5EB655C7A58378B283386 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EB32E0852C3E1F2BECD0 /* AppDelegate.m */; };
 		2DA5EC705A16909C413EB6DB /* DayQuarterHourViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E7C2F354877E1E6AC058 /* DayQuarterHourViewCell.m */; };
 		2DA5ECE61C9B137957CD167D /* DayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E0C8985E2A1F92649EBA /* DayViewController.m */; };
@@ -47,6 +45,22 @@
 		943B90926D7D787B4F691DCD /* ScopedSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 943B979139318FB638DB6C57 /* ScopedSearchBar.m */; };
 		943B971877876B60F403A289 /* SearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 943B9F1CCFB1DBF24EB62C8A /* SearchTableViewCell.m */; };
 		943B9F72CEA497505293BA99 /* CustomSearchDisplayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943B9777509D60EECF150C40 /* CustomSearchDisplayController.m */; };
+		A2C8EA5418FB02DC00D01F4B /* MonthHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C8EA5318FB02DC00D01F4B /* MonthHeader.m */; };
+		A2C8EA5518FB02DC00D01F4B /* MonthHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C8EA5318FB02DC00D01F4B /* MonthHeader.m */; };
+		A2C8EA5818FB039C00D01F4B /* MonthCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C8EA5718FB039C00D01F4B /* MonthCell.m */; };
+		A2C8EA5918FB039C00D01F4B /* MonthCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C8EA5718FB039C00D01F4B /* MonthCell.m */; };
+		A2C8EA5C18FB048000D01F4B /* MonthOverview.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C8EA5B18FB048000D01F4B /* MonthOverview.m */; };
+		A2C8EA5D18FB048000D01F4B /* MonthOverview.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C8EA5B18FB048000D01F4B /* MonthOverview.m */; };
+		A2C8EA6018FB079000D01F4B /* MonthOverviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C8EA5F18FB079000D01F4B /* MonthOverviewController.m */; };
+		A2C8EA6118FB079000D01F4B /* MonthOverviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C8EA5F18FB079000D01F4B /* MonthOverviewController.m */; };
+		A2C8EA6418FB0F5D00D01F4B /* PublicHolidayService.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C8EA6318FB0F5C00D01F4B /* PublicHolidayService.m */; };
+		A2C8EA6518FB0F5D00D01F4B /* PublicHolidayService.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C8EA6318FB0F5C00D01F4B /* PublicHolidayService.m */; };
+		A2C8EA6818FB123200D01F4B /* PublicHoliday.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C8EA6718FB123200D01F4B /* PublicHoliday.m */; };
+		A2C8EA6918FB123200D01F4B /* PublicHoliday.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C8EA6718FB123200D01F4B /* PublicHoliday.m */; };
+		A2C8EA6C18FB1F9200D01F4B /* Room.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C8EA6B18FB1F9200D01F4B /* Room.m */; };
+		A2C8EA6D18FB1F9200D01F4B /* Room.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C8EA6B18FB1F9200D01F4B /* Room.m */; };
+		A2C8EA7018FB1FCD00D01F4B /* Meeting.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C8EA6F18FB1FCD00D01F4B /* Meeting.m */; };
+		A2C8EA7118FB1FCD00D01F4B /* Meeting.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C8EA6F18FB1FCD00D01F4B /* Meeting.m */; };
 		BE22791918F3DBEC007CEF07 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE22791818F3DBEC007CEF07 /* Foundation.framework */; };
 		BE22791B18F3DBEC007CEF07 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE22791A18F3DBEC007CEF07 /* CoreGraphics.framework */; };
 		BE22791D18F3DBEC007CEF07 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE22791C18F3DBEC007CEF07 /* UIKit.framework */; };
@@ -82,7 +96,6 @@
 		2DA5E0E0F79AAD2B99529BC4 /* DatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerView.h; sourceTree = "<group>"; };
 		2DA5E0F312E2C1275668BF3C /* GroupTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupTitleView.h; sourceTree = "<group>"; };
 		2DA5E12E594ED552C75B7A90 /* UserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserService.h; sourceTree = "<group>"; };
-		2DA5E14C8C9843781D4F69F1 /* Room.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Room.m; sourceTree = "<group>"; };
 		2DA5E1A12F123361EF037762 /* DatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerView.m; sourceTree = "<group>"; };
 		2DA5E1B79ACD2EC77248D126 /* DayQuarterHourViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DayQuarterHourViewCell.h; sourceTree = "<group>"; };
 		2DA5E20C9DEE15A60BD7C871 /* setting-navbar-44.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "setting-navbar-44.png"; sourceTree = "<group>"; };
@@ -113,13 +126,11 @@
 		2DA5E89962CF6D7DD83F089C /* delete-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delete-512.png"; sourceTree = "<group>"; };
 		2DA5E8A75CFF5C9FC280C71D /* config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = config.plist; sourceTree = "<group>"; };
 		2DA5E8B9959AD4121AB79D4E /* Reservation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reservation.m; sourceTree = "<group>"; };
-		2DA5E8D9B6855C8A8C9B75B3 /* Meeting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meeting.h; sourceTree = "<group>"; };
 		2DA5E8E4B8E0C5396F61295D /* EditReservationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditReservationViewController.h; sourceTree = "<group>"; };
 		2DA5E9575D6DE37C8DB9036C /* MainService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainService.h; sourceTree = "<group>"; };
 		2DA5E9EB5850D31F67C35668 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
 		2DA5EA0DEDBD1B549DA45CA4 /* NSDate+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Helper.h"; sourceTree = "<group>"; };
 		2DA5EA38E7E723CDE9B00662 /* EditReservationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditReservationView.m; sourceTree = "<group>"; };
-		2DA5EA7D2718BDAB8D059F0B /* Meeting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Meeting.m; sourceTree = "<group>"; };
 		2DA5EA7DCD6CECDBA3B4FC08 /* edit-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "edit-512.png"; sourceTree = "<group>"; };
 		2DA5EA918FA8A6BD7439CA22 /* MeetingRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeetingRoom.h; sourceTree = "<group>"; };
 		2DA5EAE3A346D90FBE083961 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
@@ -138,7 +149,6 @@
 		2DA5EE3F321620CAF253839D /* MeetingRoomOverview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeetingRoomOverview.h; sourceTree = "<group>"; };
 		2DA5EE5BFA5435D08F8ECB2D /* MeetingRoomService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeetingRoomService.m; sourceTree = "<group>"; };
 		2DA5EE6529CE60A0C30B7E8A /* DetailCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailCellView.h; sourceTree = "<group>"; };
-		2DA5EECB04A26EF3FE05EFC4 /* Room.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Room.h; sourceTree = "<group>"; };
 		2DA5EED8D841B163F24D1A07 /* GroupTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupTitleView.m; sourceTree = "<group>"; };
 		2DA5EF24257D05A58A45977C /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		2DA5EF929CC6F7D733142914 /* ReservationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReservationTableViewCell.m; sourceTree = "<group>"; };
@@ -155,6 +165,22 @@
 		943B9D016CF33D96B13626AC /* SearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchView.h; sourceTree = "<group>"; };
 		943B9F1CCFB1DBF24EB62C8A /* SearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewCell.m; sourceTree = "<group>"; };
 		943B9F70DD3047C55711A97E /* SearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchView.m; sourceTree = "<group>"; };
+		A2C8EA5218FB02DC00D01F4B /* MonthHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonthHeader.h; sourceTree = "<group>"; };
+		A2C8EA5318FB02DC00D01F4B /* MonthHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonthHeader.m; sourceTree = "<group>"; };
+		A2C8EA5618FB039C00D01F4B /* MonthCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonthCell.h; sourceTree = "<group>"; };
+		A2C8EA5718FB039C00D01F4B /* MonthCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonthCell.m; sourceTree = "<group>"; };
+		A2C8EA5A18FB048000D01F4B /* MonthOverview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonthOverview.h; sourceTree = "<group>"; };
+		A2C8EA5B18FB048000D01F4B /* MonthOverview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonthOverview.m; sourceTree = "<group>"; };
+		A2C8EA5E18FB079000D01F4B /* MonthOverviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonthOverviewController.h; sourceTree = "<group>"; };
+		A2C8EA5F18FB079000D01F4B /* MonthOverviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonthOverviewController.m; sourceTree = "<group>"; };
+		A2C8EA6218FB0F5C00D01F4B /* PublicHolidayService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublicHolidayService.h; sourceTree = "<group>"; };
+		A2C8EA6318FB0F5C00D01F4B /* PublicHolidayService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublicHolidayService.m; sourceTree = "<group>"; };
+		A2C8EA6618FB123200D01F4B /* PublicHoliday.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublicHoliday.h; sourceTree = "<group>"; };
+		A2C8EA6718FB123200D01F4B /* PublicHoliday.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublicHoliday.m; sourceTree = "<group>"; };
+		A2C8EA6A18FB1F9100D01F4B /* Room.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Room.h; sourceTree = "<group>"; };
+		A2C8EA6B18FB1F9200D01F4B /* Room.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Room.m; sourceTree = "<group>"; };
+		A2C8EA6E18FB1FCD00D01F4B /* Meeting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meeting.h; sourceTree = "<group>"; };
+		A2C8EA6F18FB1FCD00D01F4B /* Meeting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Meeting.m; sourceTree = "<group>"; };
 		BE22791518F3DBEC007CEF07 /* Cronos Rooms.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cronos Rooms.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE22791818F3DBEC007CEF07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		BE22791A18F3DBEC007CEF07 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -231,10 +257,12 @@
 				2DA5E669404E11AD1FFA040E /* MeetingRoom.m */,
 				2DA5E389451E24D10285F0BA /* Reservation.h */,
 				2DA5E8B9959AD4121AB79D4E /* Reservation.m */,
-				2DA5E14C8C9843781D4F69F1 /* Room.m */,
-				2DA5EECB04A26EF3FE05EFC4 /* Room.h */,
-				2DA5EA7D2718BDAB8D059F0B /* Meeting.m */,
-				2DA5E8D9B6855C8A8C9B75B3 /* Meeting.h */,
+				A2C8EA6618FB123200D01F4B /* PublicHoliday.h */,
+				A2C8EA6718FB123200D01F4B /* PublicHoliday.m */,
+				A2C8EA6A18FB1F9100D01F4B /* Room.h */,
+				A2C8EA6B18FB1F9200D01F4B /* Room.m */,
+				A2C8EA6E18FB1FCD00D01F4B /* Meeting.h */,
+				A2C8EA6F18FB1FCD00D01F4B /* Meeting.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -252,6 +280,8 @@
 				2DA5E87239DFF246109960F7 /* ReservationOverviewController.m */,
 				2DA5E0C8985E2A1F92649EBA /* DayViewController.m */,
 				2DA5E0766D8B0E38D49E61D5 /* DayViewController.h */,
+				A2C8EA5E18FB079000D01F4B /* MonthOverviewController.h */,
+				A2C8EA5F18FB079000D01F4B /* MonthOverviewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -281,8 +311,8 @@
 			children = (
 				2DA5E3731B503A461FD7479E /* AppConfig.h */,
 				2DA5E3C19CD1EE812D1025E4 /* AppConfig.m */,
-				2DA5EB32E0852C3E1F2BECD0 /* AppDelegate.m */,
 				2DA5E5389A6668A8386E7173 /* AppDelegate.h */,
+				2DA5EB32E0852C3E1F2BECD0 /* AppDelegate.m */,
 				943B94651854CF0F2F8E2F8F /* dimensions.h */,
 			);
 			path = App;
@@ -309,7 +339,13 @@
 				2DA5EE07B0935590BE089037 /* DayView.h */,
 				2DA5E7C2F354877E1E6AC058 /* DayQuarterHourViewCell.m */,
 				2DA5E1B79ACD2EC77248D126 /* DayQuarterHourViewCell.h */,
+				A2C8EA5218FB02DC00D01F4B /* MonthHeader.h */,
+				A2C8EA5318FB02DC00D01F4B /* MonthHeader.m */,
 				943B9B850C3B1A1BCDEED67F /* Search */,
+				A2C8EA5618FB039C00D01F4B /* MonthCell.h */,
+				A2C8EA5718FB039C00D01F4B /* MonthCell.m */,
+				A2C8EA5A18FB048000D01F4B /* MonthOverview.h */,
+				A2C8EA5B18FB048000D01F4B /* MonthOverview.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -348,6 +384,8 @@
 				2DA5EDC8BA54EAC7DE6AD09C /* MeetingRoom */,
 				2DA5E9575D6DE37C8DB9036C /* MainService.h */,
 				2DA5E4E41DD36F88ABDC539D /* MainService.m */,
+				A2C8EA6218FB0F5C00D01F4B /* PublicHolidayService.h */,
+				A2C8EA6318FB0F5C00D01F4B /* PublicHolidayService.m */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -609,28 +647,34 @@
 				2DA5E465BFF88250370523C3 /* EditReservationView.m in Sources */,
 				2DA5E97970C602467A27FD26 /* DetailReservationView.m in Sources */,
 				2DA5E96234DCC4D1FEE14CE2 /* TestViewController.m in Sources */,
+				A2C8EA6C18FB1F9200D01F4B /* Room.m in Sources */,
+				A2C8EA7018FB1FCD00D01F4B /* Meeting.m in Sources */,
 				2DA5EE709564B1454DAE7E93 /* EditReservationViewController.m in Sources */,
 				2DA5EB2254F739C347029A02 /* AppConfig.m in Sources */,
 				2DA5EB655C7A58378B283386 /* AppDelegate.m in Sources */,
+				A2C8EA6418FB0F5D00D01F4B /* PublicHolidayService.m in Sources */,
 				2DA5EE35AD623F8973E4C61D /* SearchViewController.m in Sources */,
 				2DA5ED54539E91B9BAD965A7 /* ReservationOverviewController.m in Sources */,
-				2DA5E987DA03188BE2738B5E /* Room.m in Sources */,
-				2DA5EB51048593815CEC4C7B /* Meeting.m in Sources */,
 				2DA5E9C70C522F64DCA7079B /* DateHelper.m in Sources */,
 				2DA5ECE61C9B137957CD167D /* DayViewController.m in Sources */,
 				2DA5E191888340FE28893044 /* DatePickerView.m in Sources */,
 				2DA5E52F8EF1FD30E082DC02 /* DetailCellView.m in Sources */,
 				2DA5E4E5936DFEB23B5C47CA /* GroupTitleView.m in Sources */,
+				A2C8EA6818FB123200D01F4B /* PublicHoliday.m in Sources */,
 				2DA5EA4CD58699DAA1B72CD1 /* MeetingRoomOverview.m in Sources */,
 				2DA5E5EB30C1CB27823141CE /* ReservationTableViewCell.m in Sources */,
 				2DA5EDAD1E7668EF4FD29670 /* ReservationTableViewHeader.m in Sources */,
+				A2C8EA5418FB02DC00D01F4B /* MonthHeader.m in Sources */,
 				2DA5E0C7283A5B1D8CD8E8DD /* ReservationOverview.m in Sources */,
+				A2C8EA5818FB039C00D01F4B /* MonthCell.m in Sources */,
 				2DA5E282671CC239819548BA /* DayView.m in Sources */,
+				A2C8EA5C18FB048000D01F4B /* MonthOverview.m in Sources */,
 				2DA5EC705A16909C413EB6DB /* DayQuarterHourViewCell.m in Sources */,
 				2DA5E995B12F41FB0BF704C0 /* NSDate+Helper.m in Sources */,
 				2DA5E85337AD7E3B8059D25E /* UIColor+AppColor.m in Sources */,
 				2DA5E835752D361A9E025F3A /* DTCustomColoredAccessory.m in Sources */,
 				943B90926D7D787B4F691DCD /* ScopedSearchBar.m in Sources */,
+				A2C8EA6018FB079000D01F4B /* MonthOverviewController.m in Sources */,
 				943B971877876B60F403A289 /* SearchTableViewCell.m in Sources */,
 				943B902755681A36306DCA17 /* SearchView.m in Sources */,
 				943B9F72CEA497505293BA99 /* CustomSearchDisplayController.m in Sources */,
@@ -642,6 +686,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE22794418F3DBEC007CEF07 /* Cronos_RoomsTests.m in Sources */,
+				A2C8EA5518FB02DC00D01F4B /* MonthHeader.m in Sources */,
+				A2C8EA6918FB123200D01F4B /* PublicHoliday.m in Sources */,
+				A2C8EA5918FB039C00D01F4B /* MonthCell.m in Sources */,
+				A2C8EA6518FB0F5D00D01F4B /* PublicHolidayService.m in Sources */,
+				A2C8EA6118FB079000D01F4B /* MonthOverviewController.m in Sources */,
+				A2C8EA6D18FB1F9200D01F4B /* Room.m in Sources */,
+				A2C8EA7118FB1FCD00D01F4B /* Meeting.m in Sources */,
+				A2C8EA5D18FB048000D01F4B /* MonthOverview.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

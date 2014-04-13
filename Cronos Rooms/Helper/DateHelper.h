@@ -17,5 +17,6 @@
 
 + (NSDateFormatter *)timeFormatter;
 + (NSDateFormatter *)datetimeFormatter;
++ (NSDateFormatter *)shortDateFormatter;
 
 @end
