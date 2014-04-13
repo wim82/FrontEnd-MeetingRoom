@@ -7,6 +7,7 @@
 //
 
 #import "SearchView.h"
+#import "UIColor+AppColor.h"
 
 
 @interface SearchView(){
@@ -24,7 +25,7 @@
     if (self) {
         _delegate = delegate;
         
-        //self.backgroundColor = [UIColor redColor];
+       self.backgroundColor = [UIColor app_blueGreyShaded];
         
         self.searchTableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
         self.searchTableView.delegate = _delegate;

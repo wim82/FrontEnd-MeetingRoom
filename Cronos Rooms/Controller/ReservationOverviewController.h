@@ -10,5 +10,9 @@
 #import "Meeting.h"
 #import "SWTableViewCell.h"
 
+#import "User.h"
+
+
 @interface ReservationOverviewController : UIViewController <UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, UISearchBarDelegate, UISearchDisplayDelegate>
+@property (nonatomic, strong) User *user;
 @end

@@ -62,6 +62,9 @@
 
 
 - (void)viewWillAppear:(BOOL)animated {
+    //scroll to about 7am. -> test this look look on different screens?
+    [self.scrollView scrollRectToVisible:CGRectMake(0, 7*4*16 + self.scrollView.frame.size.height - self.navigationController.navigationBar.frame.size.height, 1, 1) animated:YES];
+
 }
 
 
@@ -113,7 +116,11 @@
             }
 
             cell.hourSeparator.hidden = NO;
-            [cell colorReservationBlockWithLength:lengthOfReservationInQuarterHours];
+            //incredible animation
+            [UIView animateWithDuration:0.3 animations:^{
+                [cell colorReservationBlockWithLength:lengthOfReservationInQuarterHours];
+            }];
+
         }
 
         //the cells beloning to a reservation should contain all necessary reservation info as well

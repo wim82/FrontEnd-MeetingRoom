@@ -7,6 +7,8 @@
 //
 
 #import "SearchTableViewCell.h"
+#import "UIColor+AppColor.h"
+
 
 @implementation SearchTableViewCell
 
@@ -15,7 +17,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        //self.backgroundColor=[UIColor greenColor];
+       self.backgroundColor=[UIColor app_snowWhite];
     }
     return self;
 }

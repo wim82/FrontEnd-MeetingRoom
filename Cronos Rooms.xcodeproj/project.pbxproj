@@ -36,7 +36,6 @@
 		2DA5EB2254F739C347029A02 /* AppConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E3C19CD1EE812D1025E4 /* AppConfig.m */; };
 		2DA5EB51048593815CEC4C7B /* Meeting.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EA7D2718BDAB8D059F0B /* Meeting.m */; };
 		2DA5EB655C7A58378B283386 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EB32E0852C3E1F2BECD0 /* AppDelegate.m */; };
-		2DA5EC5136D2127B54C2BCD0 /* SearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E66F188AF436311B3EC4 /* SearchView.m */; };
 		2DA5EC705A16909C413EB6DB /* DayQuarterHourViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E7C2F354877E1E6AC058 /* DayQuarterHourViewCell.m */; };
 		2DA5ECE61C9B137957CD167D /* DayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E0C8985E2A1F92649EBA /* DayViewController.m */; };
 		2DA5ED54539E91B9BAD965A7 /* ReservationOverviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E87239DFF246109960F7 /* ReservationOverviewController.m */; };
@@ -44,7 +43,10 @@
 		2DA5EDF37D6DE20EE987A8E5 /* edit-512.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DA5EA7DCD6CECDBA3B4FC08 /* edit-512.png */; };
 		2DA5EE35AD623F8973E4C61D /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EC3960C79D56CDF362D3 /* SearchViewController.m */; };
 		2DA5EE709564B1454DAE7E93 /* EditReservationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E2E0126BB0554FFC5242 /* EditReservationViewController.m */; };
-		2DA5EFF3895FA46F2011CEEE /* SearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5E8BA2F219460873A7633 /* SearchTableViewCell.m */; };
+		943B902755681A36306DCA17 /* SearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 943B9F70DD3047C55711A97E /* SearchView.m */; };
+		943B90926D7D787B4F691DCD /* ScopedSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 943B979139318FB638DB6C57 /* ScopedSearchBar.m */; };
+		943B971877876B60F403A289 /* SearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 943B9F1CCFB1DBF24EB62C8A /* SearchTableViewCell.m */; };
+		943B9F72CEA497505293BA99 /* CustomSearchDisplayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943B9777509D60EECF150C40 /* CustomSearchDisplayController.m */; };
 		BE22791918F3DBEC007CEF07 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE22791818F3DBEC007CEF07 /* Foundation.framework */; };
 		BE22791B18F3DBEC007CEF07 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE22791A18F3DBEC007CEF07 /* CoreGraphics.framework */; };
 		BE22791D18F3DBEC007CEF07 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE22791C18F3DBEC007CEF07 /* UIKit.framework */; };
@@ -99,9 +101,7 @@
 		2DA5E4E41DD36F88ABDC539D /* MainService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainService.m; sourceTree = "<group>"; };
 		2DA5E5389A6668A8386E7173 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2DA5E55A729A4E6E854C51EE /* UserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserService.m; sourceTree = "<group>"; };
-		2DA5E5BEBD3869780F000CB9 /* SearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchView.h; sourceTree = "<group>"; };
 		2DA5E669404E11AD1FFA040E /* MeetingRoom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeetingRoom.m; sourceTree = "<group>"; };
-		2DA5E66F188AF436311B3EC4 /* SearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchView.m; sourceTree = "<group>"; };
 		2DA5E69C8454DFE8A634E3CF /* IDatePickerSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDatePickerSlider.h; sourceTree = "<group>"; };
 		2DA5E6B7C4243F3BEADFB74A /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		2DA5E705CBAD27EDB209F12F /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
@@ -113,7 +113,6 @@
 		2DA5E89962CF6D7DD83F089C /* delete-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delete-512.png"; sourceTree = "<group>"; };
 		2DA5E8A75CFF5C9FC280C71D /* config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = config.plist; sourceTree = "<group>"; };
 		2DA5E8B9959AD4121AB79D4E /* Reservation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reservation.m; sourceTree = "<group>"; };
-		2DA5E8BA2F219460873A7633 /* SearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewCell.m; sourceTree = "<group>"; };
 		2DA5E8D9B6855C8A8C9B75B3 /* Meeting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meeting.h; sourceTree = "<group>"; };
 		2DA5E8E4B8E0C5396F61295D /* EditReservationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditReservationViewController.h; sourceTree = "<group>"; };
 		2DA5E9575D6DE37C8DB9036C /* MainService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainService.h; sourceTree = "<group>"; };
@@ -127,7 +126,6 @@
 		2DA5EB32E0852C3E1F2BECD0 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		2DA5EB33208575FED04166AE /* ReservationService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReservationService.h; sourceTree = "<group>"; };
 		2DA5EB74FD626061CC68163A /* UIColor+AppColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+AppColor.m"; sourceTree = "<group>"; };
-		2DA5EB7C6231DEF70933634D /* SearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableViewCell.h; sourceTree = "<group>"; };
 		2DA5EB8C760FB9B768C9850A /* DetailReservationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailReservationView.m; sourceTree = "<group>"; };
 		2DA5EBEFFABF35E36ED4CA73 /* MeetingRoomService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeetingRoomService.h; sourceTree = "<group>"; };
 		2DA5EC3960C79D56CDF362D3 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
@@ -148,7 +146,15 @@
 		2DA5EFCF18769249BD717384 /* UIColor+AppColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+AppColor.h"; sourceTree = "<group>"; };
 		70776AE194574176BCE58F8B /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		9401864DD14F47C1800A5260 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		943B942C89F5FFCD6B922CDB /* ScopedSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScopedSearchBar.h; sourceTree = "<group>"; };
 		943B94651854CF0F2F8E2F8F /* dimensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dimensions.h; sourceTree = "<group>"; };
+		943B968AE14AD6EAC8974E1C /* SearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableViewCell.h; sourceTree = "<group>"; };
+		943B9777509D60EECF150C40 /* CustomSearchDisplayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomSearchDisplayController.m; sourceTree = "<group>"; };
+		943B979139318FB638DB6C57 /* ScopedSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScopedSearchBar.m; sourceTree = "<group>"; };
+		943B9A353C5C822FE8800AF9 /* CustomSearchDisplayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomSearchDisplayController.h; sourceTree = "<group>"; };
+		943B9D016CF33D96B13626AC /* SearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchView.h; sourceTree = "<group>"; };
+		943B9F1CCFB1DBF24EB62C8A /* SearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewCell.m; sourceTree = "<group>"; };
+		943B9F70DD3047C55711A97E /* SearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchView.m; sourceTree = "<group>"; };
 		BE22791518F3DBEC007CEF07 /* Cronos Rooms.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cronos Rooms.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE22791818F3DBEC007CEF07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		BE22791A18F3DBEC007CEF07 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -295,18 +301,15 @@
 				2DA5E275E2A59EB3D673A887 /* MeetingRoomOverview.m */,
 				2DA5EF929CC6F7D733142914 /* ReservationTableViewCell.m */,
 				2DA5E2106B33D0EF1FA9EB6B /* ReservationTableViewHeader.m */,
-				2DA5E5BEBD3869780F000CB9 /* SearchView.h */,
-				2DA5EB7C6231DEF70933634D /* SearchTableViewCell.h */,
 				2DA5E7243B20F64530C8E160 /* ReservationOverview.m */,
 				2DA5EDF6EBF0291CEF3D1B8E /* ReservationTableViewCell.h */,
-				2DA5E8BA2F219460873A7633 /* SearchTableViewCell.m */,
 				2DA5E8978F518D9AB31A988E /* ReservationTableViewHeader.h */,
 				2DA5ECBD47ADC7A9DCCC56C4 /* ReservationOverview.h */,
-				2DA5E66F188AF436311B3EC4 /* SearchView.m */,
 				2DA5E2438CBC906C6B3660AF /* DayView.m */,
 				2DA5EE07B0935590BE089037 /* DayView.h */,
 				2DA5E7C2F354877E1E6AC058 /* DayQuarterHourViewCell.m */,
 				2DA5E1B79ACD2EC77248D126 /* DayQuarterHourViewCell.h */,
+				943B9B850C3B1A1BCDEED67F /* Search */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -356,6 +359,21 @@
 				2DA5EE5BFA5435D08F8ECB2D /* MeetingRoomService.m */,
 			);
 			path = MeetingRoom;
+			sourceTree = "<group>";
+		};
+		943B9B850C3B1A1BCDEED67F /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				943B979139318FB638DB6C57 /* ScopedSearchBar.m */,
+				943B942C89F5FFCD6B922CDB /* ScopedSearchBar.h */,
+				943B968AE14AD6EAC8974E1C /* SearchTableViewCell.h */,
+				943B9F1CCFB1DBF24EB62C8A /* SearchTableViewCell.m */,
+				943B9F70DD3047C55711A97E /* SearchView.m */,
+				943B9D016CF33D96B13626AC /* SearchView.h */,
+				943B9777509D60EECF150C40 /* CustomSearchDisplayController.m */,
+				943B9A353C5C822FE8800AF9 /* CustomSearchDisplayController.h */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 		BE22790C18F3DBEC007CEF07 = {
@@ -607,13 +625,15 @@
 				2DA5E5EB30C1CB27823141CE /* ReservationTableViewCell.m in Sources */,
 				2DA5EDAD1E7668EF4FD29670 /* ReservationTableViewHeader.m in Sources */,
 				2DA5E0C7283A5B1D8CD8E8DD /* ReservationOverview.m in Sources */,
-				2DA5EFF3895FA46F2011CEEE /* SearchTableViewCell.m in Sources */,
-				2DA5EC5136D2127B54C2BCD0 /* SearchView.m in Sources */,
 				2DA5E282671CC239819548BA /* DayView.m in Sources */,
 				2DA5EC705A16909C413EB6DB /* DayQuarterHourViewCell.m in Sources */,
 				2DA5E995B12F41FB0BF704C0 /* NSDate+Helper.m in Sources */,
 				2DA5E85337AD7E3B8059D25E /* UIColor+AppColor.m in Sources */,
 				2DA5E835752D361A9E025F3A /* DTCustomColoredAccessory.m in Sources */,
+				943B90926D7D787B4F691DCD /* ScopedSearchBar.m in Sources */,
+				943B971877876B60F403A289 /* SearchTableViewCell.m in Sources */,
+				943B902755681A36306DCA17 /* SearchView.m in Sources */,
+				943B9F72CEA497505293BA99 /* CustomSearchDisplayController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,275 +1,236 @@
-//
-//  SearchViewController.m
-//  testProject
-//
-//  Created by Katrien De Mey on 07/04/14.
-//  Copyright (c) 2014 Katrien De Mey. All rights reserved.
-//
-
 #import "SearchViewController.h"
 #import "SearchTableViewCell.h"
 #import "SearchView.h"
+#import "MeetingRoomService.h"
+#import "UIColor+AppColor.h"
+#import "UserService.h"
+#import "User.h"
+#import "ScopedSearchBar.h"
+#import "CustomSearchDisplayController.h"
+#import "EditReservationViewController.h"
+#import "ReservationOverviewController.h"
+
 
 #define TABLEVIEWCELL_IDENTIFIER @"searchCell"
 #define TABLEVIEWCELL_EMPTYIDENTIFIER @"emptySearchCell"
 
-@interface SearchViewController () <UITableViewDataSource, UITableViewDelegate,UISearchBarDelegate, UISearchDisplayDelegate>
 
-@property (nonatomic, strong) SearchView  * searchView;
+@interface SearchViewController () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate>
 
-@property (nonatomic, strong) UISearchDisplayController * searchController;
+@property(nonatomic, strong) SearchView *searchView;
+@property(nonatomic, strong) ScopedSearchBar *searchBar;
+@property(nonatomic, strong) CustomSearchDisplayController *searchController;
+@property(nonatomic, strong) NSArray *searchResults;
 
-
+@property(nonatomic, strong) NSArray *meetingRooms;
+@property(nonatomic, strong) NSArray *users;
 
 @end
 
+
 @implementation SearchViewController
 
-NSArray *rooms;
-NSArray *searchResults;
 
-- (void)loadView{
-    
+- (void)loadView {
     self.searchView = [[SearchView alloc] initWithFrame:[UIScreen mainScreen].bounds andDelegate:self];
     self.view = self.searchView;
-    
-    
-    Room *room1=[[Room alloc]init];
-    room1.roomName=@"Iceland";
-    Room *room2=[[Room alloc]init];
-    room2.roomName=@"Norway";
-    Room *room3=[[Room alloc]init];
-    room3.roomName=@"Palau";
-    Room *room4=[[Room alloc]init];
-    room4.roomName=@"China";
-    Room *room5=[[Room alloc]init];
-    room5.roomName=@"Greenland";
-    Room *room6=[[Room alloc]init];
-    room6.roomName=@"Tasmania";
-    
-    rooms = [NSArray arrayWithObjects:room1.roomName, room2.roomName, room3.roomName, room4.roomName, room5.roomName, room6.roomName, nil];
-   
- //   contentList = [[NSMutableArray alloc] initWithObjects:room1, room2, room3, room4, room5, room6, nil];
- //   filteredContentList = [[NSMutableArray alloc] init];
+
+    [self _loadMeetingRooms];
+    [self _loadUsers];
 }
 
-- (void)viewDidLoad
-{
+
+- (void)viewDidLoad {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
-    
-    [self.searchView.searchTableView registerClass:[SearchTableViewCell class]  forCellReuseIdentifier:TABLEVIEWCELL_IDENTIFIER];
-    
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
-    
-    UISearchBar* searchBar = [[UISearchBar alloc] initWithFrame:CGRectZero];
-    searchBar.barStyle = UIBarStyleDefault;
-    
-    searchBar.showsCancelButton=YES;
-    searchBar.autocorrectionType=UITextAutocorrectionTypeNo;
-    searchBar.autocapitalizationType=UITextAutocapitalizationTypeNone;
-    
-    searchBar.scopeButtonTitles = [NSArray arrayWithObjects:@"User", @"Room",@"Description", nil];
-    searchBar.selectedScopeButtonIndex=1;
-    searchBar.showsScopeBar = YES;
-    searchBar.tintColor=[UIColor darkGrayColor];
-    
-    
-    searchBar.delegate=self;
-    self.searchView.searchTableView.tableHeaderView=searchBar;
-    
-    
-    searchBar.frame = CGRectMake(0, 0, self.searchView.searchTableView.frame.size.width, 44 + 40);
-    
-   // [searchBar becomeFirstResponder];
-    
-    
-    UISearchDisplayController *searchCon = [[UISearchDisplayController alloc]
-                                            initWithSearchBar:searchBar
-                                            contentsController:self ];
-    self.searchController = searchCon;
-    self.searchController.delegate = self;
-    self.searchController.searchResultsDataSource = self;
-    self.searchController.searchResultsDelegate = self;
-    
-    [self.searchController setActive:YES animated:YES];
-    [searchBar becomeFirstResponder];
-    
 
-    
-    
-    
+    [self.searchView.searchTableView registerClass:[SearchTableViewCell class] forCellReuseIdentifier:TABLEVIEWCELL_IDENTIFIER];
+
+    [self _setUpSearchBar];
+
 }
 
-- (void)didReceiveMemoryWarning
-{
+
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Private Methods
 
+- (void)_loadMeetingRooms {
+    MeetingRoomService *service = [MeetingRoomService sharedService];
+    [service getAllMeetingRoomsWithSuccessHandler:^(NSMutableArray *meetingRooms) {
+        self.meetingRooms = [[NSArray alloc] initWithArray:meetingRooms];
+        [self.searchView.searchTableView reloadData];
+    }                             andErrorHandler:^(NSException *exception) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:exception.reason delegate:self cancelButtonTitle:@"het zou niet mogen" otherButtonTitles:nil];
+        [alertView show];
+    }];
+
+}
+
+
+- (void)_loadUsers {
+    UserService *userService = [UserService sharedService];
+    [userService getAllUsersWithSuccesHandler:^(NSMutableArray *users) {
+        self.users = [[NSArray alloc] initWithArray:users];
+    }                         andErrorHandler:^(NSException *exception) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error " message:exception.reason delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+    }];
+}
+
+
+
+#pragma mark - SetUp Methods
+
+- (void)_setUpSearchBar {
+
+    self.searchBar = [[ScopedSearchBar alloc] initWithFrame:CGRectZero];
+    self.searchBar.tintColor = [UIColor app_darkGrey];
+    self.searchBar.barTintColor = [UIColor app_blueGreyShaded];
+    self.searchBar.backgroundColor = [UIColor app_blueGreyShaded];
+    self.searchBar.translucent = NO; //doesn't seem to work?
+
+    self.searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
+
+    self.searchBar.scopeButtonTitles = [NSArray arrayWithObjects:@"User", @"Room", nil];
+    self.searchBar.selectedScopeButtonIndex = 1;
+    self.searchBar.showsScopeBar = YES;
+
+    self.searchBar.delegate = self;
+
+    //makes sure the underlying table doesn't interfere with the scopeBar
+    self.searchBar.frame = CGRectMake(0, 0, self.searchView.frame.size.width, 44 + (self.searchBar.showsScopeBar ? 40 : 0));
+    self.searchView.searchTableView.tableHeaderView = self.searchBar;
+
+    [self _setUpSearchController];
+
+}
+
+
+- (void)_setUpSearchController {
+    self.searchController = [[CustomSearchDisplayController alloc]
+            initWithSearchBar:self.searchBar
+           contentsController:self];
+
+    self.searchController.delegate = self;
+    self.searchController.searchResultsDataSource = self;
+    self.searchController.searchResultsDelegate = self;
+    [self.searchController setActive:NO animated:NO];
+
+}
 
 
 
 #pragma mark - UITableViewDelegate & UITableViewDataSource
 
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-   
-    /*
-    if (isSearching) {
-        return [filteredContentList count];
-    }
-    else {
-        return [contentList count];
-    } */
-    
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == self.searchDisplayController.searchResultsTableView) {
-        NSLog(@"in searchdisplaycontroller");
-        return [searchResults count];
-        
-    } else {
-        NSLog(@"out of searchdisplaycontroller");
-        return [rooms count];
+        return [self.searchResults count];
+    } else {  //if there's no results
+        if (self.searchBar.selectedScopeButtonIndex == 1) {
+            return [self.meetingRooms count];
+        }
+        else if (self.searchBar.selectedScopeButtonIndex == 0) {
+            return [self.users count];
+        }
+        else {
+            return 0;
+        }
     }
 
 }
 
-
- - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
- return 80.0;
- }
-
-/*
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"cell selected at index path %d:%d", indexPath.section, indexPath.row);
-    NSLog(@"selected cell index path is %@", [self.meetingOverview.tableView indexPathForSelectedRow]);
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];}
-
-*/
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 44.0;
+}
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    
-    
-        
+    UITableViewCell *cell = (UITableViewCell *) [tableView dequeueReusableCellWithIdentifier:TABLEVIEWCELL_IDENTIFIER forIndexPath:indexPath];
 
-    
-    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:TABLEVIEWCELL_IDENTIFIER forIndexPath:indexPath];
-    
-    /*
-    // Configure the cell...
-    if (isSearching) {
-        cell.textLabel.text = [filteredContentList objectAtIndex:indexPath.row];
-    }
-    else {
-        cell.textLabel.text = [contentList objectAtIndex:indexPath.row];
-    }*/
-    
-    
-    // Display room in the table cell
-    //Room  *room = nil;
-    NSString *roomResult=nil;
+    //figure out if there's a result to the search
+    id result = nil;
     if (tableView == self.searchDisplayController.searchResultsTableView) {
-        roomResult = [searchResults objectAtIndex:indexPath.row];
-    } else {
-        roomResult = [rooms objectAtIndex:indexPath.row];
+        result = [self.searchResults objectAtIndex:indexPath.row];
+    } else {    //if there's no search result, display all rooms or users
+        if (self.searchBar.selectedScopeButtonIndex == 1) {
+            result = [self.meetingRooms objectAtIndex:indexPath.row];
+        }
+        if (self.searchBar.selectedScopeButtonIndex == 0) {
+            result = [self.users objectAtIndex:indexPath.row];
+
+        }
     }
-    
-    cell.textLabel.text = roomResult;
-    
-    
-   // cell.backgroundColor=[UIColor lightGrayColor];
-   
-    
-    
-    
+
+    //build cell, depending on the result
+    if ([result isKindOfClass:[MeetingRoom class]]) {
+        cell.textLabel.text = ((MeetingRoom *) result).roomName;
+    }
+    if ([result isKindOfClass:[User class]]) {
+        cell.textLabel.text = ((User *) result).fullName;
+    }
+
     return cell;
-    
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.searchBar.selectedScopeButtonIndex == 1){
+        //we've clicked on a room
+    } else {
+        //we've clicked on a user
+        ReservationOverviewController  *reservationOverviewController = [[ReservationOverviewController alloc] init];
+        reservationOverviewController.user = [[User alloc] init];
+        reservationOverviewController.user.userId = 2;
+        [self.navigationController pushViewController:reservationOverviewController animated:YES];
+    }
+
+
+}
+
+
 
 #pragma mark - Search methods
 
-
--(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
-    searchBar.hidden=NO;
-    self.searchView.searchTableView.tableHeaderView=searchBar;
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-}
-
-- (void)searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView
-{
+- (void)searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView {
     [tableView registerClass:[SearchTableViewCell class] forCellReuseIdentifier:TABLEVIEWCELL_IDENTIFIER];
     [tableView registerClass:[SearchTableViewCell class] forCellReuseIdentifier:TABLEVIEWCELL_EMPTYIDENTIFIER];
 }
 
-/*
-- (void)searchTableList {
-    NSString *searchString = self.searchBar.text;
-    
-    for (NSString *tempStr in contentList) {
-        NSComparisonResult result = [tempStr compare:searchString options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch) range:NSMakeRange(0, [searchString length])];
-        if (result == NSOrderedSame) {
-            [filteredContentList addObject:tempStr];
-        }
+
+
+- (void)filterContentForSearchText:(NSString *)searchText scope:(NSString *)scope {
+    if ([scope isEqualToString:@"Room"]) {
+        NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"self.roomName contains[cd] %@", searchText];
+        self.searchResults = [self.meetingRooms filteredArrayUsingPredicate:resultPredicate];
+    }
+
+    if ([scope isEqualToString:@"User"]) {
+        NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"self.fullName contains[cd] %@", searchText];
+        self.searchResults = [self.users filteredArrayUsingPredicate:resultPredicate];
     }
 }
 
-
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-    isSearching = YES;
-}
-
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    NSLog(@"Text change - %d",isSearching);
-    
-    //Remove all objects first.
-    [filteredContentList removeAllObjects];
-    
-    if([searchText length] != 0) {
-        isSearching = YES;
-        [self searchTableList];
-    }
-    else {
-        isSearching = NO;
-    }
-    // [self.tblContentList reloadData];
-}
-
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-    NSLog(@"Cancel clicked");
-}
-
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    NSLog(@"Search Clicked");
-    [self searchTableList];
-}
-
-*/
-- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
-{
-    NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"self contains[c] %@", searchText];
-    NSLog(@"%@",searchText);
-    NSLog(@"%@",resultPredicate);
-    searchResults = [rooms filteredArrayUsingPredicate:resultPredicate];
-}
-
--(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
-{
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
     [self filterContentForSearchText:searchString
-                              scope:[[self.searchDisplayController.searchBar scopeButtonTitles]
-                                      objectAtIndex:[self.searchDisplayController.searchBar
-                                                     selectedScopeButtonIndex]]];  
-    
+                               scope:[[self.searchDisplayController.searchBar scopeButtonTitles]
+                                       objectAtIndex:[self.searchDisplayController.searchBar
+                                               selectedScopeButtonIndex]]];
     return YES;
 }
 
+
+- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
+    self.searchBar.text = @""; //show all results, by removing the textfilter
+    [self.searchView.searchTableView reloadData];
+    [self.searchController setActive:NO animated:NO];
+}
 
 @end

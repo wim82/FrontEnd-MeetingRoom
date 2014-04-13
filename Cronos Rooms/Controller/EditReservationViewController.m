@@ -154,7 +154,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
     self.startDatePickerView.datePicker.minimumDate = [[NSDate alloc] initWithTimeIntervalSinceNow:(-60 * 15)];
 
 
-    [self.startDatePickerView.datePicker addTarget:self action:@selector(didChangeStartDate) forControlEvents:UIControlEventValueChanged];
+    [self.startDatePickerView.datePicker addTarget:self action:@selector(_didChangeStartDate) forControlEvents:UIControlEventValueChanged];
     [self.startDatePickerView updateDateValue];
     [self.scrollView addSubview:self.startDatePickerView];
 
@@ -253,7 +253,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
 
 //forces the date part of the endtime to always be the same as the starttime, as soon as the starttime changes
-- (void)didChangeStartDate {
+- (void)_didChangeStartDate {
     NSDate *date = [self.startDatePickerView.datePicker.date dateWithoutTime];
     self.endDatePickerView.datePicker.date = [date dateByAddingTimeInterval:[self.endDatePickerView.datePicker.date timeWithoutDate]];
 }
@@ -415,7 +415,6 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
     MeetingRoomService *service = [MeetingRoomService sharedService];
     [service getAllMeetingRoomsWithSuccessHandler:^(NSMutableArray *meetingRooms) {
         self.meetingRooms = [[NSArray alloc] initWithArray:meetingRooms];
-        NSLog(@"meeting rooms: %@", self.meetingRooms);
 
         [self.meetingRoomOverview.tableView reloadData];
         [self _updateViewSizeToMatchContents];
@@ -458,7 +457,6 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
 - (void)deleteReservation:(NSInteger)reservationId {
     ReservationService *reservationService = [ReservationService sharedService];
-    NSLog(@"reservationId in deletreservation method,%i", reservationId);
 
     [reservationService deleteReservation:reservationId withSuccesHandler:^(Reservation *reservation) {
         [self.navigationController popViewControllerAnimated:YES];
@@ -481,7 +479,6 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSLog(@"hop %i", self.meetingRooms.count);
     return self.meetingRooms.count;
 }
 
