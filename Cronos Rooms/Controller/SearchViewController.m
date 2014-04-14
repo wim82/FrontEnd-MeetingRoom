@@ -9,6 +9,7 @@
 #import "CustomSearchDisplayController.h"
 #import "EditReservationViewController.h"
 #import "ReservationOverviewController.h"
+#import "DayViewController.h"
 
 
 #define TABLEVIEWCELL_IDENTIFIER @"searchCell"
@@ -37,6 +38,7 @@
 
     [self _loadMeetingRooms];
     [self _loadUsers];
+
 }
 
 
@@ -183,7 +185,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.searchBar.selectedScopeButtonIndex == 1){
-        //we've clicked on a room
+        DayViewController *dayViewController = [[DayViewController alloc] init];
+        dayViewController.meetingRoom =  self.meetingRooms[indexPath.row];
+        [self.navigationController pushViewController:dayViewController animated:YES];
+
     } else {
         //we've clicked on a user
         ReservationOverviewController  *reservationOverviewController = [[ReservationOverviewController alloc] init];
@@ -194,8 +199,6 @@
 
 
 }
-
-
 
 #pragma mark - Search methods
 
@@ -228,7 +231,7 @@
 
 
 - (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
-    self.searchBar.text = @""; //show all results, by removing the textfilter
+    self.searchBar.text = @""; //don't remove this! hack to always display searchbar
     [self.searchView.searchTableView reloadData];
     [self.searchController setActive:NO animated:NO];
 }

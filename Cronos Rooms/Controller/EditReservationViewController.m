@@ -48,7 +48,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
     [self.scrollView setBackgroundColor:[UIColor app_snowWhite]];
     self.view = self.scrollView;
 
-    [self loadMeetingRooms];
+
 }
 
 
@@ -60,6 +60,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
 
     [self _setUpTimeView];
+    [self _loadAvailableMeetingRooms];
     [self _setUpDetailView];
     [self _setUpMeetingRoomTableView];
     [self _registerKeyboardNotifications];
@@ -68,6 +69,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
 
 - (void)viewWillAppear:(BOOL)animated {
+
 
 }
 
@@ -254,8 +256,9 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
 //forces the date part of the endtime to always be the same as the starttime, as soon as the starttime changes
 - (void)_didChangeStartDate {
-    NSDate *date = [self.startDatePickerView.datePicker.date dateWithoutTime];
-    self.endDatePickerView.datePicker.date = [date dateByAddingTimeInterval:[self.endDatePickerView.datePicker.date timeWithoutDate]];
+    self.endDatePickerView.datePicker.date = [self.startDatePickerView.datePicker.date dateByAddingTimeInterval:60 * 30];
+    [self.endDatePickerView updateDateValue];
+    [self _loadAvailableMeetingRooms];
 }
 
 
@@ -411,16 +414,17 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
 #pragma mark - Rest Calls
 
-- (void)loadMeetingRooms {
+- (void)_loadAvailableMeetingRooms {
     MeetingRoomService *service = [MeetingRoomService sharedService];
-    [service getAllMeetingRoomsWithSuccessHandler:^(NSMutableArray *meetingRooms) {
-        self.meetingRooms = [[NSArray alloc] initWithArray:meetingRooms];
-
+    [service getAvailableMeetingRoomsForStartTime:self.startDatePickerView.datePicker.date andEndTime:self.endDatePickerView.datePicker.date withSuccesHandler:^(NSMutableArray *meetingRooms) {
+        self.meetingRooms = [[NSMutableArray alloc] initWithArray:meetingRooms];
+        if (self.reservation.meetingRoom) {
+            [self.meetingRooms addObject:self.reservation.meetingRoom];
+        }
         [self.meetingRoomOverview.tableView reloadData];
         [self _updateViewSizeToMatchContents];
-
     }                             andErrorHandler:^(NSException *exception) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:exception.reason delegate:self cancelButtonTitle:@"het zou niet mogen" otherButtonTitles:nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:exception.reason delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
     }];
 
@@ -534,20 +538,6 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     self.activeTextField = nil;
-}
-
-
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
-    self.activeTextField = textField;
-
-
-    if (textField == self.descriptionTextView.detailTextField || textField.text.length == 0) {
-        self.descriptionTextView.detailLabel.hidden = NO;
-    }
-
-    if (textField == self.reservedByTextView.detailTextField) {
-        self.reservedByTextView.detailLabel.hidden = NO;
-    }
 }
 
 

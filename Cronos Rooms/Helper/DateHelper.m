@@ -6,6 +6,8 @@
 #import "DateHelper.h"
 
 
+//TODO: DELETE THIS DATEHELPER CLASS, MAKE SURE IT ISN'T USED ANYMORE   -> replace with NSDate+Helper
+
 @implementation DateHelper {
 
 }
