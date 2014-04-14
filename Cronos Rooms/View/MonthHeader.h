@@ -13,5 +13,11 @@
 @property (nonatomic, strong) UILabel * lblHeader;
 @property (nonatomic,strong) UILabel * lblHeaderMonday;
 @property (nonatomic,strong) UILabel * lblHeaderTuesday;
+@property (nonatomic,strong) UILabel * lblHeaderWednesday;
+@property (nonatomic,strong) UILabel * lblHeaderThursday;
+@property (nonatomic,strong) UILabel * lblHeaderFriday;
+@property (nonatomic,strong) UILabel * lblHeaderSaturday;
+@property (nonatomic,strong) UILabel * lblHeaderSunday;
+
 
 @end
