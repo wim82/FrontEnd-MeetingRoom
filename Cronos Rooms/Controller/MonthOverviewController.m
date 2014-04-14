@@ -12,6 +12,8 @@
 #import "MonthHeader.h"
 #import "PublicHolidayService.h"
 #import "PublicHoliday.h"
+#import "UIColor+AppColor.h"
+#import "ReservationService.h"
 
 #define CELL_IDENTIFIER_MONTHDAY @"MonthCell"
 #define HEADER_IDENTIFIER_MONTH @"MonthHeaderView"
@@ -38,7 +40,14 @@ NSMutableDictionary * months;
 NSMutableArray * holidays;
 NSMutableArray *timeStamp;
 NSMutableArray *daysInMonthArray;
+int roomId;
+NSDate * startDate;
+int amount;
 
+
+- (void)viewWillAppear:(BOOL)animated{
+   [self loadHolidays];
+}
 
 - (void)loadView{
     
@@ -63,36 +72,7 @@ NSMutableArray *daysInMonthArray;
     [months setObject:@"November" forKey:[NSNumber numberWithInt:11]];
     [months setObject:@"December" forKey:[NSNumber numberWithInt:12]];
     
-    
-    //holidays
-    
-    NSDateComponents *holidayComps = [[NSDateComponents alloc] init];
-    timeStamp=[[NSMutableArray alloc]init];
-    [holidayComps setDay:01];
-    [holidayComps setMonth:05];
-    [holidayComps setYear:2014];
-    [timeStamp addObject:[[NSCalendar currentCalendar] dateFromComponents:holidayComps] ];
-    
-    holidays=[[NSMutableArray alloc]init];
-    [holidays addObject:timeStamp];
-    [holidayComps setDay:21];
-    [holidayComps setMonth:04];
-    [holidayComps setYear:2014];
-    [timeStamp addObject:[[NSCalendar currentCalendar] dateFromComponents:holidayComps] ];
-    [holidays addObject:timeStamp];
-    
-    [holidayComps setDay:29];
-    [holidayComps setMonth:05];
-    [holidayComps setYear:2014];
-    [timeStamp addObject:[[NSCalendar currentCalendar] dateFromComponents:holidayComps] ];
-    [holidays addObject:timeStamp];
-    
-    [holidayComps setDay:8];
-    [holidayComps setMonth:06];
-    [holidayComps setYear:2014];
-    [timeStamp addObject:[[NSCalendar currentCalendar] dateFromComponents:holidayComps] ];
-    [holidays addObject:timeStamp];
-    
+
     
     /*
      NSCalendar* cal = [NSCalendar   currentCalendar];
@@ -165,7 +145,7 @@ NSMutableArray *daysInMonthArray;
         
         
         int dayofweek = [[[NSCalendar currentCalendar] components:NSWeekdayCalendarUnit fromDate:date] weekday];
-        NSLog(@"what day of the week? %d", dayofweek);
+       // NSLog(@"what day of the week? %d", dayofweek);
         if (dayofweek!=2){
             if (dayofweek==1){
                 for (int j=0; j<(7-dayofweek); j++){
@@ -227,34 +207,22 @@ NSMutableArray *daysInMonthArray;
 {
     [super viewDidLoad];
     
+    
+    NSLog(@"de holidays inladen");
+    [self loadHolidays];
+    
     self.title = @"Month Overview";
     
-    
-    
     [self.viewMonthOverview.collectionView registerClass:[MonthCell class] forCellWithReuseIdentifier:CELL_IDENTIFIER_MONTHDAY];
-    
-    
-    
-    
+        
     [self.viewMonthOverview.collectionView registerClass:[MonthHeader class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HEADER_IDENTIFIER_MONTH];
+    
     
     
     // [self _getData];
     
-    //TODO : this is just to check the holiday loading. Need to be integrated into the view
-    NSLog(@"de holidays inladen");
     
-    [[PublicHolidayService sharedService] getAllPublicHolidaysWithSuccessHandler:^(NSMutableArray *publicHolidays) {
-        self.publicHolidays = [[NSArray alloc] initWithArray:publicHolidays];
-        
-       // PublicHoliday *publicHoliday = [self.publicHolidays objectAtIndex:0];
-       // NSLog(@"holidays %@", publicHoliday.holidayDate);
-        
-        
-    } andErrorHandler:^(NSException * exception) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:exception.reason delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alertView show];
-    }];
+    
 
     
     
@@ -279,7 +247,32 @@ NSMutableArray *daysInMonthArray;
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     
-    return [[monthsAndDaysDictionary objectForKey:[keyArray objectAtIndex:section]] count];
+    amount=[[monthsAndDaysDictionary objectForKey:[keyArray objectAtIndex:section]] count];
+    
+    NSLog(@"amount : %d", amount);
+    
+    NSArray *currentMonth =[monthsAndDaysDictionary objectForKey:[keyArray objectAtIndex:section]];
+    NSDate *lastDay=[currentMonth objectAtIndex: amount-1];
+    NSLog (@"lqstDay : %@", lastDay);
+    
+    NSDateComponents *lastDayComponents = [calendar components:NSYearCalendarUnit| NSMonthCalendarUnit | NSDayCalendarUnit fromDate:lastDay];
+    
+    NSDateComponents *startComponents=[[NSDateComponents alloc]init];
+    [startComponents setDay:1];
+    [startComponents setMonth:[[keyArray objectAtIndex:section] integerValue]];
+    // [startComponents setMonth:lastDayComponents.month];
+     [startComponents setYear:lastDayComponents.year];
+     
+
+    startDate=[[NSCalendar currentCalendar] dateFromComponents:startComponents] ;
+     NSLog (@"startDate : %@",startDate);
+    [self loadReservationsPerMeetingRoom:1 : startDate : amount ];
+    
+    
+    
+    return amount;
+    
+    
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -287,42 +280,53 @@ NSMutableArray *daysInMonthArray;
     
     // Day * day = [self.arrayOfDays objectAtIndex:indexPath.row];
     cell.lblName.text=@"";
-    cell.backgroundColor=[UIColor lightGrayColor];
+    cell.backgroundColor=[UIColor app_ultraLightGrey];
     NSDate *dayInArray=[[NSDate alloc]init];
     dayInArray=[[monthsAndDaysDictionary objectForKey:[keyArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row] ;
     // NSLog(@"day: %@ and timestamp : %@", dayInArray, timeStamp);
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"yyyy-MM-dd"];
-    for(int i=0;i<[timeStamp count]; i++){
-        if ([[dateFormat stringFromDate:dayInArray] isEqualToString:[dateFormat stringFromDate:[timeStamp objectAtIndex:i]]])
+    
+    
+    PublicHoliday *publicHoliday = [self.publicHolidays objectAtIndex:0];
+    NSLog(@"public holiday (count : %i) : %@", self.publicHolidays.count, publicHoliday.holidayDate);
+    
+    
+    for(int i=0;i<[self.publicHolidays count]; i++){
+        PublicHoliday *publicHoliday = [self.publicHolidays objectAtIndex:i];
+        NSLog(@"holiday in cell :  %@", publicHoliday.holidayDate);
+        
+        if ([[dateFormat stringFromDate:dayInArray] isEqualToString:[dateFormat stringFromDate: publicHoliday.holidayDate]])
         {
-            cell.backgroundColor=[UIColor blueColor];
+            cell.backgroundColor=[UIColor app_red];
         }}
+    
+    
+    
+    
+    //TODO: put reservations in cell
+    for(int i=0;i<[self.reservationsPerMonth count]; i++){
+        Reservation *reservation = [self.reservationsPerMonth objectAtIndex:i];
+        NSLog(@"reservation in cell :  %@", reservation.startTime);
+        
+        if ([[dateFormat stringFromDate:dayInArray] isEqualToString:[dateFormat stringFromDate: reservation.startTime]])
+        {
+            cell.backgroundColor=[UIColor app_lightYellow];
+        }}
+    
+    
+    
     
     NSDateComponents *components = [calendar components:NSYearCalendarUnit
                                     | NSMonthCalendarUnit | NSDayCalendarUnit fromDate:dayInArray];
-    /* if (cell==nil){
-     //   cell = [[UICollectionViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-     
-     UILabel * lblName = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, cell.frame.size.width, 20)];
-     lblName.textAlignment = NSTextAlignmentCenter;
-     lblName.font = [UIFont systemFontOfSize:16];
-     lblName.textColor = [UIColor redColor];
-     // self.lblName.layer.backgroundColor = [UIColor cyanColor].CGColor;
-     lblName.layer.borderColor = [UIColor redColor].CGColor;
-     lblName.layer.borderColor=(__bridge CGColorRef)([UIColor blackColor]);
-     lblName.layer.borderWidth = 3.0;
-     
-     [cell.contentView addSubview:lblName];
-     cell.backgroundColor=[UIColor greenColor];
-     
-     
-     }*/
+    
     if (components.year !=1970){
-        cell.lblName.text = [NSString stringWithFormat:@"%d",components.day];}
+        cell.lblName.text = [NSString stringWithFormat:@"%d",components.day];
+        }
     else{
         cell.backgroundColor=[UIColor clearColor];
     }
+    
     
     
     
@@ -419,6 +423,90 @@ NSMutableArray *daysInMonthArray;
     
     
 }
+
+#pragma mark - load data
+
+- (void) loadHolidays
+{
+[[PublicHolidayService sharedService] getAllPublicHolidaysWithSuccessHandler:^(NSMutableArray *publicHolidays) {
+    self.publicHolidays = [[NSArray alloc] initWithArray:publicHolidays];
+    
+    
+   // PublicHoliday *publicHoliday = [self.publicHolidays objectAtIndex:0];
+   // NSLog(@"holidays %@", publicHoliday.holidayDate);
+    [self.viewMonthOverview.collectionView reloadData];
+    
+    
+} andErrorHandler:^(NSException * exception) {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:exception.reason delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alertView show];
+}];
+}
+
+- (void) loadReservationsPerMeetingRoom:(NSInteger) roomId : (NSDate *) startDate : (NSInteger) amount
+
+{
+    NSLog(@"zit ik in load");
+    [[ReservationService sharedService] getReservationsForRoomId:roomId fromDate:startDate forAmountOfDays: amount withSuccesHandler:^(NSMutableArray *reservationsPerMonth) {
+      self.reservationsPerMonth = [[NSMutableArray alloc] initWithArray:reservationsPerMonth];
+   //     [self.viewMonthOverview.collectionView reloadData];
+      
+  } andErrorHandler:^(NSException * exception) {
+      UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:exception.reason delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+      [alertView show];
+  }];
+ 
+    
+    
+}
+
+
+#pragma mark - Layout Orientation Methods
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
+    
+    self.screenHasRotated = YES;
+    //[self loadForInterfaceOrientation:toInterfaceOrientation];
+}
+
+/*
+- (void)loadConstraints{
+    
+    if([[AppState sharedInstance] deviceIsLandscape]){
+        [self loadConstraintsForLandscape];
+        
+    }else {
+        [self loadConstraintsForPortrait];
+    }
+    
+}
+
+- (void)loadForInterfaceOrientation:(UIInterfaceOrientation)orientation{
+    
+    
+    if([[AppState sharedInstance] deviceIsLandscape]){
+        [self loadConstraintsForPortrait];
+    }else{
+        [self loadConstraintsForLandscape];
+    }
+    
+}
+*/
+
+/*
+- (void)loadConstraintsForLandscape{
+    
+    [self.viewImageGallery loadConstraintsForLandscape];
+    [self setUpImageViewsInScrollview];
+}
+
+- (void)loadConstraintsForPortrait{
+    
+    [self.viewImageGallery loadConstraintsForPortrait];
+    [self setUpImageViewsInScrollview];
+}
+
+*/
 
 
 @end

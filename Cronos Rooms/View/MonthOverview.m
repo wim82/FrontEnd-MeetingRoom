@@ -7,6 +7,7 @@
 //
 
 #import "MonthOverview.h"
+#import "UIColor+AppColor.h"
 
 
 @implementation MonthOverview
@@ -25,8 +26,11 @@ NSInteger realWidth;
         NSLog(@"orientation:%d",orientation);
         
         if (UIInterfaceOrientationIsLandscape(orientation))
-        {realWidth=1024;}
-        else{realWidth=768;}
+        {realWidth=1024;
+        NSLog(@"realWidth : %ld", (long)realWidth);}
+        
+        else{realWidth=768;
+        NSLog(@"realWidth : %ld", (long)realWidth);}
                 
         self.backgroundColor = [UIColor blueColor];
         
@@ -36,7 +40,8 @@ NSInteger realWidth;
         layout.minimumInteritemSpacing = 5;
         
         
-        self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0,0, self.frame.size.width, frame.size.height ) collectionViewLayout:layout];
+        self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0,0, frame.size.width, frame.size.height ) collectionViewLayout:layout];
+        
         self.collectionView.delegate = delegate;
         self.collectionView.dataSource = delegate;
         self.collectionView.backgroundColor = [UIColor whiteColor];

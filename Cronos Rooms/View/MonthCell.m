@@ -8,6 +8,7 @@
 
 #import "MonthCell.h"
 #import <QuartzCore/QuartzCore.h>
+#import "UIColor+AppColor.h"
 
 @implementation MonthCell
 
@@ -16,17 +17,19 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        //self.backgroundColor = [UIColor greenColor];
-        
         
         self.lblName = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, 20)];
         self.lblName.textAlignment = NSTextAlignmentCenter;
         self.lblName.font = [UIFont systemFontOfSize:16];
-        self.lblName.textColor = [UIColor redColor];
-        // self.lblName.layer.backgroundColor = [UIColor cyanColor].CGColor;
-        self.lblName.layer.borderColor = [UIColor redColor].CGColor;
-        self.lblName.layer.borderColor=(__bridge CGColorRef)([UIColor blackColor]);
-        self.lblName.layer.borderWidth = 3.0;
+        self.lblName.textColor = [UIColor app_darkGrey];
+        
+        [self.contentView addSubview:self.lblName];
+        
+        self.lblReservations = [[UILabel alloc]initWithFrame:CGRectMake(0, 20, self.frame.size.width, 70)];
+        //self.lblReservations.textAlignment = NSTextAlignmentCenter;
+        self.lblReservations.font = [UIFont systemFontOfSize:14];
+        self.lblReservations.textColor = [UIColor app_darkGrey];
+        self.lblReservations.backgroundColor=[UIColor app_darkYellow];
         
         [self.contentView addSubview:self.lblName];
         

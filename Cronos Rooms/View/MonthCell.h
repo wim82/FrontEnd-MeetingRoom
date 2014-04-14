@@ -11,6 +11,7 @@
 @interface MonthCell : UICollectionViewCell
 
 @property (nonatomic, strong) UILabel * lblName;
+@property (nonatomic,strong) UILabel * lblReservations;
 //- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 
 

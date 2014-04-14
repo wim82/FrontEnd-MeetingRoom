@@ -7,6 +7,7 @@
 //
 
 #import "MonthHeader.h"
+#import "UIColor+AppColor.h"
 
 @implementation MonthHeader
 
@@ -17,14 +18,11 @@
        // UIScreen *screen = [UIScreen mainScreen];
        // int width = screen.currentMode.size.width;
        // int height = screen.currentMode.size.height;
-        self.backgroundColor = [UIColor purpleColor];
-        self.lblHeader = [[UILabel alloc]initWithFrame:CGRectMake(20, 0, 200,50)];
-        self.lblHeader.textAlignment = NSTextAlignmentCenter;
-        self.lblHeader.font = [UIFont systemFontOfSize:16];
-        self.lblHeader.textColor = [UIColor grayColor];
-        self.lblHeader.layer.backgroundColor = [UIColor whiteColor].CGColor;
-        self.lblHeader.layer.borderColor = [UIColor blueColor].CGColor;
-        self.lblHeader.layer.borderWidth = 3.0;
+        self.backgroundColor = [UIColor clearColor];
+        self.lblHeader = [[UILabel alloc]initWithFrame:CGRectMake(40, 0, 200,50)];
+        //self.lblHeader.textAlignment = NSTextAlignmentCenter;
+        self.lblHeader.font = [UIFont fontWithName:@"GillSans-Light" size:48];
+        self.lblHeader.textColor = [UIColor app_darkGrey];
         
         [self addSubview:self.lblHeader];
         
