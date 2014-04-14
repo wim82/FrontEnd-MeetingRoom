@@ -11,5 +11,7 @@
 @interface MonthHeader : UICollectionReusableView
 
 @property (nonatomic, strong) UILabel * lblHeader;
+@property (nonatomic,strong) UILabel * lblHeaderMonday;
+@property (nonatomic,strong) UILabel * lblHeaderTuesday;
 
 @end

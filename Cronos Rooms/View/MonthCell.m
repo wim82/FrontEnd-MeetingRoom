@@ -23,12 +23,13 @@
         self.lblName.textAlignment = NSTextAlignmentCenter;
         self.lblName.font = [UIFont systemFontOfSize:16];
         self.lblName.textColor = [UIColor redColor];
-        // self.lblName.layer.backgroundColor = [UIColor cyanColor].CGColor;
-        self.lblName.layer.borderColor = [UIColor redColor].CGColor;
-        self.lblName.layer.borderColor=(__bridge CGColorRef)([UIColor blackColor]);
-        self.lblName.layer.borderWidth = 3.0;
-        
         [self.contentView addSubview:self.lblName];
+        
+        self.lblReservations = [[UILabel alloc]initWithFrame:CGRectMake(10, 20, self.frame.size.width-10, 80)];
+        self.lblReservations.font = [UIFont systemFontOfSize:12];
+        self.lblReservations.textColor = [UIColor darkGrayColor];
+        self.lblReservations.numberOfLines = 0;
+        [self.contentView addSubview:self.lblReservations];
         
     }
     return self;

@@ -34,7 +34,7 @@
     ReservationOverviewController *reservationOverviewController = [[ReservationOverviewController alloc] init];
     MonthOverviewController * monthOverviewController = [[MonthOverviewController alloc]init];
     
-    self.navigationController = [[UINavigationController alloc] initWithRootViewController:reservationOverviewController];
+    self.navigationController = [[UINavigationController alloc] initWithRootViewController:monthOverviewController];
     [self styleNavigationController];
     self.window.rootViewController = self.navigationController;
     
