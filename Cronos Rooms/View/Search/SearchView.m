@@ -33,9 +33,7 @@
         
         
         [self addSubview:self.searchTableView];
-        
-        
-        
+
         
     }
     return self;

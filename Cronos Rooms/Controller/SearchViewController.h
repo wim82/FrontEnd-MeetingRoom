@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Room.h"
+
 
 
 @interface SearchViewController : UIViewController<UITableViewDelegate, UITableViewDataSource,  UISearchBarDelegate, UISearchDisplayDelegate>
@@ -20,13 +20,6 @@
 }
 */
 
-
-@property (nonatomic,strong) Room * room1;
-@property (nonatomic,strong) Room * room2;
-@property (nonatomic,strong) Room * room3;
-@property (nonatomic,strong) Room * room4;
-@property (nonatomic,strong) Room * room5;
-@property (nonatomic,strong) Room * room6;
 
 /*
 @property (strong, nonatomic) IBOutlet UITableView *tblContentList;

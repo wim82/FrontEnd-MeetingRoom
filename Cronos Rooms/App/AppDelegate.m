@@ -34,7 +34,7 @@
     ReservationOverviewController *reservationOverviewController = [[ReservationOverviewController alloc] init];
     MonthOverviewController * monthOverviewController = [[MonthOverviewController alloc]init];
     
-    self.navigationController = [[UINavigationController alloc] initWithRootViewController:monthOverviewController];
+    self.navigationController = [[UINavigationController alloc] initWithRootViewController:reservationOverviewController];
     [self styleNavigationController];
     self.window.rootViewController = self.navigationController;
     
@@ -57,11 +57,11 @@
     //title properties
     NSDictionary *textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
             [UIColor app_snowWhite], NSForegroundColorAttributeName,
-            [UIFont fontWithName:@"Futura-Medium" size:18.0], NSFontAttributeName, nil];
+            [UIFont fontWithName:@"GillSans" size:18.0], NSFontAttributeName, nil];
 
 
     [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:
-            @{NSFontAttributeName : [UIFont fontWithName:@"Futura-Medium" size:14.0]
+            @{NSFontAttributeName : [UIFont fontWithName:@"GillSans" size:16.0]
             }
                                                                                             forState:UIControlStateNormal];
 

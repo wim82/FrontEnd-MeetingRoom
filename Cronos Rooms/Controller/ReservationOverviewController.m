@@ -44,10 +44,6 @@
     [super viewDidLoad];
 
 
-    //init arrays
-    self.reservationDates = [[NSMutableArray alloc] init];
-    self.reservationsByDate = [[NSMutableDictionary alloc] init];
-
     //register reuseable cells
     [self.meetingOverview.tableView registerClass:[ReservationTableViewCell class] forCellReuseIdentifier:TABLEVIEWCELL_IDENTIFIER];
     [self.meetingOverview.tableView registerClass:[ReservationTableViewHeader class] forHeaderFooterViewReuseIdentifier:TABLEVIEWHEADER_IDENTIFIER];
@@ -85,6 +81,13 @@
 
     //make the call
     [[ReservationService sharedService] getReservationsForUserId:user.userId withSuccesHandler:^(NSMutableArray *reservations) {
+
+        reservations = [Reservation sortByStartTime:reservations];
+
+
+        //init arrays
+        self.reservationDates = [[NSMutableArray alloc] init];
+        self.reservationsByDate = [[NSMutableDictionary alloc] init];
 
         //build an array of dates for the sections
         for (Reservation *reservation  in reservations) {
@@ -169,6 +172,7 @@
     Reservation *reservation = [[Reservation alloc] init];
     reservation.user = self.user;
 
+    //TODO: remove back button, first time add is pressed
     editReservationViewController.reservation = reservation;
     editReservationViewController.navigationItem.title = @"Add Reservation";
 

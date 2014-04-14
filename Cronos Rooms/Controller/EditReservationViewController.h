@@ -8,7 +8,7 @@
 
 
 @interface EditReservationViewController : UIViewController
-@property (nonatomic, strong) NSArray *meetingRooms;
+@property (nonatomic, strong) NSMutableArray *meetingRooms;
 @property (nonatomic, strong) Reservation *reservation;
 
 @end

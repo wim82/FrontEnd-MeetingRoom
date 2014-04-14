@@ -36,7 +36,7 @@ NSInteger realWidth;
         layout.minimumInteritemSpacing = 5;
         
         
-        self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0,0, self.frame.size.width, frame.size.height ) collectionViewLayout:layout];
+        self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0,0, frame.size.width, frame.size.height ) collectionViewLayout:layout];
         self.collectionView.delegate = delegate;
         self.collectionView.dataSource = delegate;
         self.collectionView.backgroundColor = [UIColor whiteColor];

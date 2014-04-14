@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Meeting.h"
 #import "SWTableViewCell.h"
 
 #import "User.h"

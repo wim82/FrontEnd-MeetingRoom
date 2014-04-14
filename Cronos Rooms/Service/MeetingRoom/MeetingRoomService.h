@@ -10,5 +10,7 @@
 
 @interface MeetingRoomService : MainService
 + (MeetingRoomService *)sharedService;
+
 - (void)getAllMeetingRoomsWithSuccessHandler:(void (^)(NSMutableArray *))success andErrorHandler:(void (^)(NSException *))error;
+- (void)getAvailableMeetingRoomsForStartTime:(NSDate *)startTime andEndTime:(NSDate *)endTime withSuccesHandler:(void (^)(NSMutableArray *))success andErrorHandler:(void (^)(NSException *))error;
 @end

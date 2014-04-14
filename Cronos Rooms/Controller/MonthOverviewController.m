@@ -401,7 +401,7 @@ NSMutableArray *daysInMonthArray;
 }
 
 #pragma mark -  tap and longpress actions
--(void)cellTapped:self{
+-(void)cellTapped:(id)sender{
     NSLog(@"Cell Tapped");
     
 }

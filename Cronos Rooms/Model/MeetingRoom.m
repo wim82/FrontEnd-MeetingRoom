@@ -10,9 +10,9 @@
 
 }
 
-- (instancetype) initWithDictionary:(NSDictionary *) dictionary{
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
-    if(self){
+    if (self) {
         self.roomId = [[dictionary objectForKey:@"roomId"] integerValue];
         self.roomName = [dictionary objectForKey:@"roomName"];
         self.buildingName = [dictionary objectForKey:@"buildingName"];
@@ -22,14 +22,14 @@
 
 }
 
--(NSMutableDictionary *)convertToDictionary {
+- (NSMutableDictionary *)convertToDictionary {
 
-NSMutableDictionary *meetingRoomDictionary=[[NSMutableDictionary alloc]init];
+    NSMutableDictionary *meetingRoomDictionary = [[NSMutableDictionary alloc] init];
 
-[meetingRoomDictionary setObject:[NSString stringWithFormat:@"%i",self.roomId] forKey:@"roomId"];
-[meetingRoomDictionary setObject:self.roomName forKey:@"roomName"];
-[meetingRoomDictionary setObject:self.buildingName forKey:@"buildingName"];
-    
+    [meetingRoomDictionary setObject:[NSString stringWithFormat:@"%i", self.roomId] forKey:@"roomId"];
+    [meetingRoomDictionary setObject:self.roomName forKey:@"roomName"];
+    [meetingRoomDictionary setObject:self.buildingName forKey:@"buildingName"];
+
     return meetingRoomDictionary;
 }
 

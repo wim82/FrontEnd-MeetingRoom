@@ -10,6 +10,7 @@
 #import "IReservationSelector.h"
 #import "EditReservationViewController.h"
 #import "NSDate+Helper.h"
+#import "DayTitleView.h"
 
 #define DAYQUARTERHOURVIEWCELL_IDENTIFIER @"DayQuarterHourViewCell"
 
@@ -17,6 +18,7 @@
 
 @property(nonatomic, strong) DayView *dayView;
 @property(nonatomic, strong) NSArray *hours;
+@property(nonatomic, strong) DayTitleView *dayTitleView;
 
 @property(nonatomic, strong) NSMutableArray *reservations;
 @property(nonatomic, strong) UIScrollView *scrollView;
@@ -31,14 +33,17 @@
     //hours needed to display
     self.hours = [[NSArray alloc] initWithObjects:@"", @"01:00", @"02:00", @"03:00", @"04:00", @"05:00", @"06:00", @"07:00", @"08:00", @"09:00", @"10:00", @"11:00", @"12:00", @"13:00", @"14:00", @"15:00", @"16:00", @"17:00", @"18:00", @"19:00", @"20:00", @"21:00", @"22:00", @"23:00", nil];
 
-    self.scrollView = [[UIScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.scrollView.contentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, (self.hours.count*4) * 16);
-    self.view = self.scrollView;
+
+    self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
 
     //TODO: make sure navigationcontroller displays current date & meeting room as title +
-    self.date = [NSDate dateFromString:@"2014-05-09" withFormat:@"yyyy-MM-dd"];
-    self.navigationItem.title = [self.date stringWithFormat:@"cccc, d MMM yyyy"];
-    self.navigationItem.prompt = @"hier komt de meeting room titel"; //TODO: use a custom view for navigationController.titleView
+    self.date = [[NSDate alloc] init];
+    if (!self.meetingRoom) {
+        self.meetingRoom = [[MeetingRoom alloc] init];
+        self.meetingRoom.roomId = 1;
+        self.meetingRoom.roomName = @"dit zou niet mogen";
+    }
+    self.navigationItem.title = self.meetingRoom.roomName;
 
 
 }
@@ -47,24 +52,61 @@
 - (void)viewDidLoad {
 
     //visual setup dayview table
-    self.dayView = [[DayView alloc] initWithFrame:CGRectMake(0, -1, self.view.frame.size.width, 96 * 16) andDelegate:self];
+
+    self.dayTitleView = [[DayTitleView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44) andDate:self.date];
+    [self.view addSubview:self.dayTitleView];
+
+    self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, self.dayTitleView.frame.origin.y + self.dayTitleView.frame.size.height, self.view.frame.size.width, self.view.frame.size.height - self.dayTitleView.frame.size.height)];
+    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, (self.hours.count * 4) * 16);
+
+    [self.view addSubview:self.scrollView];
+
+
+    self.dayView = [[DayView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 96 * 16) andDelegate:self];
+
+
     self.dayView.dayTableView.scrollEnabled = NO;
-    [self.view addSubview:self.dayView];
+    [self.scrollView addSubview:self.dayView];
     [self.dayView.dayTableView registerClass:[DayQuarterHourViewCell class] forCellReuseIdentifier:DAYQUARTERHOURVIEWCELL_IDENTIFIER];
 
     //load data
     [self _loadReservations];
 
     //scroll to about 7am. -> test this look look on different screens?
-    [self.scrollView scrollRectToVisible:CGRectMake(0, 7*4*16 + self.scrollView.frame.size.height - self.navigationController.navigationBar.frame.size.height, 1, 1) animated:YES];
+    [self.scrollView scrollRectToVisible:CGRectMake(0, 7 * 4 * 16 + self.scrollView.frame.size.height - self.navigationController.navigationBar.frame.size.height, 1, 1) animated:YES];
 
 }
 
 
 - (void)viewWillAppear:(BOOL)animated {
     //scroll to about 7am. -> test this look look on different screens?
-    [self.scrollView scrollRectToVisible:CGRectMake(0, 7*4*16 + self.scrollView.frame.size.height - self.navigationController.navigationBar.frame.size.height, 1, 1) animated:YES];
+    [self.scrollView scrollRectToVisible:CGRectMake(0, 7 * 4 * 16 + self.scrollView.frame.size.height - self.navigationController.navigationBar.frame.size.height, 1, 1) animated:YES];
 
+    UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipeLeft)];
+    swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
+    [self.view addGestureRecognizer:swipeLeft];
+
+
+    UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipeRight)];
+    swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+    [self.view addGestureRecognizer:swipeRight];
+
+
+}
+
+- (void)didSwipeLeft {
+    NSLog(@"did swipe left");
+    self.date = [self.date dateByAddingTimeInterval:60 * 60 * 24];
+   self.dayTitleView.dayNameLabel.text = [self.date stringWithFormat:@"cccc, d MMM yyyy"];
+    [self _loadReservations];
+}
+
+
+- (void)didSwipeRight {
+    NSLog(@"did swipe right");
+    self.date = [self.date dateByAddingTimeInterval:-(60 * 60 * 24)];
+    self.dayTitleView.dayNameLabel.text  = [self.date stringWithFormat:@"cccc, d MMM yyyy"];
+    [self _loadReservations];
 }
 
 
@@ -165,19 +207,17 @@
 
 - (void)_loadReservations {
 
-    [[ReservationService sharedService] getReservationsForRoomId:1
-                                                        fromDate:self.date forAmountOfDays:1
-                                               withSuccesHandler:^(NSMutableArray *reservations) {
+    [[ReservationService sharedService] getReservationsForRoomId:self.meetingRoom.roomId fromDate:self.date forAmountOfDays:1 withSuccesHandler:^(NSMutableArray *reservations) {
         self.reservations = [[NSMutableArray alloc] initWithArray:reservations];
         [self.dayView.dayTableView reloadData];
+
     }
                                                  andErrorHandler:^(NSException *exception) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:exception.reason delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alertView show];
-    }];
+                                                     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:exception.reason delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                                                     [alertView show];
+                                                 }];
 
 }
-
 
 
 @end

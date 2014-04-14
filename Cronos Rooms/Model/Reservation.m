@@ -60,35 +60,21 @@
 - (NSString *)createStringFromDateTime:(NSDate *)date {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyyMMdd HH:mm"];
-    return [dateFormatter stringFromDate:date];
+    return
+[dateFormatter stringFromDate:date];
 }
 
 
++ (NSMutableArray *)sortByStartTime:(NSMutableArray *)reservations {
+    NSArray *sortedArray;
+    sortedArray = [reservations sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+        NSDate *first = [(Reservation*)a startTime];
+        NSDate *second = [(Reservation*)b startTime];
+        return [first compare:second];
+    }];
 
-/*
-- (NSDate *)date {
-    return _date;
+    return [[NSMutableArray alloc] initWithArray:sortedArray];
 }
 
-- (void)setDate:(NSDate *)date {
-    _date = [DateHelper dateWithOutTime:date];;
-}
-
-- (NSDate *)startTime {
-    return _startTime;
-}
-
-- (void)setStartTime:(NSDate *)startTime {
-    _startTime = [DateHelper timeWithoutDate:startTime];;
-}
-
-- (NSDate *)endTime {
-    return _endTime;
-}
-
-- (void)setEndTime:(NSDate *)endTime {
-    _date = [DateHelper timeWithoutDate:endTime];;
-}
-  */
 
 @end
