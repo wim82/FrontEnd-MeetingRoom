@@ -4,6 +4,7 @@
 //
 
 #import "DayView.h"
+#import "UIColor+AppColor.h"
 
 
 
@@ -23,9 +24,19 @@
         self.dayTableView.delegate = _delegate;
         self.dayTableView.dataSource = _delegate;
         self.dayTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        //self.dayTableView.backgroundColor=[[UIColor redColor] colorWithAlphaComponent:0.1];
         [self addSubview:self.dayTableView];
 
     }
     return self;
 }
+
+- (void)display
+{
+    CALayer *layer = self.layer;
+    self.dayTableView.backgroundColor=[[UIColor app_ultraLightGrey] colorWithAlphaComponent:0.5];
+    [layer setNeedsDisplay];
+    [layer displayIfNeeded];
+}
+
 @end

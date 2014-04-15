@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MeetingRoom.h"
 
-@interface MonthOverviewController : UIViewController
+@interface MonthOverviewController : UIViewController<UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) NSArray *publicHolidays;
 @property (nonatomic, strong) NSArray *reservationsPerRoom;
+@property (nonatomic,strong) MeetingRoom *meetingRoom;
 @end

@@ -19,6 +19,7 @@
 + (UIColor *) app_lightYellow;
 + (UIColor *) app_darkYellow;
 + (UIColor *) app_snowWhite;
++ (UIColor *)app_snowWhiteShade;
 
 + (UIColor *) app_ultraLightGrey;
 + (UIColor *) app_lightGrey;

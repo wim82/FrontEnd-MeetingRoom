@@ -103,6 +103,10 @@
     return [UIColor colorWithHexString:@"fdfdfd"];
 }
 
++ (UIColor *)app_snowWhiteShade {
+    return [UIColor colorWithHexString:@"fafafa"];
+}
+
 + (UIColor *)app_ultraLightGrey {
     return [UIColor colorWithHexString:@"ddddde"];
 }

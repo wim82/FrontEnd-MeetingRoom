@@ -15,6 +15,9 @@
 #import "UIColor+AppColor.h"
 #import "ReservationService.h"
 #import "NSDate+Helper.h"
+#import "MeetingRoom.h"
+#import "EditReservationViewController.h"
+#import "DayViewController.h"
 
 #define CELL_IDENTIFIER_MONTHDAY @"MonthCell"
 #define HEADER_IDENTIFIER_MONTH @"MonthHeaderView"
@@ -57,6 +60,9 @@ NSDate * today;
     
     //TODO:#define link roomId to the real id of the choosen MeetingRoom
     roomId=1;
+    self.meetingRoom = [[MeetingRoom alloc]init];
+    self.meetingRoom.roomId=roomId;
+    
     //TODO #define number of days to prefill in the calendar (back in history/days before today) And number of months in calendar
     NSInteger xNumberOfDays=-10;
     NSInteger numberOfMonths=11;
@@ -142,9 +148,9 @@ NSDate * today;
     
    //load data from database: reservations per meetingroom and public holidays
     
-    [self loadPublicHolidays];
+    [self _loadPublicHolidays];
     NSLog(@"startDate %@", startDate);
-    [self loadReservations: roomId : startDate : 450];
+    [self _loadReservations: roomId : startDate : 450];
 
     
 }
@@ -178,7 +184,7 @@ NSDate * today;
     MonthCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER_MONTHDAY forIndexPath:indexPath];
 
     cell.lblName.text=@"";
-    cell.backgroundColor=[UIColor app_ultraLightGrey];
+    cell.backgroundColor=[UIColor app_snowWhiteShade];
     NSDate *today=[[NSDate alloc]init];
     NSDate *dayInArray=[[NSDate alloc]init];
     dayInArray=[[monthsAndDaysDictionary objectForKey:[keyArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row] ;
@@ -189,27 +195,30 @@ NSDate * today;
     {
         cell.backgroundColor=[UIColor app_blueGrey];
     }
-
-    for(int i=0;i<[self.publicHolidays count]; i++){
-        PublicHoliday *publicHoliday = [self.publicHolidays objectAtIndex:i];
-        if ([[dateFormat stringFromDate:dayInArray] isEqualToString:[dateFormat stringFromDate:publicHoliday.holidayDate]])
-        {
-            cell.backgroundColor=[UIColor app_lightRed];
-        }}
     
-
-    NSString * textLabel  = [[NSString alloc]init];
+    NSString * dayContent  = [[NSString alloc]init];
     for(int i=0;i<[self.reservationsPerRoom count]; i++){
         Reservation *reservation = [self.reservationsPerRoom objectAtIndex:i];
         
         if ([[dateFormat stringFromDate:dayInArray] isEqualToString:[dateFormat stringFromDate:reservation.startTime]])
         {
             cell.backgroundColor=[UIColor app_lightYellow];
-            textLabel=[textLabel stringByAppendingString:reservation.reservationDescription];
-            textLabel=[textLabel stringByAppendingString:@"\n"] ;
+            dayContent=[dayContent stringByAppendingString:reservation.reservationDescription];
+            dayContent=[dayContent stringByAppendingString:@"\n"] ;
             
         }}
-    cell.lblReservations.text = textLabel;
+    
+    
+    for(int i=0;i<[self.publicHolidays count]; i++){
+        PublicHoliday *publicHoliday = [self.publicHolidays objectAtIndex:i];
+        if ([[dateFormat stringFromDate:dayInArray] isEqualToString:[dateFormat stringFromDate:publicHoliday.holidayDate]])
+        {
+            cell.backgroundColor=[UIColor app_lightRed];
+            dayContent=[dayContent stringByAppendingString:publicHoliday.holidayName];
+        }}
+    cell.lblReservations.text = dayContent;
+    
+    
     
     //remove the fakeCells TODO: make the fakecells inactive
     NSDateComponents *components = [calendar components:NSYearCalendarUnit
@@ -256,6 +265,19 @@ NSDate * today;
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     // TODO: Select Item
+    
+    DayViewController *dayViewController = [[DayViewController alloc] init];
+    dayViewController.meetingRoom =self.meetingRoom;
+    NSDate *date=[[NSDate alloc]init];
+    date=[[monthsAndDaysDictionary objectForKey:[keyArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row] ;
+    dayViewController.date=date;
+    
+    
+    NSLog (@"roomId %ld",(long)roomId);
+    NSLog(@"date %@", date);
+
+    [self.navigationController pushViewController:dayViewController animated:YES];
+   
 }
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
     // TODO: Deselect item
@@ -288,17 +310,18 @@ NSDate * today;
 -(void) gestureRecognition:(MonthCell *) cell : (NSInteger) row {
     
     cell.tag = row;
-    
+/*
     // Press/tap
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cellTapped:)];
     tapGestureRecognizer.numberOfTapsRequired = 1;
     tapGestureRecognizer.numberOfTouchesRequired = 1;
     [cell addGestureRecognizer:tapGestureRecognizer];
-    
+*/
     //Long Press
     UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc]
                                           initWithTarget:self action:@selector(handleLongPress:)];
-    lpgr.minimumPressDuration = 0.5; //seconds
+    lpgr.minimumPressDuration = 2; //seconds
+    lpgr.delegate=self;
     [cell addGestureRecognizer:lpgr];
 
     
@@ -307,25 +330,44 @@ NSDate * today;
 -(void)cellTapped:(id)sender{
     NSLog(@"Cell Tapped");
     
+    
+    
 }
 
--(void)handleLongPress:(UIGestureRecognizer*)gesture{
-    if ( gesture.state != UIGestureRecognizerStateBegan ){
-        return;}
-    NSLog(@"Long Press");
-    
-    UILabel *newEvent = [[UILabel alloc] initWithFrame:CGRectMake(0,20, [gesture view].frame.size.width, 20)];
-    
-    newEvent.text=@"new event";
-    
-    [[gesture view] addSubview:newEvent];
-    
-    
+- (IBAction)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer
+{
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        
+        CGPoint p = [gestureRecognizer locationInView:self.viewMonthOverview.collectionView];
+        
+        NSIndexPath *indexPath = [self.viewMonthOverview.collectionView indexPathForItemAtPoint:p];
+        if (indexPath == nil) {
+            NSLog(@"long press on table view but not on a row");
+        } else {
+            UICollectionViewCell *cell = [self.viewMonthOverview.collectionView cellForItemAtIndexPath:indexPath];
+            if (cell.isHighlighted) {
+                NSLog(@"long press on table view at section %d row %d", indexPath.section, indexPath.row);
+                NSIndexPath *cellIndexPath = [self.viewMonthOverview.collectionView indexPathForCell:cell];
+                
+                NSDate *date=[[NSDate alloc]init];
+                date=[[monthsAndDaysDictionary objectForKey:[keyArray objectAtIndex:cellIndexPath.section]] objectAtIndex:cellIndexPath.row] ;
+                Reservation *reservation = [[Reservation alloc] init];
+                reservation.meetingRoom = self.meetingRoom;
+                reservation.startTime=date;
+                EditReservationViewController *editReservationViewController = [[EditReservationViewController alloc] init];
+                editReservationViewController.reservation = reservation;
+                [self.navigationController pushViewController:editReservationViewController animated:YES];
+                
+                
+            }
+        }
+    }
 }
+
 
 #pragma mark - access DataBase
 
-- (void) loadPublicHolidays {
+- (void) _loadPublicHolidays {
     
 [[PublicHolidayService sharedService] getAllPublicHolidaysWithSuccessHandler:^(NSMutableArray *publicHolidays) {
     self.publicHolidays = [[NSArray alloc] initWithArray:publicHolidays];
@@ -337,7 +379,7 @@ NSDate * today;
 }];
 }
 
--(void) loadReservations: (NSInteger) roomId : (NSDate *) startDate : (NSInteger) amount{
+-(void) _loadReservations: (NSInteger) roomId : (NSDate *) startDate : (NSInteger) amount{
   [[ReservationService sharedService] getReservationsForRoomId:roomId fromDate: startDate forAmountOfDays: amount withSuccesHandler:^(NSMutableArray *reservationsPerRoom) {
       self.reservationsPerRoom = [[NSMutableArray alloc] initWithArray:reservationsPerRoom];
       [self.viewMonthOverview .collectionView reloadData];

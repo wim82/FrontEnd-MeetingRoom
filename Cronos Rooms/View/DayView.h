@@ -11,5 +11,6 @@
 @property(nonatomic, strong) UITableView *dayTableView;
 
 - (id)initWithFrame:(CGRect)frame andDelegate:(id)delegate;
+- (void)display;
 
 @end

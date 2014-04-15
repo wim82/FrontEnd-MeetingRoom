@@ -7,10 +7,13 @@
 #import "DayView.h"
 #import "DayQuarterHourViewCell.h"
 #import "ReservationService.h"
+#import "PublicHolidayService.h"
 #import "IReservationSelector.h"
 #import "EditReservationViewController.h"
 #import "NSDate+Helper.h"
 #import "DayTitleView.h"
+#import "PublicHoliday.h"
+#import "UIColor+AppColor.h"
 
 #define DAYQUARTERHOURVIEWCELL_IDENTIFIER @"DayQuarterHourViewCell"
 
@@ -21,6 +24,7 @@
 @property(nonatomic, strong) DayTitleView *dayTitleView;
 
 @property(nonatomic, strong) NSMutableArray *reservations;
+@property(nonatomic, strong) NSMutableArray *publicHolidays;
 @property(nonatomic, strong) UIScrollView *scrollView;
 
 @end
@@ -35,18 +39,23 @@
 
 
     self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.view.backgroundColor=[UIColor whiteColor];
 
     //TODO: make sure navigationcontroller displays current date & meeting room as title +
-    self.date = [[NSDate alloc] init];
+    if (!self.date){
+        self.date = [[NSDate alloc] init];
+    }
+    
     if (!self.meetingRoom) {
         self.meetingRoom = [[MeetingRoom alloc] init];
         self.meetingRoom.roomId = 1;
         self.meetingRoom.roomName = @"dit zou niet mogen";
     }
     self.navigationItem.title = self.meetingRoom.roomName;
-
+    
 
 }
+
 
 
 - (void)viewDidLoad {
@@ -71,6 +80,7 @@
 
     //load data
     [self _loadReservations];
+    [self _loadPublicHolidays];
 
     //scroll to about 7am. -> test this look look on different screens?
     [self.scrollView scrollRectToVisible:CGRectMake(0, 7 * 4 * 16 + self.scrollView.frame.size.height - self.navigationController.navigationBar.frame.size.height, 1, 1) animated:YES];
@@ -99,6 +109,7 @@
     self.date = [self.date dateByAddingTimeInterval:60 * 60 * 24];
    self.dayTitleView.dayNameLabel.text = [self.date stringWithFormat:@"cccc, d MMM yyyy"];
     [self _loadReservations];
+    [self checkIfPublicHoliday];
 }
 
 
@@ -107,6 +118,7 @@
     self.date = [self.date dateByAddingTimeInterval:-(60 * 60 * 24)];
     self.dayTitleView.dayNameLabel.text  = [self.date stringWithFormat:@"cccc, d MMM yyyy"];
     [self _loadReservations];
+    [self checkIfPublicHoliday];
 }
 
 
@@ -218,6 +230,41 @@
                                                  }];
 
 }
+
+- (void) _loadPublicHolidays {
+    
+    [[PublicHolidayService sharedService] getAllPublicHolidaysWithSuccessHandler:^(NSMutableArray *publicHolidays) {
+        self.publicHolidays = [[NSMutableArray alloc] initWithArray:publicHolidays];
+        [self checkIfPublicHoliday];
+        [self.dayView.dayTableView reloadData];
+        
+    } andErrorHandler:^(NSException * exception) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:exception.reason delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+    }];
+    
+    
+}
+
+- (void) checkIfPublicHoliday{
+    
+    
+    for (PublicHoliday *publicHoliday in self.publicHolidays) {
+         if ([[self.date stringWithFormat:DATEFORMAT_COMPAREDATE] isEqualToString:[publicHoliday.holidayDate stringWithFormat:DATEFORMAT_COMPAREDATE]])
+        {
+            self.dayView.dayTableView.backgroundColor=[[UIColor app_ultraLightGrey] colorWithAlphaComponent:0.5];
+            break;
+        }
+        else {
+            self.dayView.dayTableView.backgroundColor=[UIColor whiteColor];
+        }
+    
+    }
+    
+
+}
+
+
 
 
 @end
