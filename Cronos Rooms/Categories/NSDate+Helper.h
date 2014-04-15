@@ -11,6 +11,7 @@
 #define DATEFORMAT_DAYNAME_AND_SHORT_DATE @"cccc, d/M/yy"
 #define DATEFORMAT_MONTHNAME @"MMMM"
 #define DATEFORMAT_URL_DATETIME @"yyyyMMdd%20HH:mm"
+#define DATEFORMAT_WEEKDAY @"EEEE"
 
 + (NSDate *)dateFromString:(NSString *)string withFormat:(NSString *)format;
 - (NSString *)stringWithFormat:(NSString *)format;

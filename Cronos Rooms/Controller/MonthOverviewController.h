@@ -11,7 +11,5 @@
 @interface MonthOverviewController : UIViewController
 
 @property (nonatomic, strong) NSArray *publicHolidays;
-@property (nonatomic, strong) NSMutableArray *reservationsPerMonth;
-
-@property (nonatomic) BOOL screenHasRotated;
+@property (nonatomic, strong) NSArray *reservationsPerRoom;
 @end
