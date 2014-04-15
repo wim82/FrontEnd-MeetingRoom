@@ -33,6 +33,12 @@
         
         [self.contentView addSubview:self.lblName];
         
+        self.lblReservations = [[UILabel alloc]initWithFrame:CGRectMake(10, 20, self.frame.size.width-10, 80)];
+        self.lblReservations.font = [UIFont systemFontOfSize:12];
+        self.lblReservations.textColor = [UIColor darkGrayColor];
+        self.lblReservations.numberOfLines = 0;
+        [self.contentView addSubview:self.lblReservations];
+        
     }
     return self;
 }

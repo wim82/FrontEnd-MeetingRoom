@@ -37,12 +37,18 @@ NSMutableDictionary *monthsAndDaysDictionary;
 NSMutableArray *keyArray;
 NSCalendar *calendar;
 NSMutableDictionary * months;
-NSMutableArray * holidays;
-NSMutableArray *timeStamp;
 NSMutableArray *daysInMonthArray;
 int roomId;
 NSDate * startDate;
 int amount;
+
+NSInteger roomId;
+NSDate * startDate;
+NSInteger amount;
+NSDate * today;
+
+
+
 
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -52,7 +58,6 @@ int amount;
 - (void)loadView{
     
     self.viewMonthOverview = [[MonthOverview alloc]initWithFrame:[UIScreen mainScreen].bounds andDelegate:self];
-   // NSLog(@"viewdidload :%f", [UIScreen mainScreen].bounds.size.width);
     self.view = self.viewMonthOverview;
     
     
@@ -113,35 +118,23 @@ int amount;
     
     
     
-    date=[self prefillWithOneWeek: date];
+    startDate = [self fillWithXNumberOfDays:date: xNumberOfDays];
     
-    NSDateComponents *components = [calendar components:NSYearCalendarUnit
-                                    | NSMonthCalendarUnit | NSDayCalendarUnit fromDate:date];
-    int monthOfDate= components.month;
     
-    NSLog(@"maand is : %d",monthOfDate);
+    monthsAndDaysDictionary=[[NSMutableDictionary alloc]init];
+    calendar = [NSCalendar autoupdatingCurrentCalendar];
+    keyArray = [[NSMutableArray alloc]init]; //months in Array, starting with first month corresponding with startDate
     
+    date=startDate;
+    NSLog(@"date is : %@", date);
     
     //volgende dag
-    NSDateComponents *offsetComponents = [[NSDateComponents alloc] init];
-    [offsetComponents setDay:1];
-    NSDate *nextDate = [calendar dateByAddingComponents:offsetComponents toDate:date options:0];
-    NSDateComponents *nextComponents = [calendar components:NSYearCalendarUnit
-                                        | NSMonthCalendarUnit | NSDayCalendarUnit fromDate:nextDate];
+    NSDate *nextDate = [self fillWithXNumberOfDays:date :1];
+
     
-    NSLog(@"vandaag : %@, en morgen : %@", date, nextDate);
-    
-    daysInMonthArray=[[NSMutableArray alloc]init];
-    for (int i=1; i<=12; i++){
-        [keyArray addObject:[NSNumber numberWithInt:components.month]];
-        
-        //check if first of month is a Monday or not. add fake date cell to beginning of the month to start from Monday column
-        //fake date
-        NSDateComponents *fakeComponents=[[NSDateComponents alloc]init];
-        [fakeComponents setDay:1];
-        [fakeComponents setMonth:1];
-        [fakeComponents setYear:1970];
-        NSDate *fakeDate=[[NSCalendar currentCalendar] dateFromComponents:fakeComponents] ;
+    daysInMonthArray=[[NSMutableArray alloc]init]; //array of all the days in a Month, including the fake dates
+    for (int i=1; i<=numberOfMonths; i++){
+        [keyArray addObject:[self displayStringMonthFromDate:date]];  //fill keyArray with corresponding months of the dictionary
         
         
         int dayofweek = [[[NSCalendar currentCalendar] components:NSWeekdayCalendarUnit fromDate:date] weekday];
@@ -152,56 +145,45 @@ int amount;
                     [daysInMonthArray addObject:fakeDate];
                     
                 }}
-            else{
-                for (int j=0;j<(dayofweek-2); j++){
-                    [daysInMonthArray addObject:fakeDate];
-                }
+        if ([weekDay isEqualToString:@"Tuesday"]){
+                [daysInMonthArray addObject:[self fakeDate]];
             }
-        }
-        
+        if ([weekDay isEqualToString:@"Wednesday"]){
+            for (int j=0; j<2; j++){
+                [daysInMonthArray addObject:[self fakeDate]];
+            }}
+        if ([weekDay isEqualToString:@"Thursday"]){
+            for (int j=0; j<3; j++){
+                [daysInMonthArray addObject:[self fakeDate]];
+            }}
+        if ([weekDay isEqualToString:@"Friday"]){
+            for (int j=0; j<4; j++){
+                [daysInMonthArray addObject:[self fakeDate]];
+            }}
+        if ([weekDay isEqualToString:@"Saturday"]){
+            for (int j=0; j<5; j++){
+                [daysInMonthArray addObject:[self fakeDate]];
+            }}
         
         
         [daysInMonthArray addObject:date];
-        
-        
-        while (components.month==nextComponents.month){
+ 
+  
+        while ([[self displayStringMonthFromDate:date] isEqualToString:[self displayStringMonthFromDate:nextDate]]){
             [daysInMonthArray addObject:nextDate];
             date=nextDate;
-            components=nextComponents;
-            nextDate = [calendar dateByAddingComponents:offsetComponents toDate:date options:0];
-            nextComponents = [calendar components:NSYearCalendarUnit
-                              | NSMonthCalendarUnit | NSDayCalendarUnit fromDate:nextDate];
-            
-        }
-        int monthOfDate= components.month;
-        // NSLog(@"array is :%@",daysInMonthArray);
-        [monthsAndDaysDictionary setObject:daysInMonthArray forKey:[NSNumber numberWithInt:monthOfDate]];
-        //  NSLog(@"%i dagen in maand : %@", daysInMonthArray.count, [months objectForKey:[NSNumber numberWithInt:monthOfDate]]);
+            nextDate = [self fillWithXNumberOfDays:date :1];
+            }
+       
+        [monthsAndDaysDictionary setObject:daysInMonthArray forKey:[self displayStringMonthFromDate:date]];
         date=nextDate;
-        components=nextComponents;
-        nextDate = [calendar dateByAddingComponents:offsetComponents toDate:date options:0];
-        nextComponents = [calendar components:NSYearCalendarUnit
-                          | NSMonthCalendarUnit | NSDayCalendarUnit fromDate:nextDate];
-        daysInMonthArray=[[NSMutableArray alloc]init];
-        
+        nextDate = [self fillWithXNumberOfDays:date :1];
+        daysInMonthArray = [[NSMutableArray alloc]init];
+ 
     }
-    //  NSLog(@"dictionary: %@", [monthsAndDaysDictionary objectForKey:[NSNumber numberWithInt:8]]);
-    
-    
-    
-    
-    
-}
+    }
 
--(NSDate *) prefillWithOneWeek:(NSDate *)today {
-    NSDateComponents *components = [calendar components:NSYearCalendarUnit
-                                    | NSMonthCalendarUnit | NSDayCalendarUnit fromDate:today];
-    components.day-=7;
-    NSDate * date=[calendar dateFromComponents:components];
-    NSLog (@" today : %@, and date : %@",today, date);
-    return date;
-    
-}
+
 
 - (void)viewDidLoad
 {
@@ -224,7 +206,6 @@ int amount;
     
     
 
-    
     
 }
 
@@ -276,14 +257,15 @@ int amount;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    MonthCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER_MONTHDAY forIndexPath:indexPath];
     
-    // Day * day = [self.arrayOfDays objectAtIndex:indexPath.row];
+    
+    
+    MonthCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER_MONTHDAY forIndexPath:indexPath];
+
     cell.lblName.text=@"";
     cell.backgroundColor=[UIColor app_ultraLightGrey];
     NSDate *dayInArray=[[NSDate alloc]init];
     dayInArray=[[monthsAndDaysDictionary objectForKey:[keyArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row] ;
-    // NSLog(@"day: %@ and timestamp : %@", dayInArray, timeStamp);
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"yyyy-MM-dd"];
     
@@ -325,6 +307,7 @@ int amount;
         }
     else{
         cell.backgroundColor=[UIColor clearColor];
+        
     }
     
     
@@ -348,6 +331,7 @@ int amount;
     // cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     
+    [self gestureRecognition:cell:indexPath.row];
     
     return cell;
 }
@@ -363,11 +347,10 @@ int amount;
 - (UICollectionReusableView *)collectionView: (UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     MonthHeader *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:
                                UICollectionElementKindSectionHeader withReuseIdentifier:HEADER_IDENTIFIER_MONTH forIndexPath:indexPath];
+
     
-    NSLog(@"header title : %@", [NSNumber numberWithInt:indexPath.section]);
-    NSLog(@"test test keyarray: %@", [keyArray objectAtIndex:indexPath.section]);
-    
-    NSString *headerText =  [months objectForKey:[keyArray objectAtIndex:indexPath.section]] ;
+  //  NSString *headerText =  [months objectForKey:[keyArray objectAtIndex:indexPath.section]] ;
+    NSString *headerText =  [keyArray objectAtIndex:indexPath.section] ;
     
     headerView.lblHeader.text= headerText;
     return headerView;
@@ -404,7 +387,28 @@ int amount;
     return UIEdgeInsetsMake(50, 20,50, 20);
 }
 
-#pragma mark -  tap and longpress actions
+#pragma mark -  tap and longpress actions and recognizer
+
+//this adds tap and long press gesture recognizer to the cell with number indexpath.row
+-(void) gestureRecognition:(MonthCell *) cell : (NSInteger) row {
+    
+    cell.tag = row;
+    
+    // Press/tap
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cellTapped:)];
+    tapGestureRecognizer.numberOfTapsRequired = 1;
+    tapGestureRecognizer.numberOfTouchesRequired = 1;
+    [cell addGestureRecognizer:tapGestureRecognizer];
+    
+    //Long Press
+    UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc]
+                                          initWithTarget:self action:@selector(handleLongPress:)];
+    lpgr.minimumPressDuration = 0.5; //seconds
+    [cell addGestureRecognizer:lpgr];
+
+    
+}
+
 -(void)cellTapped:(id)sender{
     NSLog(@"Cell Tapped");
     
