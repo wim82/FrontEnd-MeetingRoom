@@ -13,6 +13,7 @@
 #import "TestViewController.h"
 #import "UIColor+AppColor.h"
 #import "MonthViewController.h"
+#import "CountDownViewController.h"
 
 @interface AppDelegate ()
 @property(nonatomic, strong) UINavigationController *navigationController;
@@ -33,8 +34,9 @@
     DayViewController *dayViewController = [[DayViewController alloc] init];
     ReservationOverviewController *reservationOverviewController = [[ReservationOverviewController alloc] init];
     MonthViewController * monthOverviewController = [[MonthViewController alloc]init];
+    CountDownViewController *countDownViewController = [[CountDownViewController alloc]init];
     
-    self.navigationController = [[UINavigationController alloc] initWithRootViewController:reservationOverviewController];
+    self.navigationController = [[UINavigationController alloc] initWithRootViewController:countDownViewController];
     [self styleNavigationController];
     self.window.rootViewController = self.navigationController;
     

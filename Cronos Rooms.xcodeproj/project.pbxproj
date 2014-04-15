@@ -62,6 +62,10 @@
 		A2C8EA6518FB0F5D00D01F4B /* PublicHolidayService.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C8EA6318FB0F5C00D01F4B /* PublicHolidayService.m */; };
 		A2C8EA6818FB123200D01F4B /* PublicHoliday.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C8EA6718FB123200D01F4B /* PublicHoliday.m */; };
 		A2C8EA6918FB123200D01F4B /* PublicHoliday.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C8EA6718FB123200D01F4B /* PublicHoliday.m */; };
+		A2C8EABB18FDC94E00D01F4B /* CountDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C8EABA18FDC94E00D01F4B /* CountDownViewController.m */; };
+		A2C8EABC18FDC94E00D01F4B /* CountDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C8EABA18FDC94E00D01F4B /* CountDownViewController.m */; };
+		A2C8EABF18FDCA5600D01F4B /* CountDownView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C8EABE18FDCA5600D01F4B /* CountDownView.m */; };
+		A2C8EAC018FDCA5600D01F4B /* CountDownView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C8EABE18FDCA5600D01F4B /* CountDownView.m */; };
 		BE22791918F3DBEC007CEF07 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE22791818F3DBEC007CEF07 /* Foundation.framework */; };
 		BE22791B18F3DBEC007CEF07 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE22791A18F3DBEC007CEF07 /* CoreGraphics.framework */; };
 		BE22791D18F3DBEC007CEF07 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE22791C18F3DBEC007CEF07 /* UIKit.framework */; };
@@ -189,6 +193,10 @@
 		A2C8EA6318FB0F5C00D01F4B /* PublicHolidayService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublicHolidayService.m; sourceTree = "<group>"; };
 		A2C8EA6618FB123200D01F4B /* PublicHoliday.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublicHoliday.h; sourceTree = "<group>"; };
 		A2C8EA6718FB123200D01F4B /* PublicHoliday.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublicHoliday.m; sourceTree = "<group>"; };
+		A2C8EAB918FDC94E00D01F4B /* CountDownViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountDownViewController.h; sourceTree = "<group>"; };
+		A2C8EABA18FDC94E00D01F4B /* CountDownViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountDownViewController.m; sourceTree = "<group>"; };
+		A2C8EABD18FDCA5600D01F4B /* CountDownView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CountDownView.h; path = ../Controller/CountDownView.h; sourceTree = "<group>"; };
+		A2C8EABE18FDCA5600D01F4B /* CountDownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CountDownView.m; path = ../Controller/CountDownView.m; sourceTree = "<group>"; };
 		BE22791518F3DBEC007CEF07 /* Cronos Rooms.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cronos Rooms.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE22791818F3DBEC007CEF07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		BE22791A18F3DBEC007CEF07 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -300,6 +308,8 @@
 				A2C8EA5F18FB079000D01F4B /* MonthViewController.m */,
 				2DA5E8D5AF86437E62BDBCC9 /* SettingsViewController.m */,
 				2DA5E67BCEF1E133B767705E /* SettingsViewController.h */,
+				A2C8EAB918FDC94E00D01F4B /* CountDownViewController.h */,
+				A2C8EABA18FDC94E00D01F4B /* CountDownViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -363,6 +373,8 @@
 		2DA5E87C12658C8E7495DF24 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A2C8EABD18FDCA5600D01F4B /* CountDownView.h */,
+				A2C8EABE18FDCA5600D01F4B /* CountDownView.m */,
 				2DA5E2438CBC906C6B3660AF /* DayView.m */,
 				2DA5EE07B0935590BE089037 /* DayView.h */,
 				2DA5E7C2F354877E1E6AC058 /* DayQuarterHourViewCell.m */,
@@ -711,6 +723,7 @@
 				2DA5E995B12F41FB0BF704C0 /* NSDate+Helper.m in Sources */,
 				2DA5E85337AD7E3B8059D25E /* UIColor+AppColor.m in Sources */,
 				2DA5E835752D361A9E025F3A /* DTCustomColoredAccessory.m in Sources */,
+				A2C8EABB18FDC94E00D01F4B /* CountDownViewController.m in Sources */,
 				943B90926D7D787B4F691DCD /* ScopedSearchBar.m in Sources */,
 				A2C8EA6018FB079000D01F4B /* MonthViewController.m in Sources */,
 				943B971877876B60F403A289 /* SearchTableViewCell.m in Sources */,
@@ -719,6 +732,7 @@
 				2DA5E26FC8BCF67F361E530E /* UINavigationController+Orientation.m in Sources */,
 				2DA5EC910B1573AD3964D76C /* AppState.m in Sources */,
 				2DA5E9BE61C0C2DFEA4AC5F2 /* DayTitleView.m in Sources */,
+				A2C8EABF18FDCA5600D01F4B /* CountDownView.m in Sources */,
 				2DA5E17D7353E06F2D231FBC /* DetailCellView.m in Sources */,
 				2DA5EE3961B1704F845174F8 /* GroupTitleView.m in Sources */,
 				2DA5EBC07A0B0CB8C5F2BE18 /* MeetingRoomOverview.m in Sources */,
@@ -737,8 +751,10 @@
 			files = (
 				BE22794418F3DBEC007CEF07 /* Cronos_RoomsTests.m in Sources */,
 				A2C8EA5518FB02DC00D01F4B /* MonthHeader.m in Sources */,
+				A2C8EAC018FDCA5600D01F4B /* CountDownView.m in Sources */,
 				A2C8EA6918FB123200D01F4B /* PublicHoliday.m in Sources */,
 				A2C8EA5918FB039C00D01F4B /* MonthCell.m in Sources */,
+				A2C8EABC18FDC94E00D01F4B /* CountDownViewController.m in Sources */,
 				A2C8EA6518FB0F5D00D01F4B /* PublicHolidayService.m in Sources */,
 				A2C8EA6118FB079000D01F4B /* MonthViewController.m in Sources */,
 				A2C8EA5D18FB048000D01F4B /* MonthOverview.m in Sources */,
