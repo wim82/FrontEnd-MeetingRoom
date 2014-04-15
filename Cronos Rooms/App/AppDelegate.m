@@ -12,7 +12,7 @@
 #import "DayViewController.h"
 #import "TestViewController.h"
 #import "UIColor+AppColor.h"
-#import "MonthOverviewController.h"
+#import "MonthViewController.h"
 
 @interface AppDelegate ()
 @property(nonatomic, strong) UINavigationController *navigationController;
@@ -32,7 +32,7 @@
     // TestViewController*testViewController = [[TestViewController alloc] init];
     DayViewController *dayViewController = [[DayViewController alloc] init];
     ReservationOverviewController *reservationOverviewController = [[ReservationOverviewController alloc] init];
-    MonthOverviewController * monthOverviewController = [[MonthOverviewController alloc]init];
+    MonthViewController * monthOverviewController = [[MonthViewController alloc]init];
     
     self.navigationController = [[UINavigationController alloc] initWithRootViewController:reservationOverviewController];
     [self styleNavigationController];

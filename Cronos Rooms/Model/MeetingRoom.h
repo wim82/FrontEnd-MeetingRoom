@@ -8,10 +8,12 @@
 
 @interface MeetingRoom : NSObject
 
-@property (nonatomic, strong) NSString *roomName;
-@property (nonatomic, assign) NSInteger roomId;
-@property (nonatomic, strong) NSString *buildingName;
-- (instancetype) initWithDictionary:(NSDictionary *) dictionary;
--(NSMutableDictionary *)convertToDictionary;
+@property(nonatomic, strong) NSString *roomName;
+@property(nonatomic, assign) NSInteger roomId;
+@property(nonatomic, strong) NSString *buildingName;
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+
+- (NSMutableDictionary *)convertToDictionary;
 
 @end

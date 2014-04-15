@@ -10,6 +10,7 @@
 #import "EditReservationViewController.h"
 #import "ReservationOverviewController.h"
 #import "DayViewController.h"
+#import "MonthViewController.h"
 
 
 #define TABLEVIEWCELL_IDENTIFIER @"searchCell"
@@ -184,14 +185,17 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.searchBar.selectedScopeButtonIndex == 1){
-        DayViewController *dayViewController = [[DayViewController alloc] init];
-        dayViewController.meetingRoom =  self.meetingRooms[indexPath.row];
-        [self.navigationController pushViewController:dayViewController animated:YES];
+    if (self.searchBar.selectedScopeButtonIndex == 1) {
+        /* DayViewController *dayViewController = [[DayViewController alloc] init];
+         dayViewController.meetingRoom =  self.meetingRooms[indexPath.row];
+         [self.navigationController pushViewController:dayViewController animated:YES];  */
+        MonthViewController *monthViewController = [[MonthViewController alloc] init];
+        monthViewController.meetingRoom = self.meetingRooms[indexPath.row];
+        [self.navigationController pushViewController:monthViewController animated:YES];
 
     } else {
         //we've clicked on a user
-        ReservationOverviewController  *reservationOverviewController = [[ReservationOverviewController alloc] init];
+        ReservationOverviewController *reservationOverviewController = [[ReservationOverviewController alloc] init];
         reservationOverviewController.user = [[User alloc] init];
         reservationOverviewController.user.userId = 2;
         [self.navigationController pushViewController:reservationOverviewController animated:YES];
@@ -206,7 +210,6 @@
     [tableView registerClass:[SearchTableViewCell class] forCellReuseIdentifier:TABLEVIEWCELL_IDENTIFIER];
     [tableView registerClass:[SearchTableViewCell class] forCellReuseIdentifier:TABLEVIEWCELL_EMPTYIDENTIFIER];
 }
-
 
 
 - (void)filterContentForSearchText:(NSString *)searchText scope:(NSString *)scope {

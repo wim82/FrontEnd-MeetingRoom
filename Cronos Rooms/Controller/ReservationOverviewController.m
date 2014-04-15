@@ -16,6 +16,7 @@
 #import "NSDate+Helper.h"
 #import "UIColor+AppColor.h"
 #import "DTCustomColoredAccessory.h"
+#import "SettingsViewController.h"
 
 
 #define TABLEVIEWCELL_IDENTIFIER @"meetingCell"
@@ -157,7 +158,6 @@
     self.navigationItem.rightBarButtonItems = buttons;
 
 
-
     self.navigationController.navigationBar.translucent = NO;
     self.title = @"Reservations";
 
@@ -181,7 +181,10 @@
 
 
 - (void)_didTapSettings {
-    //TODO: implement settings screen
+
+    SettingsViewController *settingsViewController = [[SettingsViewController alloc]init];
+    settingsViewController.modalTransitionStyle = UIModalTransitionStylePartialCurl;
+    [self.navigationController presentViewController:settingsViewController animated:YES completion:nil];
 }
 
 

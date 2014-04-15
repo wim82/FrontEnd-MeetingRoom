@@ -13,7 +13,7 @@
 + (AppState *)sharedInstance;
 
 
-//@property (nonatomic, assign) BOOL deviceIsiPad;
+@property (nonatomic, assign) BOOL deviceIsiPad;
 
 @property (nonatomic, assign) BOOL deviceIsiPhone5;
 

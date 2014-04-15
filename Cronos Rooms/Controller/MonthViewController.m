@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 KaWi. All rights reserved.
 //
 
-#import "MonthOverviewController.h"
+#import "MonthViewController.h"
 #import "MonthCell.h"
 #import "MonthOverview.h"
 #import "MonthHeader.h"
@@ -18,11 +18,12 @@
 #import "MeetingRoom.h"
 #import "EditReservationViewController.h"
 #import "DayViewController.h"
+#import "AppState.h"
 
 #define CELL_IDENTIFIER_MONTHDAY @"MonthCell"
 #define HEADER_IDENTIFIER_MONTH @"MonthHeaderView"
 
-@interface MonthOverviewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface MonthViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) MonthOverview * viewMonthOverview;
 
@@ -35,7 +36,7 @@
 
 @end
 
-@implementation MonthOverviewController
+@implementation MonthViewController
 NSMutableDictionary *monthsAndDaysDictionary;
 
 NSMutableArray *keyArray;
@@ -58,10 +59,7 @@ NSDate * today;
     self.view = self.viewMonthOverview;
     
     
-    //TODO:#define link roomId to the real id of the choosen MeetingRoom
-    roomId=1;
-    self.meetingRoom = [[MeetingRoom alloc]init];
-    self.meetingRoom.roomId=roomId;
+
     
     //TODO #define number of days to prefill in the calendar (back in history/days before today) And number of months in calendar
     NSInteger xNumberOfDays=-10;
@@ -139,7 +137,7 @@ NSDate * today;
 {
     [super viewDidLoad];
     
-    self.title = @"Month Overview";
+    self.title = self.meetingRoom.roomName;
     
     [self.viewMonthOverview.collectionView registerClass:[MonthCell class] forCellWithReuseIdentifier:CELL_IDENTIFIER_MONTHDAY];
     
@@ -216,8 +214,12 @@ NSDate * today;
             cell.backgroundColor=[UIColor app_lightRed];
             dayContent=[dayContent stringByAppendingString:publicHoliday.holidayName];
         }}
-    cell.lblReservations.text = dayContent;
-    
+
+
+    //TODO: ipad/iphone check --> use different cells is probably a better solution
+    if([[AppState sharedInstance] deviceIsiPad]){
+        cell.lblReservations.text = dayContent;
+    }
     
     
     //remove the fakeCells TODO: make the fakecells inactive

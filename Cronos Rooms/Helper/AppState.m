@@ -51,16 +51,16 @@
 }
 
 
-//- (BOOL) deviceIsiPad
-//{
-//    static int idiom = -1;
-//
-//    if (idiom == -1) {
-//        idiom = UI_USER_INTERFACE_IDIOM();
-//    }
-//
-//    return idiom == UIUserInterfaceIdiomPad;
-//}
+- (BOOL) deviceIsiPad
+{
+    static int idiom = -1;
+
+    if (idiom == -1) {
+        idiom = UI_USER_INTERFACE_IDIOM();
+    }
+
+    return idiom == UIUserInterfaceIdiomPad;
+}
 
 //- (BOOL)deviceIsiPhone5
 //{

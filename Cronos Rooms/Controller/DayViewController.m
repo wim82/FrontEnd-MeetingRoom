@@ -14,10 +14,11 @@
 #import "DayTitleView.h"
 #import "PublicHoliday.h"
 #import "UIColor+AppColor.h"
+#import "IDaySwitcher.h"
 
 #define DAYQUARTERHOURVIEWCELL_IDENTIFIER @"DayQuarterHourViewCell"
 
-@interface DayViewController () <UITableViewDataSource, UITableViewDelegate, IReservationSelector>
+@interface DayViewController () <UITableViewDataSource, UITableViewDelegate, IReservationSelector, IDaySwitcher>
 
 @property(nonatomic, strong) DayView *dayView;
 @property(nonatomic, strong) NSArray *hours;
@@ -39,30 +40,29 @@
 
 
     self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.view.backgroundColor=[UIColor whiteColor];
+    self.view.backgroundColor = [UIColor whiteColor];
 
     //TODO: make sure navigationcontroller displays current date & meeting room as title +
-    if (!self.date){
+    if (!self.date) {
         self.date = [[NSDate alloc] init];
     }
-    
+
     if (!self.meetingRoom) {
         self.meetingRoom = [[MeetingRoom alloc] init];
         self.meetingRoom.roomId = 1;
         self.meetingRoom.roomName = @"dit zou niet mogen";
     }
     self.navigationItem.title = self.meetingRoom.roomName;
-    
+
 
 }
-
 
 
 - (void)viewDidLoad {
 
     //visual setup dayview table
 
-    self.dayTitleView = [[DayTitleView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44) andDate:self.date];
+    self.dayTitleView = [[DayTitleView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44) delegate:self andDate:self.date];
     [self.view addSubview:self.dayTitleView];
 
     self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, self.dayTitleView.frame.origin.y + self.dayTitleView.frame.size.height, self.view.frame.size.width, self.view.frame.size.height - self.dayTitleView.frame.size.height)];
@@ -105,18 +105,16 @@
 }
 
 - (void)didSwipeLeft {
-    NSLog(@"did swipe left");
     self.date = [self.date dateByAddingTimeInterval:60 * 60 * 24];
-   self.dayTitleView.dayNameLabel.text = [self.date stringWithFormat:@"cccc, d MMM yyyy"];
+    self.dayTitleView.dayNameLabel.text = [self.date stringWithFormat:@"cccc, d MMM yyyy"];
     [self _loadReservations];
     [self checkIfPublicHoliday];
 }
 
 
 - (void)didSwipeRight {
-    NSLog(@"did swipe right");
     self.date = [self.date dateByAddingTimeInterval:-(60 * 60 * 24)];
-    self.dayTitleView.dayNameLabel.text  = [self.date stringWithFormat:@"cccc, d MMM yyyy"];
+    self.dayTitleView.dayNameLabel.text = [self.date stringWithFormat:@"cccc, d MMM yyyy"];
     [self _loadReservations];
     [self checkIfPublicHoliday];
 }
@@ -231,40 +229,45 @@
 
 }
 
-- (void) _loadPublicHolidays {
-    
+- (void)_loadPublicHolidays {
+
     [[PublicHolidayService sharedService] getAllPublicHolidaysWithSuccessHandler:^(NSMutableArray *publicHolidays) {
         self.publicHolidays = [[NSMutableArray alloc] initWithArray:publicHolidays];
         [self checkIfPublicHoliday];
         [self.dayView.dayTableView reloadData];
-        
-    } andErrorHandler:^(NSException * exception) {
+
+    }                                                            andErrorHandler:^(NSException *exception) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:exception.reason delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
     }];
-    
-    
+
+
 }
 
-- (void) checkIfPublicHoliday{
-    
-    
+- (void)checkIfPublicHoliday {
+
+
     for (PublicHoliday *publicHoliday in self.publicHolidays) {
-         if ([[self.date stringWithFormat:DATEFORMAT_COMPAREDATE] isEqualToString:[publicHoliday.holidayDate stringWithFormat:DATEFORMAT_COMPAREDATE]])
-        {
-            self.dayView.dayTableView.backgroundColor=[[UIColor app_ultraLightGrey] colorWithAlphaComponent:0.5];
+        if ([[self.date stringWithFormat:DATEFORMAT_COMPAREDATE] isEqualToString:[publicHoliday.holidayDate stringWithFormat:DATEFORMAT_COMPAREDATE]]) {
+            self.dayView.dayTableView.backgroundColor = [[UIColor app_ultraLightGrey] colorWithAlphaComponent:0.5];
             break;
         }
         else {
-            self.dayView.dayTableView.backgroundColor=[UIColor whiteColor];
+            self.dayView.dayTableView.backgroundColor = [UIColor whiteColor];
         }
-    
+
     }
-    
+
 
 }
 
+- (void)didTapPrevious {
+    [self didSwipeLeft];
+}
 
+- (void)didTapNext {
+    [self didSwipeLeft];
+}
 
 
 @end
