@@ -5,9 +5,11 @@
 
 #import <Foundation/Foundation.h>
 #import "MainService.h"
+#import "User.h"
 
 
 @interface UserService  : MainService
 + (UserService *)sharedService;
 - (void)getAllUsersWithSuccesHandler:(void (^)(NSMutableArray *))success andErrorHandler:(void (^)(NSException *))error;
+- (void)getUserForFullName:(NSString *)fullName withSuccesHandler:(void (^)(User *))success andErrorHandler:(void (^)(NSException *))error;
 @end

@@ -3,6 +3,7 @@
 // Copyright (c) 2014 wim. All rights reserved.
 //
 
+#import <UIColor-Utilities/UIColor+Expanded.h>
 #import "EditReservationViewController.h"
 #import "EditReservationView.h"
 #import "DetailReservationView.h"
@@ -12,9 +13,10 @@
 #import "UIColor+AppColor.h"
 #import "NSDate+Helper.h"
 #import "dimensions.h"
+#import "UserService.h"
 
 
-@interface EditReservationViewController () <IDatePickerSlider, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
+@interface EditReservationViewController () <IDatePickerSlider, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIScrollViewDelegate>
 
 
 @property(nonatomic, strong) DetailCellView *descriptionTextView;
@@ -42,10 +44,11 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
 @implementation EditReservationViewController
 
+
 - (void)loadView {
 
     self.scrollView = [[UIScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    [self.scrollView setBackgroundColor:[UIColor app_snowWhite]];
+    [self.scrollView setBackgroundColor:[UIColor whiteColor]];
     self.view = self.scrollView;
 
 
@@ -54,10 +57,13 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
 
     [self _setUpNavigationController];
 
+    if (self.reservation.reservationId) {
+        [self _setUpDeleteButton];
+        self.scrollView.delegate = self;
+    }
 
     [self _setUpTimeView];
     [self _loadAvailableMeetingRooms];
@@ -69,7 +75,6 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
 
 - (void)viewWillAppear:(BOOL)animated {
-
 
 }
 
@@ -139,6 +144,18 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
                                                object:nil];
 }
 
+- (void)_setUpDeleteButton {
+    self.deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 100 * 20, -64, self.view.frame.size.width / 100 * 60, 44)];
+    [self.deleteButton setBackgroundColor:[UIColor app_red]];
+    [self.deleteButton setTitle:@"Delete" forState:UIControlStateNormal];
+    self.deleteButton.titleLabel.text = @"Delete";
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_didTapDelete)];
+    [self.deleteButton addGestureRecognizer:tapGestureRecognizer];
+
+
+    [self.scrollView addSubview:self.deleteButton];
+}
+
 
 - (void)_setUpTimeView {
     self.timeTitleView = [[GroupTitleView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, DIMENSIONS_GROUP_TITLE_VIEW_HEIGHT)
@@ -173,6 +190,8 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
     //sets minimum date to now.
     self.endDatePickerView.datePicker.minimumDate = [[NSDate alloc] init];
+
+    [self.endDatePickerView.datePicker addTarget:self action:@selector(_didChangeEndDate) forControlEvents:UIControlEventValueChanged];
     [self.endDatePickerView updateDateValue];
     [self.scrollView addSubview:self.endDatePickerView];
 
@@ -203,7 +222,14 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
     [self.scrollView addSubview:self.reservedByTextView];
 }
 
+#pragma mark - Getters & Setters
 
+- (Reservation *)reservation {
+    if (!_reservation) {
+        _reservation = [[Reservation alloc] init];
+    }
+    return _reservation;
+}
 
 #pragma mark - Private Methods
 
@@ -242,7 +268,8 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
 
 - (CGFloat)_heigthForAllElementsInCurrentView {
-    return self.timeTitleView.frame.size.height +
+    return self.deleteButton.frame.size.height +
+            self.timeTitleView.frame.size.height +
             self.startDatePickerView.frame.size.height +
             self.endDatePickerView.frame.size.height +
             self.descriptionTextView.frame.size.height +
@@ -256,7 +283,20 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
 //forces the date part of the endtime to always be the same as the starttime, as soon as the starttime changes
 - (void)_didChangeStartDate {
+    self.reservation.startTime = self.startDatePickerView.datePicker.date;
+
     self.endDatePickerView.datePicker.date = [self.startDatePickerView.datePicker.date dateByAddingTimeInterval:60 * 30];
+    self.reservation.endTime = self.endDatePickerView.datePicker.date;
+    [self.endDatePickerView updateDateValue];
+
+    [self _loadAvailableMeetingRooms];
+}
+
+- (void)_didChangeEndDate {
+    if ([self.startDatePickerView.datePicker.date compare:self.endDatePickerView.datePicker.date] == NSOrderedDescending) {
+        self.endDatePickerView.datePicker.date = [self.startDatePickerView.datePicker.date dateByAddingTimeInterval:60 * 30];
+    }
+    self.reservation.endTime = self.endDatePickerView.datePicker.date;
     [self.endDatePickerView updateDateValue];
     [self _loadAvailableMeetingRooms];
 }
@@ -268,18 +308,12 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
     //build element that needs to be "posted"
     int userNumber = 1; //TODO zoek met rest call op wat userid is van de Full Name die ingevuld staat -> als de usernaam niet gewijzigd is, is geen restcall nodig : de userid is reeds aanwezig
 
-    Reservation *finalReservation = [[Reservation alloc] init];
 
-    User *user = [[User alloc] init];
-    user.userId = userNumber;
-    user.fullName = @"";
-    finalReservation.user = user;
+    //TODO: i think this can be safely removed,
+    self.reservation.meetingRoom = self.currentMeetingRoom;
+    self.reservation.reservationId = self.reservation.reservationId;
+    self.reservation.reservationDescription = self.descriptionTextView.detailTextField.text;
 
-    finalReservation.meetingRoom = self.currentMeetingRoom;
-    finalReservation.reservationId = self.reservation.reservationId;
-    finalReservation.reservationDescription = self.descriptionTextView.detailTextField.text;
-    finalReservation.startTime = self.startDatePickerView.datePicker.date;
-    finalReservation.endTime = self.endDatePickerView.datePicker.date;
 
     NSLog(@"in didtapSave: ");
 
@@ -288,12 +322,12 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
     if (self.reservation.reservationId == 0) {
         NSLog(@"create");
         NSLog(@"reservation id : %d", self.reservation.reservationId);
-        [self createReservation:finalReservation];
+        [self createReservation:self.reservation];
     }
     else {
         NSLog(@"update");
         NSLog(@"reservation id : %d", self.reservation.reservationId);
-        [self updateReservation:finalReservation];
+        [self updateReservation:self.reservation];
     }
 
     //REMARK: katrien, hier stond de popviewcontroller -> zolang we zonder lokale database werken, heb ik die in de respectievelijke completionblocks gezet
@@ -374,28 +408,16 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
 
 
-
-
 #pragma mark - Navigation
-
-- (void)_dismissController {
-    //FIX IT : keert nog niet terug
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-
-//hebben wij een cancel methode nodig? we hebben al back?
-- (void)_didTapCancel {
-    NSLog(@"tapped cancel");
-    [self _dismissController];
-}
-
 
 - (void)_didTapSave {
     //TODO: perform necessary checks before actual saving.
     if (!self.currentMeetingRoom) {
         //TODO: subclass alertview for a custom alertview
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Forgot something?" message:@"You didn't select a meeting room" delegate:nil cancelButtonTitle:@"Sorry, i'll correct that" otherButtonTitles:nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Forgot something?" message:@"You didn't select a meeting room" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+    } else if (!self.reservation.user) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Unknown user" message:@"Please choose an existing user" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
     } else {
         [self _saveReservation];
@@ -405,12 +427,17 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 }
 
 
-//TODO een delete button creeren waar deze actie getriggered wordt
+//TODO finish this
 - (void)_didTapDelete {
-    [self deleteReservation:(NSInteger) self.reservation.reservationId];
+    //TODO // NSLog(@"hier moet jij deleten katrien!");
+    [self.deleteButton removeFromSuperview];
+
+    [UIView performSystemAnimation:UISystemAnimationDelete onViews:self.scrollView.subviews options:UIViewAnimationOptionAllowAnimatedContent animations:nil completion:^(BOOL finished) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
+
 
 }
-
 
 #pragma mark - Rest Calls
 
@@ -435,7 +462,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
     ReservationService *reservationService = [ReservationService sharedService];
 
-    [reservationService createReservation:reservation withSuccesHandler:^(Reservation *reservation) {
+    [reservationService createReservation:reservation withSuccesHandler:^(Reservation *savedReservation) {
         [self.navigationController popViewControllerAnimated:YES];
 
     }                     andErrorHandler:^(NSException *exception) {
@@ -449,7 +476,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
     ReservationService *reservationService = [ReservationService sharedService];
 
-    [reservationService updateReservation:reservation withSuccesHandler:^(Reservation *reservation) {
+    [reservationService updateReservation:reservation withSuccesHandler:^(Reservation *savedReservation) {
         [self.navigationController popViewControllerAnimated:YES];
     }                     andErrorHandler:^(NSException *exception) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error " message:exception.reason delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -537,7 +564,27 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 #pragma mark - TextField Delegate Methods
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    self.activeTextField = nil;
+    if (textField == self.reservedByTextView.detailTextField) {
+        [self _updateUserFromTextField:textField];
+    }
+    if (textField == self.descriptionTextView.detailTextField) {
+        self.reservation.reservationDescription = self.descriptionTextView.detailTextField.text;
+    }
+}
+
+- (void)_updateUserFromTextField:(UITextField *)textField {
+
+    NSLog(@"nu moeten we checken of die user bestaat");
+    UserService *service = [UserService sharedService];
+    [service getUserForFullName:textField.text withSuccesHandler:^(User *user) {
+        self.reservation.user = user;
+        NSLog(@"reservation is for user %@", self.reservation.user.fullName);
+    }           andErrorHandler:^(NSException *exception) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Unknown user" message:@"Please choose an existing user" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+
+    }];
+
 }
 
 
@@ -550,5 +597,26 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
     }
     return YES;
 }
+
+
+#pragma mark - ScrollViewDelegate Methods
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+
+    if (scrollView.contentOffset.y < -30) {
+
+        [UIView animateWithDuration:0.2 animations:^{
+            [self.scrollView setContentInset:UIEdgeInsetsMake(84, 0, 0, 0)];
+        }];
+
+        double delayInSeconds = 2.0;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:0.2 animations:^{
+                [self.scrollView setContentInset:UIEdgeInsetsZero];
+            }];
+        });
+    };
+}
+
 
 @end
