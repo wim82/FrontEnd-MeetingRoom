@@ -276,8 +276,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
             self.detailTitleView.frame.size.height +
             self.reservedByTextView.frame.size.height +
             self.roomTitleView.frame.size.height +
-            self.meetingRoomOverview.frame.size.height +
-            20;
+            self.meetingRoomOverview.frame.size.height;
 }
 
 
@@ -430,6 +429,8 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 //TODO finish this
 - (void)_didTapDelete {
     //TODO // NSLog(@"hier moet jij deleten katrien!");
+    [self deleteReservation:self.reservation.reservationId];
+    
     [self.deleteButton removeFromSuperview];
 
     [UIView performSystemAnimation:UISystemAnimationDelete onViews:self.scrollView.subviews options:UIViewAnimationOptionAllowAnimatedContent animations:nil completion:^(BOOL finished) {
