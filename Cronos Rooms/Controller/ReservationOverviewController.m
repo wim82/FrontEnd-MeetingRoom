@@ -302,11 +302,11 @@
 }
 
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
+    NSIndexPath *cellIndexPath = [self.meetingOverview.tableView indexPathForCell:cell];
+    NSDate *date = self.reservationDates[cellIndexPath.section];
+    Reservation *reservation = [self.reservationsByDate objectForKey:date][cellIndexPath.row];
     switch (index) {
         case 0: {
-            NSIndexPath *cellIndexPath = [self.meetingOverview.tableView indexPathForCell:cell];
-            NSDate *date = self.reservationDates[cellIndexPath.section];
-            Reservation *reservation = [self.reservationsByDate objectForKey:date][cellIndexPath.row];
             EditReservationViewController *editReservationViewController = [[EditReservationViewController alloc] init];
             editReservationViewController.reservation = reservation;
             [self.navigationController pushViewController:editReservationViewController animated:YES];
@@ -315,7 +315,21 @@
             break;
         }
         case 1: {
-            //TODO Implement Delete
+            [self deleteReservation:reservation.reservationId];
+            [[self.reservationsByDate objectForKey:[self.reservationDates objectAtIndex:cellIndexPath.section]] removeObjectAtIndex:cellIndexPath.row];
+
+            [cell hideUtilityButtonsAnimated:YES];
+
+            if ([[self.reservationsByDate objectForKey:[self.reservationDates objectAtIndex:cellIndexPath.section]] count]==0){
+                
+                [self.reservationsByDate removeObjectForKey:[self.reservationDates objectAtIndex:cellIndexPath.section]];
+                [self.reservationDates removeObjectAtIndex:cellIndexPath.section];
+                [self.meetingOverview.tableView deleteSections:[NSIndexSet indexSetWithIndex:cellIndexPath.section] withRowAnimation:UITableViewRowAnimationAutomatic];
+                }
+            else {
+                [self.meetingOverview.tableView deleteRowsAtIndexPaths: [NSArray arrayWithObject:cellIndexPath ]
+                                                      withRowAnimation:UITableViewRowAnimationAutomatic];
+                }
             break;
         }
         default:
@@ -336,5 +350,23 @@
     }
 
 }
+
+
+#pragma mark - access database
+
+- (void)deleteReservation:(NSInteger)reservationId {
+    ReservationService *reservationService = [ReservationService sharedService];
+    
+    [reservationService deleteReservation:reservationId withSuccesHandler:^(Reservation *reservation) {
+        [self.navigationController popViewControllerAnimated:YES];
+        
+    }                     andErrorHandler:^(NSException *exception) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error " message:exception.reason delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+    }];
+}
+
+
+
 
 @end
