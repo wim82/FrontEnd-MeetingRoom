@@ -27,6 +27,7 @@
 @property(nonatomic) NSMutableArray *reservationDates;
 @property (nonatomic, strong) CountDownView * countDownView;
 @property (nonatomic, strong) NSDate *startDate;
+@property (nonatomic, strong) NSDate *today;
 
 @end
 
@@ -54,12 +55,14 @@ int secondsLeft;
     
     self.countDownView.backgroundColor = [UIColor purpleColor];
     
-    NSDate *startDate=[[NSDate alloc]init];
+ /*   NSDate *startDate=[[NSDate alloc]init];
     startDate=[[self.reservationsByDate objectForKey:[self.reservationDates objectAtIndex:0]] objectAtIndex:0];
-    NSLog(@"startdate %@", startDate);
+    NSDate *today = [[NSDate alloc]init];
+    NSLog(@"startdate %@ and today %@", startDate, today);
     NSLog(@"Seconds --------> %f",[[NSDate date] timeIntervalSinceDate: self.startDate]);
     secondsLeft = 16925;
     [self countdownTimer];
+  */
     //[timer invalidate]   implement this on the backbutton of navigation controller when
 }
 
@@ -278,10 +281,15 @@ int secondsLeft;
         firstReservation = [[self.reservationsByDate objectForKey:[self.reservationDates objectAtIndex:0]] objectAtIndex:0];
         startDate = firstReservation.startTime;
         NSLog(@"startdate %@", startDate);
-        unsigned long countDownTimer;
-        countDownTimer = [[NSDate date] timeIntervalSinceDate: startDate];
+        NSDate *today = [[NSDate alloc]init];
+        NSLog(@"startdate %@ and today %@", startDate, today);
+        double countDownTimer;
+        countDownTimer = [startDate timeIntervalSinceDate: today];
         
         NSLog(@"Seconds --------> %f",countDownTimer);
+        secondsLeft = countDownTimer;
+        NSLog(@"secondsLeft %d", secondsLeft);
+        [self countdownTimer];
         
         
         
@@ -345,20 +353,22 @@ int secondsLeft;
 
 - (void)updateCounter:(NSTimer *)theTimer {
     if(secondsLeft > 0 ){
+        NSLog(@"ben ik hier");
         secondsLeft -- ;
         hours = secondsLeft / 3600;
         minutes = (secondsLeft % 3600) / 60;
         seconds = (secondsLeft %3600) % 60;
         self.countDownView.countDownLabel.text = [NSString stringWithFormat:@"%02d:%02d:%02d", hours, minutes, seconds];
     }
-    else{
+  /*  else{
+        NSLog(@"Kom ik hier in");
         secondsLeft = 16925;
-    }
+    } */
 }
 
 -(void)countdownTimer{
     
-    secondsLeft = hours = minutes = seconds = 0;
+   // secondsLeft = hours = minutes = seconds = 0;
     if([timer isValid])
     {
         ;

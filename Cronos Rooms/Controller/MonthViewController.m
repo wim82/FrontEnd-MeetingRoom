@@ -57,13 +57,21 @@ NSDate * today;
     
     self.viewMonthOverview = [[MonthOverview alloc]initWithFrame:[UIScreen mainScreen].bounds andDelegate:self];
     self.view = self.viewMonthOverview;
+    NSLog(@"meetingRoom %@", self.meetingRoom);
     
-    
+    if (!self.meetingRoom) {
+        self.meetingRoom = [[MeetingRoom alloc] init];
+        self.meetingRoom.roomId = 1;
+        self.meetingRoom.roomName = @"dit zou niet mogen";
+    }
+    self.navigationItem.title = self.meetingRoom.roomName;
+
 
     
     //TODO #define number of days to prefill in the calendar (back in history/days before today) And number of months in calendar
     NSInteger xNumberOfDays=-10;
     NSInteger numberOfMonths=11;
+   
     NSDate *date=[[NSDate alloc]init]; //vandaag
     
     startDate = [self fillWithXNumberOfDays:date: xNumberOfDays];
@@ -148,7 +156,7 @@ NSDate * today;
     
     [self _loadPublicHolidays];
     NSLog(@"startDate %@", startDate);
-    [self _loadReservations: roomId : startDate : 450];
+    [self _loadReservations: self.meetingRoom.roomId: startDate : 450];
 
     
 }
@@ -275,7 +283,7 @@ NSDate * today;
     dayViewController.date=date;
     
     
-    NSLog (@"roomId %ld",(long)roomId);
+    NSLog (@"roomId %ld",(long)self.meetingRoom.roomId);
     NSLog(@"date %@", date);
 
     [self.navigationController pushViewController:dayViewController animated:YES];

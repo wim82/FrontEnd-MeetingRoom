@@ -7,6 +7,7 @@
 //
 
 #import "CountDownView.h"
+#import "UIColor+AppColor.h"
 
 @interface CountDownView (){
     id _delegate;
@@ -39,7 +40,7 @@
        */
         
         self.countDownLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 1024, 750)];
-        self.countDownLabel.backgroundColor = [UIColor redColor];
+        self.countDownLabel.backgroundColor = [UIColor app_red];
         self.countDownLabel.textColor = [UIColor blackColor];
         self.countDownLabel.font = [UIFont systemFontOfSize: 52];
         

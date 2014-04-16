@@ -191,6 +191,7 @@
          [self.navigationController pushViewController:dayViewController animated:YES];  */
         MonthViewController *monthViewController = [[MonthViewController alloc] init];
         monthViewController.meetingRoom = self.meetingRooms[indexPath.row];
+        NSLog(@"in search : %@",self.meetingRooms[indexPath.row]);
         [self.navigationController pushViewController:monthViewController animated:YES];
 
     } else {
