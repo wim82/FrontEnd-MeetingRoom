@@ -320,13 +320,7 @@ NSDate * today;
 -(void) gestureRecognition:(MonthCell *) cell : (NSInteger) row {
     
     cell.tag = row;
-/*
-    // Press/tap
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cellTapped:)];
-    tapGestureRecognizer.numberOfTapsRequired = 1;
-    tapGestureRecognizer.numberOfTouchesRequired = 1;
-    [cell addGestureRecognizer:tapGestureRecognizer];
-*/
+
     //Long Press
     UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc]
                                           initWithTarget:self action:@selector(handleLongPress:)];
@@ -337,12 +331,7 @@ NSDate * today;
     
 }
 
--(void)cellTapped:(id)sender{
-    NSLog(@"Cell Tapped");
-    
-    
-    
-}
+
 
 - (IBAction)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer
 {
