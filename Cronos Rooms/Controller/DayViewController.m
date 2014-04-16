@@ -100,7 +100,9 @@
     UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipeRight)];
     swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
     [self.view addGestureRecognizer:swipeRight];
-
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
+                                             initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(_didTapAdd)];
 
 }
 
@@ -180,7 +182,8 @@
             cell.reservation = reservation;
         }
     }
-    [self gestureRecognition:cell:indexPath.row];
+    
+  //  [self gestureRecognition:cell:indexPath.row : cell.reservation ];
     
     return cell;
 }
@@ -206,12 +209,39 @@
 #pragma mark - Navigation
 
 - (void)didTapReservation:(Reservation *)reservation {
+    
+    EditReservationViewController *editReservationViewController = [[EditReservationViewController alloc] init];
     if (reservation) {
-        EditReservationViewController *editReservationViewController = [[EditReservationViewController alloc] init];
         editReservationViewController.reservation = reservation;
         [self.navigationController pushViewController:editReservationViewController animated:YES];
     }
+    else {
+        Reservation *reservation = [[Reservation alloc] init];
+        //TODO: when providing the meetingRoom, this room is ticked twice in editreservationViewCOntroller
+        reservation.meetingRoom=self.meetingRoom;
+        NSDate *dateTime = self.date;
+        reservation.startTime=dateTime;
+        editReservationViewController.reservation = reservation;
+        editReservationViewController.navigationItem.title = @"Add Reservation";
+        
+        [self.navigationController pushViewController:editReservationViewController animated:YES];
+        
+    }
 }
+
+-(void)_didTapAdd{
+    EditReservationViewController *editReservationViewController = [[EditReservationViewController alloc] init];
+    Reservation *reservation = [[Reservation alloc] init];
+    reservation.startTime = self.date;
+    //TODO: when providing the meetingRoom, this room is ticked twice in editreservationViewCOntroller
+    reservation.meetingRoom=self.meetingRoom;
+    //TODO: remove back button, first time add is pressed
+    editReservationViewController.reservation = reservation;
+    editReservationViewController.navigationItem.title = @"Add Reservation";
+    
+    [self.navigationController pushViewController:editReservationViewController animated:YES];
+}
+
 
 
 
@@ -268,61 +298,6 @@
 - (void)didTapNext {
     [self didSwipeLeft];
 }
-
-
-#pragma mark -  tap and longpress actions and recognizer
-
-//this adds tap and long press gesture recognizer to the cell with number indexpath.row
--(void) gestureRecognition:(DayQuarterHourViewCell *) cell : (NSInteger) row {
-    
-    cell.tag = row;
-    
-    //Long Press
-    UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc]
-                                          initWithTarget:self action:@selector(handleLongPress:)];
-    lpgr.minimumPressDuration = 1; //seconds
-    lpgr.delegate=self;
-    
-    [cell addGestureRecognizer:lpgr];
-    
-    
-}
-
-
-
-- (void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer
-{
-    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
-        
-        NSLog(@"is gesture recognized");
-        
-        CGPoint p = [gestureRecognizer locationInView:self.dayView.dayTableView];
-        
-        NSIndexPath *indexPath = [self.dayView.dayTableView indexPathForRowAtPoint:p];
-        if (indexPath == nil) {
-            NSLog(@"long press on table view but not on a row");
-        } else {
-            UITableViewCell *cell = [self.dayView.dayTableView cellForRowAtIndexPath:indexPath];
-            if (cell.isHighlighted) {
-                NSLog(@"long press on table view at section %d row %d", indexPath.section, indexPath.row);
-                NSIndexPath *cellIndexPath = [self.dayView.dayTableView indexPathForCell:cell];
-                
-                //NSDate *date=[[NSDate alloc]init];
-               // date=[[monthsAndDaysDictionary objectForKey:[keyArray objectAtIndex:cellIndexPath.section]] objectAtIndex:cellIndexPath.row] ;
-                Reservation *reservation = [[Reservation alloc] init];
-                reservation.meetingRoom = self.meetingRoom;
-                //reservation.startTime=date;
-                reservation.startTime=self.date;
-                EditReservationViewController *editReservationViewController = [[EditReservationViewController alloc] init];
-                editReservationViewController.reservation = reservation;
-                [self.navigationController pushViewController:editReservationViewController animated:YES];
-                
-                
-            }
-        }
-    }
-}
-
 
 @end
 
