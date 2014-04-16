@@ -306,6 +306,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
     }
     self.reservation.endTime = self.endDatePickerView.datePicker.date;
     [self.endDatePickerView updateDateValue];
+
     [self _loadAvailableMeetingRooms];
 }
 

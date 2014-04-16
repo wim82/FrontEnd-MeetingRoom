@@ -245,8 +245,6 @@
 }
 
 - (void)checkIfPublicHoliday {
-
-
     for (PublicHoliday *publicHoliday in self.publicHolidays) {
         if ([[self.date stringWithFormat:DATEFORMAT_COMPAREDATE] isEqualToString:[publicHoliday.holidayDate stringWithFormat:DATEFORMAT_COMPAREDATE]]) {
             self.dayView.dayTableView.backgroundColor = [[UIColor app_ultraLightGrey] colorWithAlphaComponent:0.5];
@@ -262,7 +260,7 @@
 }
 
 - (void)didTapPrevious {
-    [self didSwipeLeft];
+    [self didSwipeRight];
 }
 
 - (void)didTapNext {

@@ -56,7 +56,7 @@
 }
 
 - (void)didTapNext {
-    [_delegate didTapPrevious];
+    [_delegate didTapNext];
 }
 
 
