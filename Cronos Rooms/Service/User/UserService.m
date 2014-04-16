@@ -91,4 +91,12 @@
 
 
 }
+
+
++ (User *)getDefaultUser {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSData *encodedObject = [defaults objectForKey:@"defaultUser"];
+    return [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+}
+
 @end

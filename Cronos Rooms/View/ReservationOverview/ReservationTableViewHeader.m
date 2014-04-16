@@ -23,7 +23,7 @@
         [self.headerView.layer addSublayer:bottomBorder];
         self.lblDate = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, [UIScreen mainScreen].bounds.size.width, 24)];
 
-        self.lblDate.font = [UIFont fontWithName:@"HelveticaNeue-Italic" size:12.0];
+        self.lblDate.font = [UIFont fontWithName:@"HelveticaNeue" size:12.0];
         self.lblDate.textColor = [UIColor darkGrayColor];
 
         [self addSubview:self.lblDate];

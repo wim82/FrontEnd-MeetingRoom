@@ -34,7 +34,20 @@
     [super viewDidLoad];
     [self.settingsView.saveButton addTarget:self action:@selector(didTapSave) forControlEvents:UIControlEventTouchUpInside];
     self.defaultUser = [[User alloc] init];
+
+   User *defaultUser =  [UserService getDefaultUser];
+    if (defaultUser) {
+        self.settingsView.userNameDetail.detailTextField.text = defaultUser.fullName;
+    } else {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSData *encodedObject = [defaults objectForKey:@"defaultMeetingRoom"];
+        MeetingRoom *defaultMeetingRoom = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+        if (defaultMeetingRoom) {
+            self.settingsView.userNameDetail.detailTextField.text = defaultMeetingRoom.roomName;
+        }
+    }
 }
+
 
 - (void)didTapSave {
     [self _loadMeetingRoom:self.settingsView.userNameDetail.detailTextField.text];
@@ -53,7 +66,6 @@
         countDownViewController.meetingRoom = room;
 
         [self.delegate launchCountDownViewController:countDownViewController];
-
 
 
     }                   andErrorHandler:^(NSException *exception) {
