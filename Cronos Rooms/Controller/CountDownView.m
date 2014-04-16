@@ -40,7 +40,7 @@
        */
         
         self.countDownLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 1024, 750)];
-        self.countDownLabel.backgroundColor = [UIColor app_red];
+        self.countDownLabel.backgroundColor = [UIColor app_blueGreyShaded];
         self.countDownLabel.textColor = [UIColor blackColor];
         self.countDownLabel.font = [UIFont systemFontOfSize: 52];
         

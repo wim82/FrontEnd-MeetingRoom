@@ -28,14 +28,19 @@
 @property (nonatomic, strong) CountDownView * countDownView;
 @property (nonatomic, strong) NSDate *startDate;
 @property (nonatomic, strong) NSDate *today;
+@property (nonatomic, strong) NSDate *endDate;
 
 @end
 
 @implementation CountDownViewController
 
 
-int hours, minutes, seconds;
+int days, hours, minutes, seconds;
 int secondsLeft;
+int  clockIndexPath;
+int  clockSection;
+BOOL clockReservation;
+
 
 - (void)loadView {
     self.countDownView = [[CountDownView alloc]initWithFrame:[UIScreen mainScreen].bounds andDelegate:self];
@@ -52,25 +57,21 @@ int secondsLeft;
 
     
     [self _setUpNavigationController];
+    NSLog(@"kom je hier in terug?");
     
     self.countDownView.backgroundColor = [UIColor purpleColor];
     
- /*   NSDate *startDate=[[NSDate alloc]init];
-    startDate=[[self.reservationsByDate objectForKey:[self.reservationDates objectAtIndex:0]] objectAtIndex:0];
-    NSDate *today = [[NSDate alloc]init];
-    NSLog(@"startdate %@ and today %@", startDate, today);
-    NSLog(@"Seconds --------> %f",[[NSDate date] timeIntervalSinceDate: self.startDate]);
-    secondsLeft = 16925;
-    [self countdownTimer];
-  */
-    //[timer invalidate]   implement this on the backbutton of navigation controller when
-}
+
+    }
 
 - (void)viewWillAppear:(BOOL)animated {
     //TODO: write code to see what is the "meetingroom"
     if (!self.meetingRoom) {
         self.meetingRoom = [[MeetingRoom alloc] init];
-        self.meetingRoom.roomId = 1;}
+        self.meetingRoom.roomId = 2;}
+    
+    clockReservation=FALSE;
+    [timer invalidate] ;
     
     [self loadReservationsForMeetingRoom:self.meetingRoom];
 }
@@ -132,6 +133,28 @@ int secondsLeft;
     
     NSMutableArray *meetingArray = [self.reservationsByDate objectForKey:self.reservationDates[indexPath.section]];
     Reservation *reservation = [meetingArray objectAtIndex:indexPath.row];
+    
+    NSDate *today = [[NSDate alloc]init];
+    
+    //logic needed to control the counter
+    NSLog (@"wat is verschil %f", [reservation.startTime timeIntervalSinceDate: today]);
+    if (([reservation.startTime timeIntervalSinceDate: today]>0) && !clockReservation) {
+        clockIndexPath = indexPath.row;
+        clockSection = indexPath.section;
+        clockReservation = TRUE;
+    }
+    if (([reservation.startTime timeIntervalSinceDate: today]<=0) && ([reservation.endTime timeIntervalSinceDate: today])>0 &&!clockReservation) {
+        
+        clockIndexPath = indexPath.row;
+        clockSection = indexPath.section;
+        clockReservation = TRUE;
+    
+    
+    }
+    
+    
+    
+    
     
     //TODO: use custom cell instead of the UITableViewCellStyleSubtitle cell
     
@@ -247,7 +270,7 @@ int secondsLeft;
     
     
     //make the call
-    [[ReservationService sharedService] getReservationsForRoomId:meetingRoom.roomId fromDate:today forAmountOfDays:365 withSuccesHandler:^(NSMutableArray * reservations) {
+    [[ReservationService sharedService] getReservationsForRoomId:self.meetingRoom.roomId fromDate:today forAmountOfDays:365 withSuccesHandler:^(NSMutableArray * reservations) {
         reservations = [Reservation sortByStartTime:reservations];
         
         
@@ -275,24 +298,14 @@ int secondsLeft;
             [self.reservationsByDate setObject:reservationsPerDate forKey:date];
         }
         
-        
+        //determine startTime of next meeting to calculate Count Down Clock:
         NSDate *startDate=[[NSDate alloc]init];
         Reservation *firstReservation = [[Reservation alloc]init];
-        firstReservation = [[self.reservationsByDate objectForKey:[self.reservationDates objectAtIndex:0]] objectAtIndex:0];
+        firstReservation = [[self.reservationsByDate objectForKey:[self.reservationDates objectAtIndex:clockSection]] objectAtIndex:clockIndexPath];
         startDate = firstReservation.startTime;
-        NSLog(@"startdate %@", startDate);
-        NSDate *today = [[NSDate alloc]init];
-        NSLog(@"startdate %@ and today %@", startDate, today);
-        double countDownTimer;
-        countDownTimer = [startDate timeIntervalSinceDate: today];
+        [self setUpTimer: startDate];
         
-        NSLog(@"Seconds --------> %f",countDownTimer);
-        secondsLeft = countDownTimer;
-        NSLog(@"secondsLeft %d", secondsLeft);
-        [self countdownTimer];
-        
-        
-        
+        //reload table data
         [self.countDownView.tableView reloadData];
         
         //code needed to fix trailing row ) - i don't really understand this either.
@@ -351,19 +364,71 @@ int secondsLeft;
 
 #pragma mark - Clock Counter
 
+- (void) setUpTimer : (NSDate *) date{
+    /*
+    NSDate *startDate=[[NSDate alloc]init];
+    Reservation *firstReservation = [[Reservation alloc]init];
+    firstReservation = [[self.reservationsByDate objectForKey:[self.reservationDates objectAtIndex:0]] objectAtIndex:0];
+    startDate = firstReservation.startTime;
+     */
+    NSDate *today = [[NSDate alloc]init];
+    NSLog(@"startdate %@ and today %@", date, today);
+    double countDownTimer;
+    countDownTimer = [date timeIntervalSinceDate: today];
+    
+    secondsLeft = countDownTimer;
+    NSLog(@"secondsLeft %d", secondsLeft);
+    self.countDownView.countDownLabel.backgroundColor = [UIColor greenColor];
+    
+    if(secondsLeft <=0 ){
+        NSDate *endDate=[[NSDate alloc]init];
+        Reservation *firstReservation = [[Reservation alloc]init];
+        firstReservation = [[self.reservationsByDate objectForKey:[self.reservationDates objectAtIndex:clockSection]] objectAtIndex:clockIndexPath];
+        endDate = firstReservation.endTime;
+        NSDate *today = [[NSDate alloc]init];
+        NSLog(@"startdate %@ and today %@", date, today);
+        double countDownTimer;
+        countDownTimer = [endDate timeIntervalSinceDate: today];
+        
+        secondsLeft = countDownTimer;
+        NSLog(@"secondsLeft %d", secondsLeft);
+        self.countDownView.countDownLabel.backgroundColor = [UIColor app_lightRed];
+        
+    }
+    
+    
+    
+    [self countdownTimer];
+    
+
+    
+}
+
 - (void)updateCounter:(NSTimer *)theTimer {
     if(secondsLeft > 0 ){
-        NSLog(@"ben ik hier");
         secondsLeft -- ;
-        hours = secondsLeft / 3600;
-        minutes = (secondsLeft % 3600) / 60;
-        seconds = (secondsLeft %3600) % 60;
-        self.countDownView.countDownLabel.text = [NSString stringWithFormat:@"%02d:%02d:%02d", hours, minutes, seconds];
+        days = secondsLeft / 86400;
+        hours = (secondsLeft % 86400) / 3600;
+        minutes = ((secondsLeft % 86400) % 3600) / 60;
+        seconds = ((secondsLeft %86400) % 3600) %60 ;
+        
+        self.countDownView.countDownLabel.text = [NSString stringWithFormat:@"%d:%02d:%02d:%02d", days, hours, minutes, seconds];
     }
-  /*  else{
-        NSLog(@"Kom ik hier in");
-        secondsLeft = 16925;
-    } */
+    else{
+        //als meeting bezig is: nieuwe timer die nu het einduur checkt.
+        NSLog(@"Meeting is bezig");
+        
+      /*
+        secondsLeft ++ ;
+        days = secondsLeft / 86400;
+        hours = (secondsLeft % 86400) / 3600;
+        minutes = ((secondsLeft % 86400) % 3600) / 60;
+        seconds = ((secondsLeft %86400) % 3600) %60 ;
+        
+        self.countDownView.countDownLabel.text = [NSString stringWithFormat:@"%d:%02d:%02d:%02d", days, hours, minutes, seconds];
+       */
+        
+    }
 }
 
 -(void)countdownTimer{
@@ -373,7 +438,7 @@ int secondsLeft;
     {
         ;
     }
-    //  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    
     timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateCounter:) userInfo:nil repeats:YES];
     
 }
