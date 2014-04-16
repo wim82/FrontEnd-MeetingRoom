@@ -152,7 +152,7 @@ BOOL clockReservation;
     
     }
     
-    
+    NSLog(@"clockIndexPath en section : %d   %d", clockIndexPath, clockSection);
     
     
     
@@ -165,7 +165,7 @@ BOOL clockReservation;
     cell.detailTextLabel.textColor = [UIColor app_grey];
     cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica" size:10];
     //TODO check the name of the user of the reservation
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"User %ld           %@ - %@", (long)reservation.user.userId, [reservation.startTime stringWithFormat:DATEFORMAT_SHORT_TIME], [reservation.endTime stringWithFormat:DATEFORMAT_SHORT_TIME]];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"User %ld           %@ - %@", (long)reservation.user.fullName, [reservation.startTime stringWithFormat:DATEFORMAT_SHORT_TIME], [reservation.endTime stringWithFormat:DATEFORMAT_SHORT_TIME]];
     
     //Custom Accessory
     DTCustomColoredAccessory *accessory = [DTCustomColoredAccessory accessoryWithColor:[UIColor app_red]];
@@ -297,6 +297,10 @@ BOOL clockReservation;
             }
             [self.reservationsByDate setObject:reservationsPerDate forKey:date];
         }
+
+        
+        //reload table data
+        [self.countDownView.tableView reloadData];
         
         //determine startTime of next meeting to calculate Count Down Clock:
         NSDate *startDate=[[NSDate alloc]init];
@@ -304,9 +308,6 @@ BOOL clockReservation;
         firstReservation = [[self.reservationsByDate objectForKey:[self.reservationDates objectAtIndex:clockSection]] objectAtIndex:clockIndexPath];
         startDate = firstReservation.startTime;
         [self setUpTimer: startDate];
-        
-        //reload table data
-        [self.countDownView.tableView reloadData];
         
         //code needed to fix trailing row ) - i don't really understand this either.
         [self.countDownView.tableView setContentInset:UIEdgeInsetsMake(0, 0, 84, 0)];
@@ -365,12 +366,7 @@ BOOL clockReservation;
 #pragma mark - Clock Counter
 
 - (void) setUpTimer : (NSDate *) date{
-    /*
-    NSDate *startDate=[[NSDate alloc]init];
-    Reservation *firstReservation = [[Reservation alloc]init];
-    firstReservation = [[self.reservationsByDate objectForKey:[self.reservationDates objectAtIndex:0]] objectAtIndex:0];
-    startDate = firstReservation.startTime;
-     */
+    
     NSDate *today = [[NSDate alloc]init];
     NSLog(@"startdate %@ and today %@", date, today);
     double countDownTimer;
@@ -385,6 +381,7 @@ BOOL clockReservation;
         Reservation *firstReservation = [[Reservation alloc]init];
         firstReservation = [[self.reservationsByDate objectForKey:[self.reservationDates objectAtIndex:clockSection]] objectAtIndex:clockIndexPath];
         endDate = firstReservation.endTime;
+        
         NSDate *today = [[NSDate alloc]init];
         NSLog(@"startdate %@ and today %@", date, today);
         double countDownTimer;
@@ -393,6 +390,7 @@ BOOL clockReservation;
         secondsLeft = countDownTimer;
         NSLog(@"secondsLeft %d", secondsLeft);
         self.countDownView.countDownLabel.backgroundColor = [UIColor app_lightRed];
+        
         
     }
     
@@ -415,18 +413,20 @@ BOOL clockReservation;
         self.countDownView.countDownLabel.text = [NSString stringWithFormat:@"%d:%02d:%02d:%02d", days, hours, minutes, seconds];
     }
     else{
-        //als meeting bezig is: nieuwe timer die nu het einduur checkt.
-        NSLog(@"Meeting is bezig");
+        if (secondsLeft<=0){
+            clockReservation=FALSE;
+
+            [self.countDownView.tableView reloadData];
+            //determine startTime of next meeting to calculate Count Down Clock:
+            NSDate *startDate=[[NSDate alloc]init];
+            Reservation *firstReservation = [[Reservation alloc]init];
+            firstReservation = [[self.reservationsByDate objectForKey:[self.reservationDates objectAtIndex:clockSection]] objectAtIndex:clockIndexPath];
+            startDate = firstReservation.startTime;
+            [timer invalidate] ;
+            [self setUpTimer: startDate];
+        }
         
-      /*
-        secondsLeft ++ ;
-        days = secondsLeft / 86400;
-        hours = (secondsLeft % 86400) / 3600;
-        minutes = ((secondsLeft % 86400) % 3600) / 60;
-        seconds = ((secondsLeft %86400) % 3600) %60 ;
-        
-        self.countDownView.countDownLabel.text = [NSString stringWithFormat:@"%d:%02d:%02d:%02d", days, hours, minutes, seconds];
-       */
+
         
     }
 }
