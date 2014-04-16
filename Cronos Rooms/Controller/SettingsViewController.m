@@ -51,7 +51,11 @@
         [self _saveRoom:room];
         CountDownViewController *countDownViewController = [[CountDownViewController alloc] init];
         countDownViewController.meetingRoom = room;
+
         [self.delegate launchCountDownViewController:countDownViewController];
+
+
+
     }                   andErrorHandler:^(NSException *exception) {
         //03. if we don't find a meeting room, try to load a user
         [self _loadUser:self.settingsView.userNameDetail.detailTextField.text];

@@ -12,7 +12,7 @@
     if (self) {
 
         //this is superweird but it works - frame always comes in as null
-        self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 24)];
+        self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.superview.frame.size.width, 24)];
         self.headerView.backgroundColor = [UIColor app_ultraLightGrey];
         [self addSubview:self.headerView];
 
