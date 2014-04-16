@@ -330,12 +330,12 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
     if (self.reservation.reservationId == 0) {
         NSLog(@"create");
         NSLog(@"reservation id : %d", self.reservation.reservationId);
-        [self createReservation:self.reservation];
+        [self _createReservation:self.reservation];
     }
     else {
         NSLog(@"update");
         NSLog(@"reservation id : %d", self.reservation.reservationId);
-        [self updateReservation:self.reservation];
+        [self _updateReservation:self.reservation];
     }
 
     //REMARK: katrien, hier stond de popviewcontroller -> zolang we zonder lokale database werken, heb ik die in de respectievelijke completionblocks gezet
@@ -438,7 +438,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 //TODO finish this
 - (void)_didTapDelete {
     //TODO // NSLog(@"hier moet jij deleten katrien!");
-    [self deleteReservation:self.reservation.reservationId];
+    [self _deleteReservation:self.reservation.reservationId];
 
     [self.deleteButton removeFromSuperview];
 
@@ -468,7 +468,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 }
 
 
-- (void)createReservation:(Reservation *)reservation {
+- (void)_createReservation:(Reservation *)reservation {
 
     ReservationService *reservationService = [ReservationService sharedService];
 
@@ -482,7 +482,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 }
 
 
-- (void)updateReservation:(Reservation *)reservation {
+- (void)_updateReservation:(Reservation *)reservation {
 
     ReservationService *reservationService = [ReservationService sharedService];
 
@@ -496,7 +496,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 }
 
 
-- (void)deleteReservation:(NSInteger)reservationId {
+- (void)_deleteReservation:(NSInteger)reservationId {
     ReservationService *reservationService = [ReservationService sharedService];
 
     [reservationService deleteReservation:reservationId withSuccesHandler:^(Reservation *reservation) {
@@ -506,6 +506,21 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error " message:exception.reason delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
     }];
+}
+
+- (void)_loadUserFromTextField:(UITextField *)textField {
+
+    NSLog(@"nu moeten we checken of die user bestaat");
+    UserService *service = [UserService sharedService];
+    [service getUserForFullName:textField.text withSuccesHandler:^(User *user) {
+        self.reservation.user = user;
+        NSLog(@"reservation is for user %@", self.reservation.user.fullName);
+    }           andErrorHandler:^(NSException *exception) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Unknown user" message:@"Please choose an existing user" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+
+    }];
+
 }
 
 
@@ -575,27 +590,14 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     if (textField == self.reservedByTextView.detailTextField) {
-        [self _updateUserFromTextField:textField];
+        [self _loadUserFromTextField:textField];
     }
     if (textField == self.descriptionTextView.detailTextField) {
         self.reservation.reservationDescription = self.descriptionTextView.detailTextField.text;
     }
 }
 
-- (void)_updateUserFromTextField:(UITextField *)textField {
 
-    NSLog(@"nu moeten we checken of die user bestaat");
-    UserService *service = [UserService sharedService];
-    [service getUserForFullName:textField.text withSuccesHandler:^(User *user) {
-        self.reservation.user = user;
-        NSLog(@"reservation is for user %@", self.reservation.user.fullName);
-    }           andErrorHandler:^(NSException *exception) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Unknown user" message:@"Please choose an existing user" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alertView show];
-
-    }];
-
-}
 
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {

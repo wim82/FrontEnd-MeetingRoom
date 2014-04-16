@@ -5,6 +5,16 @@
 
 #import <Foundation/Foundation.h>
 
+#import "CountDownViewController.h"
+
+
+@protocol CountDownDelegate <NSObject>
+
+- (void)launchCountDownViewController:(CountDownViewController *)countDownViewController;
+
+@end
+
 
 @interface SettingsViewController : UIViewController
+@property (nonatomic, assign) id delegate;
 @end

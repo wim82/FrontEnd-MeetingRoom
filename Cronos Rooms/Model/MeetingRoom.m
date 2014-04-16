@@ -33,4 +33,20 @@
     return meetingRoomDictionary;
 }
 
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    //Encode properties, other class variables, etc
+    [encoder encodeObject:self.roomName forKey:@"roomName"];
+    [encoder encodeObject:[NSNumber numberWithInt:self.roomId] forKey:@"roomId"];
+}
+
+- (id)initWithCoder:(NSCoder *)decoder {
+    if((self = [super init])) {
+        //decode properties, other class vars
+        self.roomName = [decoder decodeObjectForKey:@"roomName"];
+        self.roomId = [[decoder decodeObjectForKey:@"roomId"] integerValue];
+    }
+    return self;
+}
+
 @end

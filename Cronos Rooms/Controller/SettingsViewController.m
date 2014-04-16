@@ -5,12 +5,19 @@
 
 #import "SettingsViewController.h"
 #import "SettingsView.h"
+#import "DetailCellView.h"
+#import "User.h"
+#import "UserService.h"
+#import "CountDownViewController.h"
+#import "MeetingRoomService.h"
 
-@interface SettingsViewController () {
+
+@interface SettingsViewController () <UITextFieldDelegate, CountDownDelegate> {
 
 }
 
 @property(nonatomic, strong) SettingsView *settingsView;
+@property(nonatomic, strong) User *defaultUser;
 
 @end
 
@@ -20,6 +27,72 @@
 - (void)loadView {
     self.settingsView = [[SettingsView alloc] initWithFrame:[UIScreen mainScreen].bounds andDelegate:self];
     self.view = self.settingsView;
+
 }
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self.settingsView.saveButton addTarget:self action:@selector(didTapSave) forControlEvents:UIControlEventTouchUpInside];
+    self.defaultUser = [[User alloc] init];
+}
+
+- (void)didTapSave {
+    [self _loadMeetingRoom:self.settingsView.userNameDetail.detailTextField.text];
+}
+
+
+//01. check if the name entered is a meeting room
+- (void)_loadMeetingRoom:(NSString *)roomName {
+
+    MeetingRoomService *service = [MeetingRoomService sharedService];
+    [service getMeetingRoomWithRoomName:roomName withSuccesHandler:^(MeetingRoom *room) {
+
+        //02. if it is, save it in the user defaults.
+        [self _saveRoom:room];
+        CountDownViewController *countDownViewController = [[CountDownViewController alloc] init];
+        countDownViewController.meetingRoom = room;
+        [self.delegate launchCountDownViewController:countDownViewController];
+    }                   andErrorHandler:^(NSException *exception) {
+        //03. if we don't find a meeting room, try to load a user
+        [self _loadUser:self.settingsView.userNameDetail.detailTextField.text];
+
+    }];
+
+}
+
+- (void)_loadUser:(NSString *)userName {
+    UserService *service = [UserService sharedService];
+    [service getUserForFullName:userName withSuccesHandler:^(User *user) {
+        self.defaultUser = user;
+        //04.save default user
+        [self _saveUser:self.defaultUser];
+        [[self presentingViewController] viewWillAppear:YES];
+        [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+
+    }           andErrorHandler:^(NSException *exception) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No account?" message:@"Please ask about your account name" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+
+    }];
+}
+
+- (void)_saveUser:(User *)object {
+    NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:object];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:encodedObject forKey:@"defaultUser"];
+    [defaults setObject:nil forKey:@"defaultMeetingRoom"];
+    [defaults synchronize];
+
+}
+
+- (void)_saveRoom:(MeetingRoom *)object {
+    NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:object];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:encodedObject forKey:@"defaultMeetingRoom"];
+    [defaults setObject:nil forKey:@"defaultUser"];
+    [defaults synchronize];
+
+}
+
 
 @end

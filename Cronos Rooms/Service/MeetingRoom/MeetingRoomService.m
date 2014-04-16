@@ -99,4 +99,37 @@
 }
 
 
+- (void)getMeetingRoomWithRoomName:(NSString *)roomName withSuccesHandler:(void (^)(MeetingRoom *))success andErrorHandler:(void (^)(NSException *))error {
+    //set path
+    NSString *path = [NSString stringWithFormat:@"meetingrooms/roomname/%@", [roomName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSMutableURLRequest *request = [self getRequestWithPath:path];
+
+    NSLog(@"path is %@", path);
+    //init request
+    AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    AFJSONResponseSerializer *serializer = [AFJSONResponseSerializer serializer];
+    [requestOperation setResponseSerializer:serializer];
+
+    //set up failure + completion blocks
+    [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if (responseObject != nil && [responseObject isKindOfClass:[NSDictionary class]]) {
+            MeetingRoom *meetingRoom = [[MeetingRoom alloc] initWithDictionary:[responseObject objectForKey:@"data"]];
+            success(meetingRoom);
+        }
+        else {
+            error([NSException exceptionWithName:@"No meetingroom found" reason:@"There is no meetingroom with such name" userInfo:nil]);
+        }
+
+    }                                       failure:^(AFHTTPRequestOperation *operation, NSError *callbackError) {
+        if (error) {
+            error([NSException exceptionWithName:@"Room problem: " reason:[callbackError.userInfo objectForKey:NSLocalizedDescriptionKey] userInfo:nil]);
+        }
+    }];
+
+//start request
+    [self.operationManager.operationQueue addOperation:requestOperation];
+
+
+}
+
 @end

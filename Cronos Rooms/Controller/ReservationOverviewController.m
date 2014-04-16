@@ -17,13 +17,14 @@
 #import "UIColor+AppColor.h"
 #import "DTCustomColoredAccessory.h"
 #import "SettingsViewController.h"
+#import "CountDownViewController.h"
 
 
 #define TABLEVIEWCELL_IDENTIFIER @"meetingCell"
 #define TABLEVIEWHEADER_IDENTIFIER @"meetingHeader"
 
 
-@interface ReservationOverviewController () <UITableViewDataSource, UITableViewDelegate, SWTableViewCellDelegate, UISearchBarDelegate, UISearchDisplayDelegate>
+@interface ReservationOverviewController () <UITableViewDataSource, UITableViewDelegate, SWTableViewCellDelegate, UISearchBarDelegate, UISearchDisplayDelegate, CountDownDelegate>
 
 @property(nonatomic, strong) ReservationOverview *meetingOverview;
 @property(nonatomic, strong) NSMutableDictionary *reservationsByDate;
@@ -69,12 +70,26 @@
 
         self.navigationItem.leftBarButtonItem.imageInsets = UIEdgeInsetsMake(0.0, -8, 0, 0);
 
-    } else {
-        self.navigationItem.leftBarButtonItem = nil;
-
     }
 
-    [self loadReservationsForUser:self.user];
+
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+
+    NSData *encodedObject = [defaults objectForKey:@"defaultMeetingRoom"];
+    MeetingRoom *meetingRoom = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+    if (meetingRoom) {
+        CountDownViewController *countDownViewController = [[CountDownViewController alloc] init];
+        countDownViewController.meetingRoom = meetingRoom;
+        [self presentViewController:countDownViewController animated:YES completion:nil];
+        NSLog(@"hier moet ik zijn");
+    }
+
+    NSData *encodedUser = [defaults objectForKey:@"defaultUser"];
+    User *object = [NSKeyedUnarchiver unarchiveObjectWithData:encodedUser];
+    if (object) {
+        self.user = object;
+        [self loadReservationsForUser:self.user];
+    }
 }
 
 
@@ -182,8 +197,9 @@
 
 - (void)_didTapSettings {
 
-    SettingsViewController *settingsViewController = [[SettingsViewController alloc]init];
+    SettingsViewController *settingsViewController = [[SettingsViewController alloc] init];
     settingsViewController.modalTransitionStyle = UIModalTransitionStylePartialCurl;
+    settingsViewController.delegate = self;
     [self.navigationController presentViewController:settingsViewController animated:YES completion:nil];
 }
 
@@ -323,16 +339,16 @@
 
             [cell hideUtilityButtonsAnimated:YES];
 
-            if ([[self.reservationsByDate objectForKey:[self.reservationDates objectAtIndex:cellIndexPath.section]] count]==0){
-                
+            if ([[self.reservationsByDate objectForKey:[self.reservationDates objectAtIndex:cellIndexPath.section]] count] == 0) {
+
                 [self.reservationsByDate removeObjectForKey:[self.reservationDates objectAtIndex:cellIndexPath.section]];
                 [self.reservationDates removeObjectAtIndex:cellIndexPath.section];
                 [self.meetingOverview.tableView deleteSections:[NSIndexSet indexSetWithIndex:cellIndexPath.section] withRowAnimation:UITableViewRowAnimationAutomatic];
-                }
+            }
             else {
-                [self.meetingOverview.tableView deleteRowsAtIndexPaths: [NSArray arrayWithObject:cellIndexPath ]
+                [self.meetingOverview.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:cellIndexPath]
                                                       withRowAnimation:UITableViewRowAnimationAutomatic];
-                }
+            }
             break;
         }
         default:
@@ -359,10 +375,10 @@
 
 - (void)deleteReservation:(NSInteger)reservationId {
     ReservationService *reservationService = [ReservationService sharedService];
-    
+
     [reservationService deleteReservation:reservationId withSuccesHandler:^(Reservation *reservation) {
         [self.navigationController popViewControllerAnimated:YES];
-        
+
     }                     andErrorHandler:^(NSException *exception) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error " message:exception.reason delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
@@ -370,6 +386,14 @@
 }
 
 
+#pragma mark - CountDown Delegate Methods
+
+- (void)launchCountDownViewController:(CountDownViewController *)countDownViewController {
+    [self.presentedViewController dismissViewControllerAnimated:YES completion:^{
+        [self.navigationController pushViewController:countDownViewController animated:YES];
+    }];
+
+}
 
 
 @end

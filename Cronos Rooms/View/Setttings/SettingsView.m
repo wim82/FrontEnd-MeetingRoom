@@ -3,6 +3,7 @@
 // Copyright (c) 2014 KaWi. All rights reserved.
 //
 
+#import <UIColor-Utilities/UIColor+Expanded.h>
 #import "SettingsView.h"
 #import "GroupTitleView.h"
 #import "DetailCellView.h"
@@ -24,7 +25,7 @@
 
 
         self.userNameDetail = [[DetailCellView alloc] initWithFrame:CGRectMake(0, self.userTitle.frame.origin.y + self.userTitle.frame.size.height, frame.size.width, 64)
-                                                              title:@"Name"
+                                                              title:@"Account Name"
                                                            andValue:nil
                                                         andDelegate:self];
         self.userNameDetail.backgroundColor = [UIColor whiteColor];

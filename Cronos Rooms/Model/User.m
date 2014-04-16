@@ -31,4 +31,19 @@
     return userDictionary;
 }
 
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    //Encode properties, other class variables, etc
+    [encoder encodeObject:self.fullName forKey:@"fullName"];
+    [encoder encodeObject:[NSNumber numberWithInt:self.userId] forKey:@"userId"];
+}
+
+- (id)initWithCoder:(NSCoder *)decoder {
+    if((self = [super init])) {
+        //decode properties, other class vars
+        self.fullName = [decoder decodeObjectForKey:@"fullName"];
+        self.userId = [[decoder decodeObjectForKey:@"userId"] integerValue];
+    }
+    return self;
+}
+
 @end
