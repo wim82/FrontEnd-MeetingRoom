@@ -60,16 +60,13 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
     [self _setUpNavigationController];
 
-    if (self.reservation.reservationId) {
-        [self _setUpDeleteButton];
-        self.scrollView.delegate = self;
-    }
-
     [self _setUpTimeView];
     [self _loadAvailableMeetingRooms];
     [self _setUpDetailView];
     [self _setUpMeetingRoomTableView];
     [self _registerKeyboardNotifications];
+
+    [self _initializeReservation];
 
 }
 
@@ -232,6 +229,18 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 }
 
 #pragma mark - Private Methods
+
+- (void)_initializeReservation {
+    if (self.reservation.reservationId) {
+        [self _setUpDeleteButton];
+        self.scrollView.delegate = self;
+    } else {
+        self.reservation.startTime = self.startDatePickerView.datePicker.date;
+        self.reservation.endTime = self.endDatePickerView.datePicker.date;
+        self.reservation.reservationDescription = self.descriptionTextView.detailTextField.text;
+    }
+}
+
 
 - (void)_updateViewSizeToMatchContents {
     //autoresizing tableview to match contents, happens after reloadData
@@ -430,7 +439,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 - (void)_didTapDelete {
     //TODO // NSLog(@"hier moet jij deleten katrien!");
     [self deleteReservation:self.reservation.reservationId];
-    
+
     [self.deleteButton removeFromSuperview];
 
     [UIView performSystemAnimation:UISystemAnimationDelete onViews:self.scrollView.subviews options:UIViewAnimationOptionAllowAnimatedContent animations:nil completion:^(BOOL finished) {

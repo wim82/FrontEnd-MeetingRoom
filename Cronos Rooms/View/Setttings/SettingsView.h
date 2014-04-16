@@ -12,6 +12,7 @@
 @interface SettingsView : UIView
 @property(nonatomic, strong) GroupTitleView *userTitle;
 @property(nonatomic, strong) DetailCellView *userNameDetail;
+@property(nonatomic, strong) UIButton *saveButton;
 
 - (instancetype)initWithFrame:(CGRect)frame andDelegate:(id)delegate;
 
