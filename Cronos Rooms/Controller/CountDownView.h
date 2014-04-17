@@ -16,6 +16,7 @@
 @property(nonatomic, strong) UILabel *meetingRoomStatus;
 @property(nonatomic, strong) UILabel *countDownTime;
 @property (nonatomic, strong) UITableView * tableView;
+@property (nonatomic, strong) UITableView * dayTableView;
 
 - (instancetype)initWithFrame:(CGRect)frame andDelegate:(id)delegate;
 

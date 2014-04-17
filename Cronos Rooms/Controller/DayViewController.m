@@ -183,7 +183,6 @@
         }
     }
     
-  //  [self gestureRecognition:cell:indexPath.row : cell.reservation ];
     
     return cell;
 }
