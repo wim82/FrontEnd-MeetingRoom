@@ -18,5 +18,7 @@
 @property (nonatomic) NSInteger numberOfColumns;
 
 - (id)initWithFrame:(CGRect)frame andDelegate:(id)delegate;
+- (void)loadConstraintsForPortrait;
+- (void)loadConstraintsForLandscape;
 
 @end
