@@ -108,6 +108,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
                                  target:self
                                  action:@selector(_didTapSave)];
     self.navigationItem.rightBarButtonItem = saveButton;
+    self.navigationController.navigationBarHidden=NO;
 }
 
 

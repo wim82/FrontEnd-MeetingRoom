@@ -36,7 +36,7 @@
     MonthViewController * monthOverviewController = [[MonthViewController alloc]init];
     CountDownViewController *countDownViewController = [[CountDownViewController alloc]init];
     
-    self.navigationController = [[UINavigationController alloc] initWithRootViewController:countDownViewController];
+    self.navigationController = [[UINavigationController alloc] initWithRootViewController:reservationOverviewController];
     [self styleNavigationController];
     self.window.rootViewController = self.navigationController;
     

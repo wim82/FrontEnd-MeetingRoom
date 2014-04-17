@@ -21,7 +21,7 @@
 
 #define TABLEVIEWCELL_IDENTIFIER @"reservationCell"
 #define TABLEVIEWHEADER_IDENTIFIER @"reservationHeader"
-#define DAYTABLEVIEWCELL_IDENTIFIER @"dayCell"
+
 
 
 @interface CountDownViewController () <UITableViewDataSource, UITableViewDelegate, SWTableViewCellDelegate, UISearchBarDelegate, UISearchDisplayDelegate>
@@ -35,7 +35,8 @@
 @property(nonatomic, strong) NSDate *endDate;
 @property(nonatomic, assign) BOOL isReservationOverviewVisible;
 @property(nonatomic, strong) UIImage *backgroundImage;
-@property(nonatomic, strong) NSMutableArray *dayReservations;
+
+
 
 @end
 
@@ -48,6 +49,7 @@ int secondsLeft;
 int clockIndexPath;
 int clockSection;
 BOOL clockReservation;
+
 
 
 - (void)loadView {
@@ -126,14 +128,8 @@ BOOL clockReservation;
     [self.countDownView.tableView registerClass:[ReservationTableViewHeader class] forHeaderFooterViewReuseIdentifier:TABLEVIEWHEADER_IDENTIFIER];
 
     
-    self.countDownView.tableView.tag=1;
     
-    
-    //dayView for meetingroom
-    [self.countDownView.dayTableView registerClass:[ReservationTableViewCell class] forCellReuseIdentifier:DAYTABLEVIEWCELL_IDENTIFIER];
-    self.countDownView.dayTableView.tag=2;
-    
-    
+  //if you want the table horizontal
     self.countDownView.dayTableView.transform = CGAffineTransformMakeRotation(-M_PI_2);
     //Just so your table is not at a random place in your view
     self.countDownView.dayTableView.frame = CGRectMake(0,0, self.countDownView.dayTableView.frame.size.width, self.countDownView.dayTableView.frame.size.height);
@@ -153,9 +149,9 @@ BOOL clockReservation;
 
     clockReservation = FALSE;
     [timer invalidate];
-    self.dayReservations= [[NSMutableArray alloc]init];
+   
     [self loadReservationsForMeetingRoom:self.meetingRoom];
-    [self _loadOneDayReservations];
+    
 }
 
 
@@ -163,41 +159,34 @@ BOOL clockReservation;
 #pragma mark - UITableViewDelegate & UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if (tableView.tag==1){
+    
     return [self.reservationDates count];
     }
-    if (tableView.tag==2){
-        return 1;
-    }
-    return 0;
-}
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (tableView.tag==1){
+    
     NSDate *date = [self.reservationDates objectAtIndex:section];
     return [[self.reservationsByDate objectForKey:date] count];
-    }
-    if (tableView.tag==2){
-        return 24*4;
-    }
-    return 0;
+  
+   
 
 }
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    
     return 24.0;
+   
 }
 
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    if (tableView.tag==1){
+    
     ReservationTableViewHeader *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:TABLEVIEWHEADER_IDENTIFIER];
     header.lblDate.text = [[[self.reservationDates objectAtIndex:section] stringWithFormat:DATEFORMAT_DAYNAME_AND_SHORT_DATE] lowercaseString];
     return header;
-    }
-    else return nil;
+   
 }
 
 
@@ -220,7 +209,7 @@ BOOL clockReservation;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (tableView.tag==1) {
+    
 
     SWTableViewCell *cell = [[SWTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                                    reuseIdentifier:TABLEVIEWCELL_IDENTIFIER
@@ -276,63 +265,6 @@ BOOL clockReservation;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
     return cell;
-        
-    }
-    else {
-        UITableViewCell *cell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:DAYTABLEVIEWCELL_IDENTIFIER];
-        NSLog(@"klopt het? %ld", (long)indexPath.row);
-        
-        
-    /*    if (indexPath.row % 4 == 0) {
-            cell.hourTitle.text = self.hours[indexPath.row / 4];
-            cell.hourSeparator.hidden = NO;
-        }  */
-        
-        //TODO: optimize this code
-        NSLog(@"reservations %@", self.dayReservations);
-        for (Reservation *reservation in self.dayReservations) {
-            
-            NSInteger startInQuarterHours = [reservation.startTime timeInQuarterHours];
-            NSLog (@"startinquarterhours %ld", (long)startInQuarterHours);
-            NSInteger endInQuarterHours = [reservation.endTime timeInQuarterHours];
-            NSInteger lengthOfReservationInQuarterHours = endInQuarterHours - startInQuarterHours;
-            
-            //if we have a reservation
-            if (indexPath.row == startInQuarterHours) {
-                
-                //connect a reservation to a cell
-                //cell.reservation = reservation;
-                cell.backgroundColor=[UIColor app_lightRed];
-                
-                //if the cell is too small to show text
-           /*     if (lengthOfReservationInQuarterHours < 2) {
-                    //TODO: repair this silly hack to display dots.
-                    cell.reservationDescription.text = @"°°°";
-                } else {
-                    cell.reservationDescription.text = [NSString stringWithFormat:@"%@\nby %@", [reservation.reservationDescription capitalizedString], [reservation.user.fullName lowercaseString]];
-                }  */
-                
-            //    cell.hourSeparator.hidden = NO;
-                //incredible animation
-            /*    [UIView animateWithDuration:0.3 animations:^{
-                    [cell colorReservationBlockWithLength:lengthOfReservationInQuarterHours];
-                }]; */
-                
-            }
-            
-            //the cells beloning to a reservation should contain all necessary reservation info as well
-         /*   if (indexPath.row > startInQuarterHours && indexPath.row < (endInQuarterHours - startInQuarterHours) + startInQuarterHours) {
-                cell.reservation = reservation;
-            }*/
-        }
-
-        
-        
-        
-        
-        return cell;
-        
-    }
     
         
         
@@ -484,23 +416,6 @@ BOOL clockReservation;
 
 #pragma mark - Private Methods
 
-- (void)_loadOneDayReservations {
-    NSDate * today=[[NSDate alloc]init];
-    [[ReservationService sharedService] getReservationsForRoomId:self.meetingRoom.roomId fromDate:today forAmountOfDays:1 withSuccesHandler:^(NSMutableArray *dayReservations) {
-        dayReservations = [Reservation sortByStartTime:dayReservations];
-        NSLog (@"count %lu", (unsigned long)dayReservations.count);
-        NSLog(@"dayreservations %@", dayReservations);
-        [self.countDownView.dayTableView reloadData];
-        
-    }
-                                                 andErrorHandler:^(NSException *exception) {
-                                                     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:exception.reason delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                                                     [alertView show];
-                                                 }];
-
-    
-    
-}
 
 
 - (void)deleteReservation:(NSInteger)reservationId {
@@ -597,7 +512,7 @@ BOOL clockReservation;
         NSString *minuteString;
         minuteString = (minutes == 1) ? @"minute" : @"minutes";
 
-
+        //TODO if days is 0, don't show days
         self.countDownView.countDownTime.text = [NSString stringWithFormat:@"%d %@, %02d %@ & %02d %@", days, dayString, hours, hourString, minutes, minuteString];
     }
     else {
