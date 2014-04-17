@@ -16,6 +16,9 @@
 @property (nonatomic) CGSize itemSize;
 @property (nonatomic) CGFloat interItemSpacingY;
 @property (nonatomic) NSInteger numberOfColumns;
+@property (nonatomic) NSInteger realWidth;
+@property (nonatomic) NSInteger realHeight;
+
 
 - (id)initWithFrame:(CGRect)frame andDelegate:(id)delegate;
 - (void)loadConstraintsForPortrait;

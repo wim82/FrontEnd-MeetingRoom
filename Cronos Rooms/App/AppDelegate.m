@@ -59,7 +59,6 @@
 {
     NSLog (@"time exceeded!!");
     
-    //This is where storyboarding vs xib files comes in. Whichever view controller you want to revert back to, on your storyboard, make sure it is given the identifier that matches the following code. In my case, "mainView". My storyboard file is called MainStoryboard.storyboard, so make sure your file name matches the storyboardWithName property.
     CountDownViewController *countDownViewController = [[CountDownViewController alloc]init];
     
     self.navigationController = [[UINavigationController alloc] initWithRootViewController:countDownViewController];

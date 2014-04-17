@@ -13,8 +13,12 @@
 
 
 @implementation MonthOverview
-NSInteger realWidth;
-NSInteger realHeight;
+
+    NSInteger realWidth;
+    NSInteger realHeight;
+
+
+
 
 - (id)initWithFrame:(CGRect)frame andDelegate:(id)delegate
 {

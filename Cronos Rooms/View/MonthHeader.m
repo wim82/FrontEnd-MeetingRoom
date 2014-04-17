@@ -9,6 +9,7 @@
 #import "MonthHeader.h"
 #import "UIColor+AppColor.h"
 #import "AppState.h"
+#import "MonthOverview.h"
 
 @implementation MonthHeader
 
@@ -17,15 +18,15 @@ NSInteger realHeight;
 
 - (id)initWithFrame:(CGRect)frame
 {
-    self = [super initWithFrame:frame];
+    self = [super initWithFrame:[UIScreen mainScreen].bounds];
     if (self) {
-       
+        
         self.backgroundColor = [UIColor clearColor];
         self.lblHeader = [[UILabel alloc]initWithFrame:CGRectMake(20, 5, realWidth,50)];
         self.lblHeader.font = [UIFont fontWithName:@"GillSans-Light" size:48];
         self.lblHeader.textColor = [UIColor darkGrayColor];
         [self addSubview:self.lblHeader];
-        
+     
         self.lblHeaderMonday = [[UILabel alloc]initWithFrame:CGRectMake(20, 50, realWidth/8,50)];
         self.lblHeaderMonday.font = [UIFont fontWithName:@"GillSans-Light" size:16];
         self.lblHeaderMonday.textColor = [UIColor app_grey];
@@ -67,7 +68,7 @@ NSInteger realHeight;
         self.lblHeaderSaturday.text = @"Saturday";
         self.lblHeaderSaturday.textAlignment = NSTextAlignmentCenter;
         [self addSubview:self.lblHeaderSaturday];
-        
+    
         self.lblHeaderSunday = [[UILabel alloc]initWithFrame:CGRectMake(20+6*(realWidth/8+10), 50, realWidth/8,50)];
         self.lblHeaderSunday.font = [UIFont fontWithName:@"GillSans-Light" size:16];
         self.lblHeaderSunday.textColor = [UIColor app_grey];

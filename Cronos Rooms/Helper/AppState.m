@@ -29,9 +29,9 @@
 
 - (void)setUpDeviceProperties {
     self.deviceIsIOS7 = ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0);
-//    self.deviceIsiPad = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
+    self.deviceIsiPad = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
     self.deviceIsiPhone5 = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone && [UIScreen mainScreen].bounds.size.height == 568.0);
-    //self.deviceIsLandscape = UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]);
+    self.deviceIsLandscape = UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]);
 }
 
 /*

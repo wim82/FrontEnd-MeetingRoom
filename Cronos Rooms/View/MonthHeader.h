@@ -19,6 +19,8 @@
 @property (nonatomic,strong) UILabel * lblHeaderSaturday;
 @property (nonatomic,strong) UILabel * lblHeaderSunday;
 
+
+
 - (void)loadConstraintsForPortrait;
 - (void)loadConstraintsForLandscape;
 
