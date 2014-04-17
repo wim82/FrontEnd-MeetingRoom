@@ -26,6 +26,7 @@
 @interface MonthViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) MonthOverview * viewMonthOverview;
+@property (nonatomic)BOOL screenHasRotated;
 
 @property (nonatomic, strong) NSArray * arrayOfDays;
 
@@ -55,7 +56,7 @@ NSDate * today;
 
 - (void)loadView{
     
-    self.viewMonthOverview = [[MonthOverview alloc]initWithFrame:[UIScreen mainScreen].bounds andDelegate:self];
+    self.viewMonthOverview = [[MonthOverview alloc]initWithFrame: [UIScreen mainScreen].bounds andDelegate:self];
     self.view = self.viewMonthOverview;
     NSLog(@"meetingRoom %@", self.meetingRoom);
     
@@ -82,7 +83,7 @@ NSDate * today;
     keyArray = [[NSMutableArray alloc]init]; //months in Array, starting with first month corresponding with startDate
     
     date=startDate;
-    NSLog(@"date is : %@", date);
+   // NSLog(@"date is : %@", date);
     
     //volgende dag
     NSDate *nextDate = [self fillWithXNumberOfDays:date :1];
@@ -94,7 +95,7 @@ NSDate * today;
         
         //check if first of month is a Monday or not. add fake date cell to beginning of the month to start from Monday column (note: Sunday=1)
         int dayOfWeek = [[[NSCalendar currentCalendar] components:NSWeekdayCalendarUnit fromDate:date] weekday];
-        NSLog(@"dayofweek : %d", dayOfWeek);
+      //  NSLog(@"dayofweek : %d", dayOfWeek);
         NSString *weekDay= [date stringWithFormat:DATEFORMAT_WEEKDAY];
         NSLog(@"weekday : %@", weekDay);
         if ([weekDay isEqualToString:@"Sunday"]){
@@ -144,6 +145,9 @@ NSDate * today;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    if(!self.screenHasRotated){
+        [self loadConstraints];
+    }
     
     self.title = self.meetingRoom.roomName;
     
@@ -388,6 +392,57 @@ NSDate * today;
   }];
     
 }
+
+
+#pragma mark - orientation checks
+
+
+- (void)willAnimateRotationToInterfaceOrientation: (UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self.viewMonthOverview.collectionView  setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    [self.viewMonthOverview.collectionView  reloadData];
+}
+
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    self.viewMonthOverview.collectionView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+}
+
+- (void)loadConstraints{
+    
+    if([[AppState sharedInstance] deviceIsLandscape]){
+        [self loadConstraintsForLandscape];
+        
+    }else {
+        [self loadConstraintsForPortrait];
+    }
+    
+}
+
+- (void)loadForInterfaceOrientation:(UIInterfaceOrientation)orientation{
+    
+    
+    if([[AppState sharedInstance] deviceIsLandscape]){
+        [self.viewMonthOverview loadConstraintsForPortrait];
+
+    }else{
+        [self.viewMonthOverview loadConstraintsForLandscape];    }
+    
+}
+
+- (void)loadConstraintsForLandscape{
+    
+    [self.viewMonthOverview loadConstraintsForLandscape];
+    [self loadView];
+}
+
+- (void)loadConstraintsForPortrait{
+    
+    [self.viewMonthOverview loadConstraintsForPortrait];
+   [self loadView];
+}
+
+
 
 #pragma marks - date calculators
 
