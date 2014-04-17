@@ -37,6 +37,7 @@
     self.searchView = [[SearchView alloc] initWithFrame:[UIScreen mainScreen].bounds andDelegate:self];
     self.view = self.searchView;
 
+
     [self _loadMeetingRooms];
     [self _loadUsers];
 

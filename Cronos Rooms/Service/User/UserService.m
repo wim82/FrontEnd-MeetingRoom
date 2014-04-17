@@ -47,7 +47,6 @@
         else {
             error([NSException exceptionWithName:@"No Users" reason:@"Problem with webservice" userInfo:nil]);
         }
-
     }                                       failure:^(AFHTTPRequestOperation *operation, NSError *callbackError) {
         if (error) {
             error([NSException exceptionWithName:@"User problem: " reason:[callbackError.userInfo objectForKey:NSLocalizedDescriptionKey] userInfo:nil]);
