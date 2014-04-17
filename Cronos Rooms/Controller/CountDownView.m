@@ -55,12 +55,6 @@
        self.tableView.dataSource = _delegate;
        [self addSubview:self.tableView];
         
-        self.dayTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 700, 20, 1024-1024/3) style:UITableViewStylePlain];
-        self.dayTableView.delegate = _delegate;
-        self.dayTableView.dataSource = _delegate;
-        [self addSubview:self.dayTableView];
-
-        
         
         
     }
