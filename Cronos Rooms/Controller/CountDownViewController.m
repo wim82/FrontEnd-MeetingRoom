@@ -24,7 +24,7 @@
 #define DAYTABLEVIEWCELL_IDENTIFIER @"dayCell"
 
 
-@interface CountDownViewController () <UITableViewDataSource, UITableViewDelegate, SWTableViewCellDelegate, UISearchBarDelegate, UISearchDisplayDelegate>
+@interface CountDownViewController () <UITableViewDataSource, UITableViewDelegate, SWTableViewCellDelegate, UISearchBarDelegate, UISearchDisplayDelegate, SettingsDelegate>
 
 
 @property(nonatomic, strong) NSMutableDictionary *reservationsByDate;
@@ -635,7 +635,19 @@ BOOL clockReservation;
 
     SettingsViewController *settingsViewController = [[SettingsViewController alloc] init];
     settingsViewController.modalTransitionStyle = UIModalTransitionStylePartialCurl;
+    settingsViewController.delegate = self;
     [self.navigationController presentViewController:settingsViewController animated:YES completion:nil];
 }
 
+
+
+- (void)didChangeSettingsToDefaultMeetingRoom:(MeetingRoom *)defaultMeetingRoom {
+    NSLog(@"in delegate method");
+    self.meetingRoom = defaultMeetingRoom;
+    [self viewWillAppear:YES];
+}
+
 @end
+
+
+

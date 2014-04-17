@@ -10,11 +10,10 @@
 #import "UserService.h"
 #import "CountDownViewController.h"
 #import "MeetingRoomService.h"
+#import "ReservationOverviewController.h"
 
 
-@interface SettingsViewController () <UITextFieldDelegate, SettingsDelegate> {
-
-}
+@interface SettingsViewController () <UITextFieldDelegate, SettingsDelegate>
 
 @property(nonatomic, strong) SettingsView *settingsView;
 @property(nonatomic, strong) User *defaultUser;
@@ -27,7 +26,6 @@
 - (void)loadView {
     self.settingsView = [[SettingsView alloc] initWithFrame:[UIScreen mainScreen].bounds andDelegate:self];
     self.view = self.settingsView;
-
 }
 
 - (void)viewDidLoad {
@@ -62,7 +60,11 @@
         CountDownViewController *countDownViewController = [[CountDownViewController alloc] init];
         countDownViewController.meetingRoom = room;
 
+        if ([self.delegate isKindOfClass:[ReservationOverviewController class]])
         [self.delegate launchCountDownViewController:countDownViewController];
+        else{
+            [self.delegate didChangeSettingsToDefaultMeetingRoom:room];
+        }
 
 
     }                   andErrorHandler:^(NSException *exception) {
@@ -76,12 +78,14 @@
 - (void)_loadUser:(NSString *)userName {
     UserService *service = [UserService sharedService];
     [service getUserForFullName:userName withSuccesHandler:^(User *user) {
-      //  self.defaultUser = user;
+        //  self.defaultUser = user;
 
         //04.save default user
         [self _saveUser:user];
         [[self presentingViewController] viewWillAppear:YES];
         [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+
+        [self.delegate didChangeSettingsToDefaultUser:user];
 
     }           andErrorHandler:^(NSException *exception) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No account?" message:@"Please ask about your account name" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];

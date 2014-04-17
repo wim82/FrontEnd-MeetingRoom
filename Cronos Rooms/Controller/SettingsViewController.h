@@ -6,16 +6,18 @@
 #import <Foundation/Foundation.h>
 
 #import "CountDownViewController.h"
+#import "User.h";
 
 
 @protocol SettingsDelegate <NSObject>
 
 @optional
 - (void)launchCountDownViewController:(CountDownViewController *)countDownViewController;
-
+- (void)didChangeSettingsToDefaultUser:(User *)defaultUser;
+- (void)didChangeSettingsToDefaultMeetingRoom:(MeetingRoom *)defaultMeetingRoom;
 @end
 
 
 @interface SettingsViewController : UIViewController
-@property (nonatomic, assign) id delegate;
+@property(nonatomic, assign) id delegate;
 @end

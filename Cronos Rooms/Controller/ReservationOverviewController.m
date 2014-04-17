@@ -395,7 +395,7 @@
 }
 
 
-#pragma mark - CountDown Delegate Methods
+#pragma mark - Settings Delegate Methods
 
 - (void)launchCountDownViewController:(CountDownViewController *)countDownViewController {
     [self.presentedViewController dismissViewControllerAnimated:YES completion:^{
@@ -404,8 +404,14 @@
 
 }
 
+- (void)didChangeSettingsToDefaultUser:(User *)defaultUser {
+    self.user = defaultUser;
+    [self loadReservationsForUser:self.user];
+}
 
-//really bad rotation implementation
+
+#pragma mark - Rotation Methods
+//FIXME: really bad rotation implementation
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     self.meetingOverview.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
 }
