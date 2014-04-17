@@ -125,8 +125,6 @@
 
         //04.save default user
         [self _saveUser:user];
-        ///   [[self presentingViewController] viewWillAppear:YES];
-        //  [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
 
         NSLog(@"vlak voor delegate user aanroepen");
         if ([self.delegate isKindOfClass:[CountDownViewController class]]) {

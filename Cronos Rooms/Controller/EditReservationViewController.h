@@ -8,7 +8,9 @@
 
 
 @interface EditReservationViewController : UIViewController
-@property (nonatomic, strong) NSMutableArray *meetingRooms;
-@property (nonatomic, strong) Reservation *reservation;
+@property(nonatomic, strong) MeetingRoom *currentMeetingRoom;
+@property(nonatomic, strong) NSMutableArray *meetingRooms;
+@property(nonatomic, strong) Reservation *reservation;
+@property(nonatomic, strong) id delegate;
 
 @end

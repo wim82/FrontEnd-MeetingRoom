@@ -15,4 +15,5 @@
 
 @interface ReservationOverviewController : UIViewController   //<UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, UISearchBarDelegate, UISearchDisplayDelegate>
 @property (nonatomic, strong) User *user;
+
 @end

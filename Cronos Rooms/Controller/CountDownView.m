@@ -22,7 +22,7 @@
     if (self) {
         _delegate = delegate;
 
-        self.countDownView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
+        self.countDownView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 704)];
        // self.countDownView.backgroundColor = [UIColor app_darkGrey];
         [self addSubview:self.countDownView];
 

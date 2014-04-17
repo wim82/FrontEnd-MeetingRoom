@@ -230,10 +230,11 @@
 
 -(void)_didTapAdd{
     EditReservationViewController *editReservationViewController = [[EditReservationViewController alloc] init];
+    editReservationViewController.delegate = self;
     Reservation *reservation = [[Reservation alloc] init];
     reservation.startTime = self.date;
     //TODO: when providing the meetingRoom, this room is ticked twice in editreservationViewCOntroller
-    reservation.meetingRoom=self.meetingRoom;
+    reservation.meetingRoom = self.meetingRoom;
     //TODO: remove back button, first time add is pressed
     editReservationViewController.reservation = reservation;
     editReservationViewController.navigationItem.title = @"Add Reservation";

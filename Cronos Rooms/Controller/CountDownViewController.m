@@ -23,33 +23,28 @@
 #define TABLEVIEWHEADER_IDENTIFIER @"reservationHeader"
 
 
+@interface CountDownViewController () <UITableViewDataSource, UITableViewDelegate, SWTableViewCellDelegate, UISearchBarDelegate, UISearchDisplayDelegate, SettingsDelegate> {
 
-@interface CountDownViewController () <UITableViewDataSource, UITableViewDelegate, SWTableViewCellDelegate, UISearchBarDelegate, UISearchDisplayDelegate, SettingsDelegate>
 
+    int days, hours, minutes, seconds;
+    int secondsLeft;
+    int clockIndexPath;
+    int clockSection;
+    BOOL clockReservation;
+
+}
 
 @property(nonatomic, strong) NSMutableDictionary *reservationsByDate;
 @property(nonatomic) NSMutableArray *reservationDates;
 @property(nonatomic, strong) CountDownView *countDownView;
-@property(nonatomic, strong) NSDate *startDate;
-@property(nonatomic, strong) NSDate *today;
-@property(nonatomic, strong) NSDate *endDate;
 @property(nonatomic, assign) BOOL isReservationOverviewVisible;
 @property(nonatomic, strong) UIImage *backgroundImage;
-
 
 
 @end
 
 
 @implementation CountDownViewController
-
-
-int days, hours, minutes, seconds;
-int secondsLeft;
-int clockIndexPath;
-int clockSection;
-BOOL clockReservation;
-
 
 
 - (void)loadView {
@@ -61,8 +56,7 @@ BOOL clockReservation;
 
 
 - (void)didPressLong {
-    NSLog(@"did press long");
-    [self _didTapSettings];
+    [self _presentSettingsViewController];
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -79,8 +73,8 @@ BOOL clockReservation;
                             self.view.backgroundColor = [UIColor colorWithPatternImage:self.backgroundImage];
                         } completion:NULL];
 
-        [UIView animateWithDuration:0.6 animations:^{
-            self.countDownView.tableView.frame = CGRectMake(1024, 0, 1024 / 3, 768);
+        [UIView animateWithDuration:1 animations:^{
+            self.countDownView.tableView.frame = CGRectMake(1024, 64, 1024 / 3, 768);
         }                completion:^(BOOL finished) {
             self.isReservationOverviewVisible = NO;
         }];
@@ -88,6 +82,7 @@ BOOL clockReservation;
     } else {
 
         UIImage *darkImage = [self.backgroundImage applyBlurWithRadius:16 tintColor:[[UIColor app_darkGrey] colorWithAlphaComponent:0.3] saturationDeltaFactor:1 maskImage:nil];
+
         [UIView transitionWithView:self.view
                           duration:1
                            options:UIViewAnimationOptionTransitionCrossDissolve
@@ -96,14 +91,8 @@ BOOL clockReservation;
                         } completion:NULL];
 
 
-        [UIView animateWithDuration:0.6 animations:^{
-
-
-
-
-
-            // self.view.backgroundColor = [UIColor colorWithPatternImage:self.backgroundImage];
-            self.countDownView.tableView.frame = CGRectMake(1024 - (1024 / 3), 0, 1024 / 3, 768);
+        [UIView animateWithDuration:1 animations:^{
+            self.countDownView.tableView.frame = CGRectMake(1024 - (1024 / 3), 64, 1024 / 3, 768);
         }                completion:^(BOOL finished) {
             self.isReservationOverviewVisible = YES;
         }];
@@ -115,7 +104,7 @@ BOOL clockReservation;
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.backgroundImage = [UIImage imageNamed:@"Iceland"];
+    self.backgroundImage = [UIImage imageNamed:@"iceland"];
     self.view.backgroundColor = [UIColor colorWithPatternImage:self.backgroundImage];
 
     // self.view.backgroundColor = [UIColor redColor];
@@ -124,20 +113,12 @@ BOOL clockReservation;
     [self.countDownView.tableView registerClass:[ReservationTableViewCell class] forCellReuseIdentifier:TABLEVIEWCELL_IDENTIFIER];
     [self.countDownView.tableView registerClass:[ReservationTableViewHeader class] forHeaderFooterViewReuseIdentifier:TABLEVIEWHEADER_IDENTIFIER];
 
-    
-    
-  //if you want the table horizontal
+
+
+    //if you want the table horizontal
     self.countDownView.dayTableView.transform = CGAffineTransformMakeRotation(-M_PI_2);
     //Just so your table is not at a random place in your view
-    self.countDownView.dayTableView.frame = CGRectMake(0,0, self.countDownView.dayTableView.frame.size.width, self.countDownView.dayTableView.frame.size.height);
-   
-    
-    [self _setUpNavigationController];
-
-}
-
-
-- (void)viewWillAppear:(BOOL)animated {
+    self.countDownView.dayTableView.frame = CGRectMake(0, 0, self.countDownView.dayTableView.frame.size.width, self.countDownView.dayTableView.frame.size.height);
 
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapScreen)];
     [self.view addGestureRecognizer:gestureRecognizer];
@@ -145,17 +126,23 @@ BOOL clockReservation;
     UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didPressLong)];
     [self.view addGestureRecognizer:longPressGestureRecognizer];
 
-    //TODO: write code to see what is the "meetingroom"
-    if (!self.meetingRoom) {
-        self.meetingRoom = [[MeetingRoom alloc] init];
-        self.meetingRoom.roomId = 2;
-    }
+
+
+
+
+}
+
+
+- (void)viewWillAppear:(BOOL)animated {
+
+    [self _setUpNavigationController];
+
 
     clockReservation = FALSE;
     [timer invalidate];
-   
+
     [self loadReservationsForMeetingRoom:self.meetingRoom];
-    
+
 }
 
 
@@ -163,34 +150,33 @@ BOOL clockReservation;
 #pragma mark - UITableViewDelegate & UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    
+
     return [self.reservationDates count];
-    }
+}
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
+
     NSDate *date = [self.reservationDates objectAtIndex:section];
     return [[self.reservationsByDate objectForKey:date] count];
-  
-   
+
 
 }
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    
+
     return 24.0;
-   
+
 }
 
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    
+
     ReservationTableViewHeader *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:TABLEVIEWHEADER_IDENTIFIER];
     header.lblDate.text = [[[self.reservationDates objectAtIndex:section] stringWithFormat:DATEFORMAT_DAYNAME_AND_SHORT_DATE] lowercaseString];
     return header;
-   
+
 }
 
 
@@ -212,8 +198,7 @@ BOOL clockReservation;
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    
+
 
     SWTableViewCell *cell = [[SWTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                                    reuseIdentifier:TABLEVIEWCELL_IDENTIFIER
@@ -267,9 +252,8 @@ BOOL clockReservation;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
     return cell;
-    
-        
-        
+
+
 }
 
 
@@ -443,18 +427,37 @@ BOOL clockReservation;
 - (void)_setUpNavigationController {
 
     //if the title hasn't been set, set it to "Edit Reservation"
-    self.navigationItem.title = @"Meeting Room Name";
+    self.navigationItem.title = self.meetingRoom.roomName;
 
-    self.navigationController.navigationBar.translucent = NO;
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                             forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.navigationBar.translucent = YES;
 
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
-            initWithImage:[UIImage imageNamed:@"settings-44"] style:UIBarButtonItemStylePlain
-                   target:self
-                   action:@selector(_didTapSettings)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
+            initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                 target:self
+                                 action:@selector(_didTapAdd)];
 
-    self.navigationItem.leftBarButtonItem.imageInsets = UIEdgeInsetsMake(0.0, -8, 0, 0);
+    self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
 
-    self.navigationController.navigationBar.hidden = YES;
+    self.navigationItem.hidesBackButton = YES;
+
+    self.navigationController.navigationBar.hidden = NO;
+}
+
+- (void)_didTapAdd {
+    EditReservationViewController *editReservationViewController = [[EditReservationViewController alloc] init];
+    editReservationViewController.delegate = self;
+    Reservation *reservation = [[Reservation alloc] init];
+
+    reservation.meetingRoom = self.meetingRoom;
+    //TODO: remove back button, first time add is pressed
+    editReservationViewController.reservation = reservation;
+    editReservationViewController.navigationItem.title = @"Add Reservation";
+
+    [self.navigationController pushViewController:editReservationViewController animated:YES];
+
 }
 
 
@@ -547,25 +550,30 @@ BOOL clockReservation;
 
 #pragma mark - actions
 
-- (void)_didTapSettings {
+- (void)_presentSettingsViewController {
     SettingsViewController *settingsViewController = [[SettingsViewController alloc] init];
-    settingsViewController.modalTransitionStyle = UIModalTransitionStylePartialCurl;
+   settingsViewController.modalTransitionStyle = UIModalTransitionStylePartialCurl;
     settingsViewController.delegate = self;
     [self.navigationController presentViewController:settingsViewController animated:YES completion:nil];
 }
 
 
-
 - (void)didChangeSettingsToDefaultMeetingRoom:(MeetingRoom *)defaultMeetingRoom {
 
     self.meetingRoom = defaultMeetingRoom;
-    [self viewWillAppear:YES];
+    self.backgroundImage = [UIImage imageNamed:defaultMeetingRoom.roomName ? [defaultMeetingRoom.roomName lowercaseString] :@"iceland"];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:self.backgroundImage];
+    [self.presentedViewController dismissViewControllerAnimated:YES completion:^{
+
+        [self viewWillAppear:YES];
+    }];
+    //
 }
 
 - (void)shouldLaunchReservationOverviewController:(ReservationOverviewController *)reservationOverviewController {
 
     [self.presentedViewController dismissViewControllerAnimated:NO completion:^{
-        self.navigationController.navigationBar.hidden = NO;
+        //self.navigationController.navigationBar.hidden = NO;
         [self.navigationController popToRootViewControllerAnimated:NO];
 
     }];

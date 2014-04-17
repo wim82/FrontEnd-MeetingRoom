@@ -14,6 +14,7 @@
 #import "NSDate+Helper.h"
 #import "dimensions.h"
 #import "UserService.h"
+#import "DayViewController.h"
 
 
 @interface EditReservationViewController () <IDatePickerSlider, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIScrollViewDelegate>
@@ -30,7 +31,7 @@
 @property(nonatomic, strong) UIButton *deleteButton;
 
 
-@property(nonatomic, strong) MeetingRoom *currentMeetingRoom;
+
 @property(nonatomic, strong) UITextField *activeTextField;
 @property(nonatomic, strong) UIScrollView *scrollView;
 
@@ -110,7 +111,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
                                  target:self
                                  action:@selector(_didTapSave)];
     self.navigationItem.rightBarButtonItem = saveButton;
-    self.navigationController.navigationBarHidden=NO;
+    self.navigationController.navigationBarHidden = NO;
 }
 
 
@@ -214,7 +215,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
     self.reservedByTextView = [[DetailCellView alloc] initWithFrame:CGRectMake(0, self.descriptionTextView.frame.origin.y + self.descriptionTextView.frame.size.height, self.view.frame.size.width, 64)
                                                               title:@"Reserved by"
-                                                           andValue:self.reservation.user.fullName
+                                                           andValue:self.reservation.user.fullName ? self.reservation.user.fullName : [[UserService sharedService] getDefaultUser].fullName
                                                         andDelegate:self];
 
     self.reservedByTextView.detailTextField.returnKeyType = UIReturnKeyDone;
@@ -440,6 +441,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
     }
 
+
 }
 
 
@@ -481,7 +483,11 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
     ReservationService *reservationService = [ReservationService sharedService];
 
     [reservationService createReservation:reservation withSuccesHandler:^(Reservation *savedReservation) {
-        [self.navigationController popViewControllerAnimated:YES];
+        if ([self.delegate isKindOfClass:[DayViewController class]]) {
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        } else {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
 
     }                     andErrorHandler:^(NSException *exception) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error " message:exception.reason delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];

@@ -12,19 +12,4 @@
 
 @interface SearchViewController : UIViewController<UITableViewDelegate, UITableViewDataSource,  UISearchBarDelegate, UISearchDisplayDelegate>
 
-/*
-{
-    NSMutableArray *contentList;
-    NSMutableArray *filteredContentList;
-    BOOL isSearching;
-}
-*/
-
-
-/*
-@property (strong, nonatomic) IBOutlet UITableView *tblContentList;
-@property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
-@property (strong, nonatomic) IBOutlet UISearchDisplayController *searchBarController;
-*/
- 
 @end

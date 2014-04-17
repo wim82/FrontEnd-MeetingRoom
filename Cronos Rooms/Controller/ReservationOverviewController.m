@@ -17,7 +17,6 @@
 #import "UIColor+AppColor.h"
 #import "DTCustomColoredAccessory.h"
 #import "SettingsViewController.h"
-#import "CountDownViewController.h"
 
 
 #define TABLEVIEWCELL_IDENTIFIER @"meetingCell"
@@ -45,7 +44,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-
     //register reuseable cells
     [self.meetingOverview.tableView registerClass:[ReservationTableViewCell class] forCellReuseIdentifier:TABLEVIEWCELL_IDENTIFIER];
     [self.meetingOverview.tableView registerClass:[ReservationTableViewHeader class] forHeaderFooterViewReuseIdentifier:TABLEVIEWHEADER_IDENTIFIER];
@@ -57,11 +55,26 @@
 
 
 - (void)viewWillAppear:(BOOL)animated {
-    NSLog(@"view will appearreservation overview");
     //TODO: write ModeController -> load ReservationOverview if in userMode, load CountDownMode if inMeetingRoomMode
-    if (![self isInMeetingRoomMode]) {
+    if (![self _isInMeetingRoomMode]) {
         [self _loadAppInUserMode];
     }
+}
+
+
+#pragma mark - Private Methods
+
+- (BOOL)_isInMeetingRoomMode {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSData *encodedObject = [defaults objectForKey:@"defaultMeetingRoom"];
+    MeetingRoom *meetingRoom = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+    if (meetingRoom) {
+        CountDownViewController *countDownViewController = [[CountDownViewController alloc] init];
+        countDownViewController.meetingRoom = meetingRoom;
+        [self.navigationController pushViewController:countDownViewController animated:YES];
+        return YES;
+    }
+    return NO;
 }
 
 - (void)_loadAppInUserMode {
@@ -88,25 +101,11 @@
         self.navigationItem.leftBarButtonItem.imageInsets = UIEdgeInsetsMake(0.0, -8, 0, 0);
     }
 
-    [
-            self loadReservationsForUser:self.user];
-}
-
-- (BOOL)isInMeetingRoomMode {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSData *encodedObject = [defaults objectForKey:@"defaultMeetingRoom"];
-    MeetingRoom *meetingRoom = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
-    if (meetingRoom) {
-        CountDownViewController *countDownViewController = [[CountDownViewController alloc] init];
-        countDownViewController.meetingRoom = meetingRoom;
-        [self presentViewController:countDownViewController animated:NO completion:nil];
-        return YES;
-    }
-    return NO;
+    [self _loadReservationsForUser:self.user];
 }
 
 
-- (void)loadReservationsForUser:(User *)user {
+- (void)_loadReservationsForUser:(User *)user {
 
     //make the call
     [[ReservationService sharedService] getReservationsForUserId:user.userId withSuccesHandler:^(NSMutableArray *reservations) {
@@ -151,10 +150,7 @@
 }
 
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+
 
 
 #pragma mark - Navigationbar
@@ -212,7 +208,7 @@
 - (void)_didTapSettings {
 
     SettingsViewController *settingsViewController = [[SettingsViewController alloc] init];
-    settingsViewController.modalTransitionStyle = UIModalTransitionStylePartialCurl;
+    //settingsViewController.modalTransitionStyle = UIModalTransitionStylePartialCurl;
     settingsViewController.delegate = self;
     [self.navigationController presentViewController:settingsViewController animated:YES completion:nil];
 }
@@ -385,7 +381,7 @@
 }
 
 
-#pragma mark - access database
+#pragma mark - Rest Calls
 
 - (void)deleteReservation:(NSInteger)reservationId {
     ReservationService *reservationService = [ReservationService sharedService];
@@ -413,7 +409,6 @@
     self.user = defaultUser;
     [self _loadAppInUserMode];
     [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
-    NSLog(@"app loaded in User Mode");
 }
 
 
