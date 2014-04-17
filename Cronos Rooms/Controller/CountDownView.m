@@ -27,6 +27,9 @@
         [self addSubview:self.countDownView];
 
 
+        self.backgroundView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,1024,768)];
+        [self addSubview:self.backgroundView];
+
         self.countDownDetails = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
         [self addSubview:self.countDownDetails];
 
@@ -50,9 +53,10 @@
         
         
       //  self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(1024-(1024/3), 0, 1024/3, 768) style:UITableViewStylePlain];
-        self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(1024, 0, 1024/3, 768) style:UITableViewStylePlain];
+        self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(1024, 0, 1024/3, 768) style:UITableViewStyleGrouped];
         self.tableView.delegate = _delegate;
        self.tableView.dataSource = _delegate;
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
        [self addSubview:self.tableView];
         
         
