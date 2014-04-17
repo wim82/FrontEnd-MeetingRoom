@@ -11,6 +11,7 @@
 #import "ReservationOverviewController.h"
 #import "DayViewController.h"
 #import "MonthViewController.h"
+#import "AppState.h"
 
 
 #define TABLEVIEWCELL_IDENTIFIER @"searchCell"
@@ -187,13 +188,17 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.searchBar.selectedScopeButtonIndex == 1) {
-        /* DayViewController *dayViewController = [[DayViewController alloc] init];
-         dayViewController.meetingRoom =  self.meetingRooms[indexPath.row];
-         [self.navigationController pushViewController:dayViewController animated:YES];  */
+        if ([[AppState sharedInstance]deviceIsiPad]){
+        
         MonthViewController *monthViewController = [[MonthViewController alloc] init];
         monthViewController.meetingRoom = self.meetingRooms[indexPath.row];
         NSLog(@"in search : %@",self.meetingRooms[indexPath.row]);
         [self.navigationController pushViewController:monthViewController animated:YES];
+    } else {
+         DayViewController *dayViewController = [[DayViewController alloc] init];
+         dayViewController.meetingRoom =  self.meetingRooms[indexPath.row];
+         [self.navigationController pushViewController:dayViewController animated:YES];  
+    }
 
     } else {
         //we've clicked on a user
