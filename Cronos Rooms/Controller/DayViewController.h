@@ -7,7 +7,7 @@
 #import "MeetingRoom.h"
 
 
-@interface DayViewController : UIViewController
+@interface DayViewController : UIViewController <UIGestureRecognizerDelegate>
 @property(nonatomic, strong) NSDate *date;
 @property(nonatomic, strong) MeetingRoom *meetingRoom;
 @end

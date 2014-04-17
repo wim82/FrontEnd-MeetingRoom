@@ -48,6 +48,7 @@
 		2DA5EF9D930A47BEE8D7BAB0 /* ReservationOverview.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA5EE8D61ECD63F7EC7CC14 /* ReservationOverview.m */; };
 		943B902755681A36306DCA17 /* SearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 943B9F70DD3047C55711A97E /* SearchView.m */; };
 		943B90926D7D787B4F691DCD /* ScopedSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 943B979139318FB638DB6C57 /* ScopedSearchBar.m */; };
+		943B947C2C20F5CB8938B02E /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 943B99897897E1D210665F1E /* UIImage+ImageEffects.m */; };
 		943B971877876B60F403A289 /* SearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 943B9F1CCFB1DBF24EB62C8A /* SearchTableViewCell.m */; };
 		943B9F72CEA497505293BA99 /* CustomSearchDisplayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943B9777509D60EECF150C40 /* CustomSearchDisplayController.m */; };
 		A2C8EA5418FB02DC00D01F4B /* MonthHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C8EA5318FB02DC00D01F4B /* MonthHeader.m */; };
@@ -177,8 +178,10 @@
 		943B968AE14AD6EAC8974E1C /* SearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableViewCell.h; sourceTree = "<group>"; };
 		943B9777509D60EECF150C40 /* CustomSearchDisplayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomSearchDisplayController.m; sourceTree = "<group>"; };
 		943B979139318FB638DB6C57 /* ScopedSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScopedSearchBar.m; sourceTree = "<group>"; };
+		943B99897897E1D210665F1E /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		943B9A353C5C822FE8800AF9 /* CustomSearchDisplayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomSearchDisplayController.h; sourceTree = "<group>"; };
 		943B9D016CF33D96B13626AC /* SearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchView.h; sourceTree = "<group>"; };
+		943B9D3091F2E18D9EAB1537 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		943B9F1CCFB1DBF24EB62C8A /* SearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewCell.m; sourceTree = "<group>"; };
 		943B9F70DD3047C55711A97E /* SearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchView.m; sourceTree = "<group>"; };
 		A2C8EA5218FB02DC00D01F4B /* MonthHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonthHeader.h; sourceTree = "<group>"; };
@@ -321,6 +324,8 @@
 				2DA5EA0DEDBD1B549DA45CA4 /* NSDate+Helper.h */,
 				2DA5EB74FD626061CC68163A /* UIColor+AppColor.m */,
 				2DA5EFCF18769249BD717384 /* UIColor+AppColor.h */,
+				943B99897897E1D210665F1E /* UIImage+ImageEffects.m */,
+				943B9D3091F2E18D9EAB1537 /* UIImage+ImageEffects.h */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -742,6 +747,7 @@
 				2DA5EF9D930A47BEE8D7BAB0 /* ReservationOverview.m in Sources */,
 				2DA5E5012F5F76920068427E /* SettingsView.m in Sources */,
 				2DA5E07302AE69982901918A /* SettingsViewController.m in Sources */,
+				943B947C2C20F5CB8938B02E /* UIImage+ImageEffects.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

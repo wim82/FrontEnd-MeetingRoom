@@ -100,7 +100,9 @@
     UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipeRight)];
     swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
     [self.view addGestureRecognizer:swipeRight];
-
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
+                                             initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(_didTapAdd)];
 
 }
 
@@ -180,6 +182,8 @@
             cell.reservation = reservation;
         }
     }
+    
+    
     return cell;
 }
 
@@ -204,12 +208,39 @@
 #pragma mark - Navigation
 
 - (void)didTapReservation:(Reservation *)reservation {
+    
+    EditReservationViewController *editReservationViewController = [[EditReservationViewController alloc] init];
     if (reservation) {
-        EditReservationViewController *editReservationViewController = [[EditReservationViewController alloc] init];
         editReservationViewController.reservation = reservation;
         [self.navigationController pushViewController:editReservationViewController animated:YES];
     }
+    else {
+        Reservation *reservation = [[Reservation alloc] init];
+        //TODO: when providing the meetingRoom, this room is ticked twice in editreservationViewCOntroller
+        reservation.meetingRoom=self.meetingRoom;
+        NSDate *dateTime = self.date;
+        reservation.startTime=dateTime;
+        editReservationViewController.reservation = reservation;
+        editReservationViewController.navigationItem.title = @"Add Reservation";
+        
+        [self.navigationController pushViewController:editReservationViewController animated:YES];
+        
+    }
 }
+
+-(void)_didTapAdd{
+    EditReservationViewController *editReservationViewController = [[EditReservationViewController alloc] init];
+    Reservation *reservation = [[Reservation alloc] init];
+    reservation.startTime = self.date;
+    //TODO: when providing the meetingRoom, this room is ticked twice in editreservationViewCOntroller
+    reservation.meetingRoom=self.meetingRoom;
+    //TODO: remove back button, first time add is pressed
+    editReservationViewController.reservation = reservation;
+    editReservationViewController.navigationItem.title = @"Add Reservation";
+    
+    [self.navigationController pushViewController:editReservationViewController animated:YES];
+}
+
 
 
 
@@ -266,7 +297,6 @@
 - (void)didTapNext {
     [self didSwipeLeft];
 }
-
 
 @end
 

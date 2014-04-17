@@ -32,7 +32,7 @@ NSInteger realWidth;
         else{realWidth=768;
         NSLog(@"realWidth : %ld", (long)realWidth);}
                 
-        self.backgroundColor = [UIColor blueColor];
+        self.backgroundColor = [UIColor app_blueGreyShaded];
         
         UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc]init];
         layout.scrollDirection = UICollectionViewScrollDirectionVertical;
