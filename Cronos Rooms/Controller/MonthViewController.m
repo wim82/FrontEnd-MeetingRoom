@@ -396,6 +396,17 @@ NSDate * today;
 
 #pragma mark - orientation checks
 
+/*
+-(NSUInteger)supportedInterfaceOrientations{
+    
+    return UIInterfaceOrientationMaskLandscape;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    return UIInterfaceOrientationLandscapeLeft;
+}
+ */
 
 - (void)willAnimateRotationToInterfaceOrientation: (UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {

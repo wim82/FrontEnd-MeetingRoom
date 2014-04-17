@@ -67,6 +67,8 @@
 		A2C8EABC18FDC94E00D01F4B /* CountDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C8EABA18FDC94E00D01F4B /* CountDownViewController.m */; };
 		A2C8EABF18FDCA5600D01F4B /* CountDownView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C8EABE18FDCA5600D01F4B /* CountDownView.m */; };
 		A2C8EAC018FDCA5600D01F4B /* CountDownView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C8EABE18FDCA5600D01F4B /* CountDownView.m */; };
+		BE09CE0918FFE04100F997B5 /* TIMERUIApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = BE09CE0818FFE04100F997B5 /* TIMERUIApplication.m */; };
+		BE09CE0A18FFE04100F997B5 /* TIMERUIApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = BE09CE0818FFE04100F997B5 /* TIMERUIApplication.m */; };
 		BE22791918F3DBEC007CEF07 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE22791818F3DBEC007CEF07 /* Foundation.framework */; };
 		BE22791B18F3DBEC007CEF07 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE22791A18F3DBEC007CEF07 /* CoreGraphics.framework */; };
 		BE22791D18F3DBEC007CEF07 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE22791C18F3DBEC007CEF07 /* UIKit.framework */; };
@@ -200,6 +202,8 @@
 		A2C8EABA18FDC94E00D01F4B /* CountDownViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountDownViewController.m; sourceTree = "<group>"; };
 		A2C8EABD18FDCA5600D01F4B /* CountDownView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CountDownView.h; path = ../Controller/CountDownView.h; sourceTree = "<group>"; };
 		A2C8EABE18FDCA5600D01F4B /* CountDownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CountDownView.m; path = ../Controller/CountDownView.m; sourceTree = "<group>"; };
+		BE09CE0718FFE04100F997B5 /* TIMERUIApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TIMERUIApplication.h; sourceTree = "<group>"; };
+		BE09CE0818FFE04100F997B5 /* TIMERUIApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TIMERUIApplication.m; sourceTree = "<group>"; };
 		BE22791518F3DBEC007CEF07 /* Cronos Rooms.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cronos Rooms.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE22791818F3DBEC007CEF07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		BE22791A18F3DBEC007CEF07 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -356,6 +360,8 @@
 				2DA5E5389A6668A8386E7173 /* AppDelegate.h */,
 				2DA5EB32E0852C3E1F2BECD0 /* AppDelegate.m */,
 				943B94651854CF0F2F8E2F8F /* dimensions.h */,
+				BE09CE0718FFE04100F997B5 /* TIMERUIApplication.h */,
+				BE09CE0818FFE04100F997B5 /* TIMERUIApplication.m */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -725,6 +731,7 @@
 				2DA5E282671CC239819548BA /* DayView.m in Sources */,
 				A2C8EA5C18FB048000D01F4B /* MonthOverview.m in Sources */,
 				2DA5EC705A16909C413EB6DB /* DayQuarterHourViewCell.m in Sources */,
+				BE09CE0918FFE04100F997B5 /* TIMERUIApplication.m in Sources */,
 				2DA5E995B12F41FB0BF704C0 /* NSDate+Helper.m in Sources */,
 				2DA5E85337AD7E3B8059D25E /* UIColor+AppColor.m in Sources */,
 				2DA5E835752D361A9E025F3A /* DTCustomColoredAccessory.m in Sources */,
@@ -761,6 +768,7 @@
 				A2C8EA6918FB123200D01F4B /* PublicHoliday.m in Sources */,
 				A2C8EA5918FB039C00D01F4B /* MonthCell.m in Sources */,
 				A2C8EABC18FDC94E00D01F4B /* CountDownViewController.m in Sources */,
+				BE09CE0A18FFE04100F997B5 /* TIMERUIApplication.m in Sources */,
 				A2C8EA6518FB0F5D00D01F4B /* PublicHolidayService.m in Sources */,
 				A2C8EA6118FB079000D01F4B /* MonthViewController.m in Sources */,
 				A2C8EA5D18FB048000D01F4B /* MonthOverview.m in Sources */,
