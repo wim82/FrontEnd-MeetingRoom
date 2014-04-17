@@ -57,7 +57,7 @@
 
 
 - (void)viewWillAppear:(BOOL)animated {
-
+    NSLog(@"view will appearreservation overview");
     //TODO: write ModeController -> load ReservationOverview if in userMode, load CountDownMode if inMeetingRoomMode
     if (![self isInMeetingRoomMode]) {
         [self _loadAppInUserMode];
@@ -66,26 +66,30 @@
 
 - (void)_loadAppInUserMode {
     //User of the reservation over has not been set
-    if (!self.user) {
+    //get the default user
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSData *encodedUser = [defaults objectForKey:@"defaultUser"];
+    User *defaultUser = [NSKeyedUnarchiver unarchiveObjectWithData:encodedUser];
 
-        //get the default user
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSData *encodedUser = [defaults objectForKey:@"defaultUser"];
-        User *defaultUser = [NSKeyedUnarchiver unarchiveObjectWithData:encodedUser];
-        if (defaultUser) {
+    if (!self.user) { //if user has not been set
+        if (defaultUser) { //check if there is a default user and use his settings
             self.user = defaultUser;
-            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
-                    initWithImage:[UIImage imageNamed:@"settings-44"] style:UIBarButtonItemStylePlain
-                           target:self
-                           action:@selector(_didTapSettings)];
-            self.navigationItem.leftBarButtonItem.imageInsets = UIEdgeInsetsMake(0.0, -8, 0, 0);
         } else {
             //if there's no default user, go to settings screen
             [self _didTapSettings];
         }
     }
 
-    [self loadReservationsForUser:self.user];
+    if (self.user == defaultUser) {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
+                initWithImage:[UIImage imageNamed:@"settings-44"] style:UIBarButtonItemStylePlain
+                       target:self
+                       action:@selector(_didTapSettings)];
+        self.navigationItem.leftBarButtonItem.imageInsets = UIEdgeInsetsMake(0.0, -8, 0, 0);
+    }
+
+    [
+            self loadReservationsForUser:self.user];
 }
 
 - (BOOL)isInMeetingRoomMode {
@@ -95,7 +99,7 @@
     if (meetingRoom) {
         CountDownViewController *countDownViewController = [[CountDownViewController alloc] init];
         countDownViewController.meetingRoom = meetingRoom;
-        [self presentViewController:countDownViewController animated:YES completion:nil];
+        [self presentViewController:countDownViewController animated:NO completion:nil];
         return YES;
     }
     return NO;
@@ -184,6 +188,7 @@
 
     self.navigationController.navigationBar.translucent = NO;
     self.title = @"Reservations";
+    self.navigationController.navigationBar.hidden = NO;
 
 }
 
@@ -397,8 +402,8 @@
 
 #pragma mark - Settings Delegate Methods
 
-- (void)launchCountDownViewController:(CountDownViewController *)countDownViewController {
-    [self.presentedViewController dismissViewControllerAnimated:YES completion:^{
+- (void)shouldLaunchCountDownViewController:(CountDownViewController *)countDownViewController {
+    [self.presentedViewController dismissViewControllerAnimated:NO completion:^{
         [self.navigationController pushViewController:countDownViewController animated:YES];
     }];
 
@@ -406,14 +411,18 @@
 
 - (void)didChangeSettingsToDefaultUser:(User *)defaultUser {
     self.user = defaultUser;
-    [self loadReservationsForUser:self.user];
+    [self _loadAppInUserMode];
+    [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+    NSLog(@"app loaded in User Mode");
 }
 
 
 #pragma mark - Rotation Methods
 //FIXME: really bad rotation implementation
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    self.meetingOverview.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    [UIView animateWithDuration:0.5 animations:^{
+        self.meetingOverview.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    }];
 }
 
 

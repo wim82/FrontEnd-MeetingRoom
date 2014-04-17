@@ -9,9 +9,16 @@
 
 
 @interface UserService  : MainService
+
+//Singleton
 + (UserService *)sharedService;
+
+//Rest Calls
 - (void)getAllUsersWithSuccesHandler:(void (^)(NSMutableArray *))success andErrorHandler:(void (^)(NSException *))error;
 - (void)getUserForFullName:(NSString *)fullName withSuccesHandler:(void (^)(User *))success andErrorHandler:(void (^)(NSException *))error;
-//TODO find out if this should be a class method or an instance method
-+ (User *)getDefaultUser;
+
+//NSUserDefaults
+- (User *)getDefaultUser;
+
+
 @end

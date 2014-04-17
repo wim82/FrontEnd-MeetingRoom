@@ -6,13 +6,16 @@
 #import <Foundation/Foundation.h>
 
 #import "CountDownViewController.h"
-#import "User.h";
+#import "User.h"
+
+#import "ReservationOverviewController.h"
 
 
 @protocol SettingsDelegate <NSObject>
 
 @optional
-- (void)launchCountDownViewController:(CountDownViewController *)countDownViewController;
+- (void)shouldLaunchCountDownViewController:(CountDownViewController *)countDownViewController;
+- (void)shouldLaunchReservationOverviewController:(ReservationOverviewController *)reservationOverviewController;
 - (void)didChangeSettingsToDefaultUser:(User *)defaultUser;
 - (void)didChangeSettingsToDefaultMeetingRoom:(MeetingRoom *)defaultMeetingRoom;
 @end

@@ -104,7 +104,7 @@
     NSString *path = [NSString stringWithFormat:@"meetingrooms/roomname/%@", [roomName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     NSMutableURLRequest *request = [self getRequestWithPath:path];
 
-    NSLog(@"path is %@", path);
+
     //init request
     AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     AFJSONResponseSerializer *serializer = [AFJSONResponseSerializer serializer];
@@ -133,7 +133,7 @@
 }
 
 //is it better to use a class method or an instance method for this?
-+ (MeetingRoom *)getDefaultMeetingRoom {
+- (MeetingRoom *)getDefaultMeetingRoom {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSData *encodedObject = [defaults objectForKey:@"defaultMeetingRoom"];
     return [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];

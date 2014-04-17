@@ -22,6 +22,8 @@
     return instance;
 }
 
+
+#pragma mark - Rest Calls
 - (void)getAllUsersWithSuccesHandler:(void (^)(NSMutableArray *))success andErrorHandler:(void (^)(NSException *))error {
 
     //set path
@@ -91,11 +93,17 @@
 
 }
 
+
+#pragma mark - NSUserDefaults
+
 //is it better to use a class method or an instance method for this?
-+ (User *)getDefaultUser {
+- (User *)getDefaultUser {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSData *encodedObject = [defaults objectForKey:@"defaultUser"];
     return [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
 }
+
+
+
 
 @end

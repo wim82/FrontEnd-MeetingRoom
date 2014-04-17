@@ -36,15 +36,13 @@
     MonthViewController * monthOverviewController = [[MonthViewController alloc]init];
     CountDownViewController *countDownViewController = [[CountDownViewController alloc]init];
     
-    self.navigationController = [[UINavigationController alloc] initWithRootViewController:countDownViewController];
+    self.navigationController = [[UINavigationController alloc] initWithRootViewController:reservationOverviewController];
     [self styleNavigationController];
     self.window.rootViewController = self.navigationController;
     
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     
     self.window.backgroundColor = [UIColor whiteColor];
-
-
 
     [self.window makeKeyAndVisible];
     return YES;
