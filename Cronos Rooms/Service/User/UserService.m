@@ -92,7 +92,7 @@
 
 }
 
-
+//is it better to use a class method or an instance method for this?
 + (User *)getDefaultUser {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSData *encodedObject = [defaults objectForKey:@"defaultUser"];

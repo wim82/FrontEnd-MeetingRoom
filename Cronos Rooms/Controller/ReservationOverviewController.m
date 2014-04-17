@@ -24,7 +24,7 @@
 #define TABLEVIEWHEADER_IDENTIFIER @"meetingHeader"
 
 
-@interface ReservationOverviewController () <UITableViewDataSource, UITableViewDelegate, SWTableViewCellDelegate, UISearchBarDelegate, UISearchDisplayDelegate, CountDownDelegate>
+@interface ReservationOverviewController () <UITableViewDataSource, UITableViewDelegate, SWTableViewCellDelegate, UISearchBarDelegate, UISearchDisplayDelegate, SettingsDelegate>
 
 @property(nonatomic, strong) ReservationOverview *meetingOverview;
 @property(nonatomic, strong) NSMutableDictionary *reservationsByDate;

@@ -14,4 +14,5 @@
 - (void)getAllMeetingRoomsWithSuccessHandler:(void (^)(NSMutableArray *))success andErrorHandler:(void (^)(NSException *))error;
 - (void)getAvailableMeetingRoomsForStartTime:(NSDate *)startTime andEndTime:(NSDate *)endTime withSuccesHandler:(void (^)(NSMutableArray *))success andErrorHandler:(void (^)(NSException *))error;
 - (void)getMeetingRoomWithRoomName:(NSString *)roomName withSuccesHandler:(void (^)(MeetingRoom *))success andErrorHandler:(void (^)(NSException *))error;
++ (MeetingRoom *)getDefaultMeetingRoom;
 @end

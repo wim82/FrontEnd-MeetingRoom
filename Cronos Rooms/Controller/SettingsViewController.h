@@ -8,8 +8,9 @@
 #import "CountDownViewController.h"
 
 
-@protocol CountDownDelegate <NSObject>
+@protocol SettingsDelegate <NSObject>
 
+@optional
 - (void)launchCountDownViewController:(CountDownViewController *)countDownViewController;
 
 @end
