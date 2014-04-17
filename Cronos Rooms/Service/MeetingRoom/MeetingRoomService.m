@@ -132,4 +132,11 @@
 
 }
 
+//is it better to use a class method or an instance method for this?
++ (MeetingRoom *)getDefaultMeetingRoom {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSData *encodedObject = [defaults objectForKey:@"defaultMeetingRoom"];
+    return [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+}
+
 @end

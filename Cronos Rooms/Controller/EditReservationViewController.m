@@ -83,6 +83,8 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
 
 - (void)viewDidDisappear:(BOOL)animated {
+    self.currentMeetingRoom = nil;
+    NSLog(@"view Did Disappear");
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:UIKeyboardWillShowNotification
                                                   object:nil];
@@ -298,6 +300,8 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
     self.reservation.endTime = self.endDatePickerView.datePicker.date;
     [self.endDatePickerView updateDateValue];
 
+    self.currentMeetingRoom = nil;
+    self.reservation.meetingRoom = nil;
     [self _loadAvailableMeetingRooms];
 }
 
@@ -308,6 +312,8 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
     self.reservation.endTime = self.endDatePickerView.datePicker.date;
     [self.endDatePickerView updateDateValue];
 
+    self.currentMeetingRoom = nil;
+    self.reservation.meetingRoom = nil;
     [self _loadAvailableMeetingRooms];
 }
 
@@ -551,9 +557,14 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
     MeetingRoom *meetingRoom = (MeetingRoom *) [self.meetingRooms objectAtIndex:indexPath.row];
     cell.textLabel.text = meetingRoom.roomName;
 
+
     if (meetingRoom.roomId == self.reservation.meetingRoom.roomId) {
+        NSLog(@"komen we hier????");
         self.currentMeetingRoom = meetingRoom;  //TODO krijgen we die warning weg??
         [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+    } else {
+        [cell setAccessoryType:UITableViewCellAccessoryNone];
+
     }
     return cell;
 }
@@ -598,8 +609,6 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
         self.reservation.reservationDescription = self.descriptionTextView.detailTextField.text;
     }
 }
-
-
 
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {

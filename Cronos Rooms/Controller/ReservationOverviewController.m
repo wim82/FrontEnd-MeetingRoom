@@ -24,7 +24,7 @@
 #define TABLEVIEWHEADER_IDENTIFIER @"meetingHeader"
 
 
-@interface ReservationOverviewController () <UITableViewDataSource, UITableViewDelegate, SWTableViewCellDelegate, UISearchBarDelegate, UISearchDisplayDelegate, CountDownDelegate>
+@interface ReservationOverviewController () <UITableViewDataSource, UITableViewDelegate, SWTableViewCellDelegate, UISearchBarDelegate, UISearchDisplayDelegate, SettingsDelegate>
 
 @property(nonatomic, strong) ReservationOverview *meetingOverview;
 @property(nonatomic, strong) NSMutableDictionary *reservationsByDate;
@@ -58,38 +58,47 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 
-    //TODO: write code to see if it's the "homeuser" or a different user which ReservationOverview you'd like to see
+    //TODO: write ModeController -> load ReservationOverview if in userMode, load CountDownMode if inMeetingRoomMode
+    if (![self isInMeetingRoomMode]) {
+        [self _loadAppInUserMode];
+    }
+}
+
+- (void)_loadAppInUserMode {
+    //User of the reservation over has not been set
     if (!self.user) {
-        self.user = [[User alloc] init];
-        self.user.userId = 1;
-        //create left button: settingsButton
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
-                initWithImage:[UIImage imageNamed:@"settings-44"] style:UIBarButtonItemStylePlain
-                       target:self
-                       action:@selector(_didTapSettings)];
 
-        self.navigationItem.leftBarButtonItem.imageInsets = UIEdgeInsetsMake(0.0, -8, 0, 0);
-
+        //get the default user
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSData *encodedUser = [defaults objectForKey:@"defaultUser"];
+        User *defaultUser = [NSKeyedUnarchiver unarchiveObjectWithData:encodedUser];
+        if (defaultUser) {
+            self.user = defaultUser;
+            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
+                    initWithImage:[UIImage imageNamed:@"settings-44"] style:UIBarButtonItemStylePlain
+                           target:self
+                           action:@selector(_didTapSettings)];
+            self.navigationItem.leftBarButtonItem.imageInsets = UIEdgeInsetsMake(0.0, -8, 0, 0);
+        } else {
+            //if there's no default user, go to settings screen
+            [self _didTapSettings];
+        }
     }
 
+    [self loadReservationsForUser:self.user];
+}
 
+- (BOOL)isInMeetingRoomMode {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-
     NSData *encodedObject = [defaults objectForKey:@"defaultMeetingRoom"];
     MeetingRoom *meetingRoom = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
     if (meetingRoom) {
         CountDownViewController *countDownViewController = [[CountDownViewController alloc] init];
         countDownViewController.meetingRoom = meetingRoom;
         [self presentViewController:countDownViewController animated:YES completion:nil];
-        NSLog(@"hier moet ik zijn");
+        return YES;
     }
-
-    NSData *encodedUser = [defaults objectForKey:@"defaultUser"];
-    User *object = [NSKeyedUnarchiver unarchiveObjectWithData:encodedUser];
-    if (object) {
-        self.user = object;
-        [self loadReservationsForUser:self.user];
-    }
+    return NO;
 }
 
 
@@ -396,14 +405,10 @@
 }
 
 
-
 //really bad rotation implementation
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-        self.meetingOverview.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    self.meetingOverview.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
 }
-
-
-
 
 
 @end

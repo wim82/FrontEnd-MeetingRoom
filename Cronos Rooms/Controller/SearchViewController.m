@@ -197,8 +197,7 @@
     } else {
         //we've clicked on a user
         ReservationOverviewController *reservationOverviewController = [[ReservationOverviewController alloc] init];
-        reservationOverviewController.user = [[User alloc] init];
-        reservationOverviewController.user.userId = 2;
+        reservationOverviewController.user = self.users[indexPath.row];
         [self.navigationController pushViewController:reservationOverviewController animated:YES];
     }
 

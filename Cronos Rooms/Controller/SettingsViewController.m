@@ -12,7 +12,7 @@
 #import "MeetingRoomService.h"
 
 
-@interface SettingsViewController () <UITextFieldDelegate, CountDownDelegate> {
+@interface SettingsViewController () <UITextFieldDelegate, SettingsDelegate> {
 
 }
 
@@ -33,8 +33,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.settingsView.saveButton addTarget:self action:@selector(didTapSave) forControlEvents:UIControlEventTouchUpInside];
-    self.defaultUser = [[User alloc] init];
+
+    User *defaultUser = [UserService getDefaultUser];
+    if (defaultUser) {
+        self.settingsView.userNameDetail.detailTextField.text = defaultUser.fullName;
+    } else {
+        MeetingRoom *defaultMeetingRoom = [MeetingRoomService getDefaultMeetingRoom];
+        if (defaultMeetingRoom) {
+            self.settingsView.userNameDetail.detailTextField.text = defaultMeetingRoom.roomName;
+        }
+    }
 }
+
 
 - (void)didTapSave {
     [self _loadMeetingRoom:self.settingsView.userNameDetail.detailTextField.text];
@@ -55,7 +65,6 @@
         [self.delegate launchCountDownViewController:countDownViewController];
 
 
-
     }                   andErrorHandler:^(NSException *exception) {
         //03. if we don't find a meeting room, try to load a user
         [self _loadUser:self.settingsView.userNameDetail.detailTextField.text];
@@ -67,9 +76,10 @@
 - (void)_loadUser:(NSString *)userName {
     UserService *service = [UserService sharedService];
     [service getUserForFullName:userName withSuccesHandler:^(User *user) {
-        self.defaultUser = user;
+      //  self.defaultUser = user;
+
         //04.save default user
-        [self _saveUser:self.defaultUser];
+        [self _saveUser:user];
         [[self presentingViewController] viewWillAppear:YES];
         [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
 
