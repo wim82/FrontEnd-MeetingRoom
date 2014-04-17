@@ -56,15 +56,12 @@ BOOL clockReservation;
     self.countDownView = [[CountDownView alloc] initWithFrame:[UIScreen mainScreen].bounds andDelegate:self];
     self.view = self.countDownView;
     self.isReservationOverviewVisible = NO;
-    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapScreen)];
-    [self.view addGestureRecognizer:gestureRecognizer];
 
-    UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didPressLong)];
-    [self.view addGestureRecognizer:longPressGestureRecognizer];
 }
 
 
 - (void)didPressLong {
+    NSLog(@"did press long");
     [self _didTapSettings];
 }
 
@@ -141,6 +138,13 @@ BOOL clockReservation;
 
 
 - (void)viewWillAppear:(BOOL)animated {
+
+    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapScreen)];
+    [self.view addGestureRecognizer:gestureRecognizer];
+
+    UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didPressLong)];
+    [self.view addGestureRecognizer:longPressGestureRecognizer];
+
     //TODO: write code to see what is the "meetingroom"
     if (!self.meetingRoom) {
         self.meetingRoom = [[MeetingRoom alloc] init];
@@ -226,7 +230,6 @@ BOOL clockReservation;
     NSDate *today = [[NSDate alloc] init];
 
     //logic needed to control the counter
-    NSLog(@"wat is verschil %f", [reservation.startTime timeIntervalSinceDate:today]);
     if (([reservation.startTime timeIntervalSinceDate:today] > 0) && !clockReservation) {
         clockIndexPath = indexPath.row;
         clockSection = indexPath.section;
@@ -240,7 +243,6 @@ BOOL clockReservation;
 
     }
 
-    NSLog(@"clockIndexPath en section : %d   %d", clockIndexPath, clockSection);
 
 
 
@@ -360,7 +362,6 @@ BOOL clockReservation;
 - (void)loadReservationsForMeetingRoom:(MeetingRoom *)meetingRoom {
 
     NSDate *today = [[NSDate alloc] init];
-    NSLog(@"today %@", today);
 
 
     //make the call
@@ -462,12 +463,12 @@ BOOL clockReservation;
 - (void)setUpTimer:(NSDate *)date {
 
     NSDate *today = [[NSDate alloc] init];
-    NSLog(@"startdate %@ and today %@", date, today);
+
     double countDownTimer;
     countDownTimer = [date timeIntervalSinceDate:today];
 
     secondsLeft = countDownTimer;
-    NSLog(@"secondsLeft %d", secondsLeft);
+
     //  self.countDownView.countDownTime.backgroundColor = [UIColor greenColor];
     self.countDownView.meetingRoomStatus.text = @"Room is available for the next";
 
@@ -478,12 +479,12 @@ BOOL clockReservation;
         endDate = firstReservation.endTime;
 
         NSDate *today = [[NSDate alloc] init];
-        NSLog(@"startdate %@ and today %@", date, today);
+
         double countDownTimer;
         countDownTimer = [endDate timeIntervalSinceDate:today];
 
         secondsLeft = countDownTimer;
-        NSLog(@"secondsLeft %d", secondsLeft);
+
         self.countDownView.meetingRoomStatus.text = @"Room will be available in";
         //  self.countDownView.countDownTime.backgroundColor = [UIColor app_lightRed];
 
@@ -547,7 +548,6 @@ BOOL clockReservation;
 #pragma mark - actions
 
 - (void)_didTapSettings {
-
     SettingsViewController *settingsViewController = [[SettingsViewController alloc] init];
     settingsViewController.modalTransitionStyle = UIModalTransitionStylePartialCurl;
     settingsViewController.delegate = self;
@@ -557,9 +557,18 @@ BOOL clockReservation;
 
 
 - (void)didChangeSettingsToDefaultMeetingRoom:(MeetingRoom *)defaultMeetingRoom {
-    NSLog(@"in delegate method");
+
     self.meetingRoom = defaultMeetingRoom;
     [self viewWillAppear:YES];
+}
+
+- (void)shouldLaunchReservationOverviewController:(ReservationOverviewController *)reservationOverviewController {
+
+    [self.presentedViewController dismissViewControllerAnimated:NO completion:^{
+        self.navigationController.navigationBar.hidden = NO;
+        [self.navigationController popToRootViewControllerAnimated:NO];
+
+    }];
 }
 
 @end

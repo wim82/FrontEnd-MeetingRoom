@@ -623,6 +623,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
 
 #pragma mark - ScrollViewDelegate Methods
+
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
 
     if (scrollView.contentOffset.y < -30) {

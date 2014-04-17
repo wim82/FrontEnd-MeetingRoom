@@ -31,7 +31,7 @@
     //set path
     NSString *dateString = [[DateHelper jsonDateFormatter] stringFromDate:date];
     NSString *path = [NSString stringWithFormat:@"reservations/meetingroom/%i/%@/%i", roomId, dateString, amount];
-    NSLog(@"path = %@", path);
+
     NSMutableURLRequest *request = [self getRequestWithPath:path];
 
     //init request
@@ -46,7 +46,7 @@
 
             NSMutableArray *result = [[NSMutableArray alloc] init];
             for (id responseElement in [responseObject objectForKey:@"data"]) {
-                NSLog(@"%@", responseElement);
+
                 Reservation *reservation = [[Reservation alloc] initWithStringDictionary:responseElement];
                 [result addObject:reservation];
             }
@@ -113,16 +113,16 @@
 - (void)createReservation:(Reservation*) reservation  withSuccesHandler:(void (^)(Reservation *)) success andErrorHandler:(void (^)(NSException *))error {
     NSString *path = [NSString stringWithFormat:@"reservations/create"];
     NSMutableURLRequest *request = [self postRequestWithPath:path];
-    NSLog(@"in createreservation restcall : %@",reservation.startTime);
+
     [self addParametersToRequest:request parameters:[reservation convertToDictionary]];
     
-    NSLog(@"Create Post request : %@", request);
+
     
     
     //init request
     AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     AFJSONResponseSerializer *serializer = [AFJSONResponseSerializer serializer];
-    NSLog(@"serializer : %@",serializer);
+
     [requestOperation setResponseSerializer:serializer];
     
     //set up failure + completion blocks
@@ -154,13 +154,13 @@
     NSLog(@"in updatereservation restcall : %@",reservation.startTime);
     [self addParametersToRequest:request parameters:[reservation convertToDictionary]];
     
-    NSLog(@"Update Put request : %@", request);
+
     
     
     //init request
     AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     AFJSONResponseSerializer *serializer = [AFJSONResponseSerializer serializer];
-    NSLog(@"serializer : %@",serializer);
+
     [requestOperation setResponseSerializer:serializer];
     
     //set up failure + completion blocks
@@ -189,10 +189,10 @@
 - (void)deleteReservation:(NSInteger) reservationId  withSuccesHandler:(void (^)(Reservation *)) success andErrorHandler:(void (^)(NSException *))error {
     NSString *path = [NSString stringWithFormat:@"reservations/%i",reservationId];
     NSMutableURLRequest *request = [self deleteRequestWithPath:path];
-    NSLog(@"in deletereservation restcall : %@",path);
+
    // [self addParametersToRequest:request parameters:[reservation convertToDictionary]];
     
-    NSLog(@"Delete request : %@", request);
+
     
     
     //init request
@@ -203,7 +203,7 @@
     //set up failure + completion blocks
     [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (responseObject != nil && [responseObject isKindOfClass:[NSDictionary class]]) {
-            NSLog(@"lukt het deleten");
+
             
             success(nil);
         }

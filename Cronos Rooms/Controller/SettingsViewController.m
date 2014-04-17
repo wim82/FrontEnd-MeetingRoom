@@ -6,7 +6,6 @@
 #import "SettingsViewController.h"
 #import "SettingsView.h"
 #import "DetailCellView.h"
-#import "User.h"
 #import "UserService.h"
 #import "CountDownViewController.h"
 #import "MeetingRoomService.h"
@@ -16,7 +15,6 @@
 @interface SettingsViewController () <UITextFieldDelegate, SettingsDelegate>
 
 @property(nonatomic, strong) SettingsView *settingsView;
-@property(nonatomic, strong) User *defaultUser;
 
 @end
 
@@ -31,68 +29,31 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.settingsView.saveButton addTarget:self action:@selector(didTapSave) forControlEvents:UIControlEventTouchUpInside];
+    [self _setUpSettingsTextField];
 
-    User *defaultUser = [UserService getDefaultUser];
+}
+
+
+#pragma mark - Setup Methods
+
+//prefills the textfield with the user's name or the room's name
+- (void)_setUpSettingsTextField {
+
+    User *defaultUser = [[UserService sharedService] getDefaultUser];
     if (defaultUser) {
         self.settingsView.userNameDetail.detailTextField.text = defaultUser.fullName;
     } else {
-        MeetingRoom *defaultMeetingRoom = [MeetingRoomService getDefaultMeetingRoom];
+        MeetingRoom *defaultMeetingRoom = [[MeetingRoomService sharedService] getDefaultMeetingRoom];
         if (defaultMeetingRoom) {
             self.settingsView.userNameDetail.detailTextField.text = defaultMeetingRoom.roomName;
         }
     }
+
+    //listen for delegate methods
+    self.settingsView.userNameDetail.detailTextField.delegate = self;
 }
 
-
-- (void)didTapSave {
-    [self _loadMeetingRoom:self.settingsView.userNameDetail.detailTextField.text];
-}
-
-
-//01. check if the name entered is a meeting room
-- (void)_loadMeetingRoom:(NSString *)roomName {
-
-    MeetingRoomService *service = [MeetingRoomService sharedService];
-    [service getMeetingRoomWithRoomName:roomName withSuccesHandler:^(MeetingRoom *room) {
-
-        //02. if it is, save it in the user defaults.
-        [self _saveRoom:room];
-        CountDownViewController *countDownViewController = [[CountDownViewController alloc] init];
-        countDownViewController.meetingRoom = room;
-
-        if ([self.delegate isKindOfClass:[ReservationOverviewController class]])
-        [self.delegate launchCountDownViewController:countDownViewController];
-        else{
-            [self.delegate didChangeSettingsToDefaultMeetingRoom:room];
-        }
-
-
-    }                   andErrorHandler:^(NSException *exception) {
-        //03. if we don't find a meeting room, try to load a user
-        [self _loadUser:self.settingsView.userNameDetail.detailTextField.text];
-
-    }];
-
-}
-
-- (void)_loadUser:(NSString *)userName {
-    UserService *service = [UserService sharedService];
-    [service getUserForFullName:userName withSuccesHandler:^(User *user) {
-        //  self.defaultUser = user;
-
-        //04.save default user
-        [self _saveUser:user];
-        [[self presentingViewController] viewWillAppear:YES];
-        [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
-
-        [self.delegate didChangeSettingsToDefaultUser:user];
-
-    }           andErrorHandler:^(NSException *exception) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No account?" message:@"Please ask about your account name" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alertView show];
-
-    }];
-}
+#pragma mark - Save Methods
 
 - (void)_saveUser:(User *)object {
     NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:object];
@@ -110,6 +71,92 @@
     [defaults setObject:nil forKey:@"defaultUser"];
     [defaults synchronize];
 
+}
+
+#pragma mark - Actions
+
+- (void)didTapSave {
+    [self _tryLoadingMeetingRoom:self.settingsView.userNameDetail.detailTextField.text completion:^(BOOL roomIsLoaded) {
+
+        if (!roomIsLoaded) {
+            NSLog(@"'t is gene room maar een userrrr!");
+            [self _loadUser:self.settingsView.userNameDetail.detailTextField.text];
+        }
+    }];
+}
+
+
+#pragma mark - Rest Calls
+
+//01. check if the name entered is a meeting room
+- (void)_tryLoadingMeetingRoom:(NSString *)roomName completion:(void (^)(BOOL))roomIsLoaded {
+
+    MeetingRoomService *service = [MeetingRoomService sharedService];
+    [service getMeetingRoomWithRoomName:roomName withSuccesHandler:^(MeetingRoom *room) {
+
+        //02. if it is, save it in the user defaults.
+        [self _saveRoom:room];
+        CountDownViewController *countDownViewController = [[CountDownViewController alloc] init];
+        countDownViewController.meetingRoom = room;
+
+        if ([self.delegate isKindOfClass:[ReservationOverviewController class]])    {
+            ((ReservationOverviewController *)self.delegate).user = nil;
+            [self.delegate shouldLaunchCountDownViewController:countDownViewController];
+        }
+        else {
+            [self.delegate didChangeSettingsToDefaultMeetingRoom:room];
+        }
+
+        roomIsLoaded(YES);
+
+
+    }                   andErrorHandler:^(NSException *exception) {
+        roomIsLoaded(NO);
+
+
+    }];
+
+}
+
+- (void)_loadUser:(NSString *)userName {
+    UserService *service = [UserService sharedService];
+    [service getUserForFullName:userName withSuccesHandler:^(User *user) {
+        //  self.defaultUser = user;
+
+        //04.save default user
+        [self _saveUser:user];
+        ///   [[self presentingViewController] viewWillAppear:YES];
+        //  [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+
+        NSLog(@"vlak voor delegate user aanroepen");
+        if ([self.delegate isKindOfClass:[CountDownViewController class]]) {
+            ReservationOverviewController *reservationOverviewController = [[ReservationOverviewController alloc] init];
+            reservationOverviewController.user = user;
+            [self.delegate shouldLaunchReservationOverviewController:reservationOverviewController];
+
+        }
+        else {
+            [self.delegate didChangeSettingsToDefaultUser:user];
+        }
+
+
+    }           andErrorHandler:^(NSException *exception) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No account?" message:@"Please ask about your account name" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+
+    }];
+}
+
+
+#pragma mark - UITextField Delegate Methods
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    [textField resignFirstResponder];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
 }
 
 
