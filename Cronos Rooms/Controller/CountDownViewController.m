@@ -17,6 +17,7 @@
 #import "DTCustomColoredAccessory.h"
 #import "EditReservationViewController.h"
 #import "UIImage+ImageEffects.h"
+#import "MeetingRoomService.h"
 
 
 #define TABLEVIEWCELL_IDENTIFIER @"reservationCell"
@@ -26,6 +27,7 @@
 @interface CountDownViewController () <UITableViewDataSource, UITableViewDelegate, SWTableViewCellDelegate, UISearchBarDelegate, UISearchDisplayDelegate, SettingsDelegate> {
 
 
+    //we don't actually use the seconds, but leave them in for debugging purposes
     int days, hours, minutes, seconds;
     int secondsLeft;
     int clockIndexPath;
@@ -39,11 +41,13 @@
 @property(nonatomic, strong) CountDownView *countDownView;
 @property(nonatomic, assign) BOOL isReservationOverviewVisible;
 @property(nonatomic, strong) UIImage *backgroundImage;
-
+@property(nonatomic, strong) UIImage *blurredBackgroundImage;
 
 @end
 
 
+//FIXME: very messy implementation, one big experiment before we heard of childviewcontrollers :)
+//TODO: optimize the heavy processing code for images & alpha values
 @implementation CountDownViewController
 
 
@@ -55,95 +59,130 @@
 }
 
 
-- (void)didPressLong {
-    [self _presentSettingsViewController];
-}
-
 - (BOOL)prefersStatusBarHidden {
     return YES;
-}
-
-- (void)didTapScreen {
-
-    if (self.isReservationOverviewVisible) {
-        [UIView transitionWithView:self.view
-                          duration:1
-                           options:UIViewAnimationOptionTransitionCrossDissolve
-                        animations:^{
-                            self.view.backgroundColor = [UIColor colorWithPatternImage:self.backgroundImage];
-                        } completion:NULL];
-
-        [UIView animateWithDuration:1 animations:^{
-            self.countDownView.tableView.frame = CGRectMake(1024, 64, 1024 / 3, 768);
-        }                completion:^(BOOL finished) {
-            self.isReservationOverviewVisible = NO;
-        }];
-
-    } else {
-
-        UIImage *darkImage = [self.backgroundImage applyBlurWithRadius:16 tintColor:[[UIColor app_darkGrey] colorWithAlphaComponent:0.3] saturationDeltaFactor:1 maskImage:nil];
-
-        [UIView transitionWithView:self.view
-                          duration:1
-                           options:UIViewAnimationOptionTransitionCrossDissolve
-                        animations:^{
-                            self.view.backgroundColor = [UIColor colorWithPatternImage:darkImage];
-                        } completion:NULL];
-
-
-        [UIView animateWithDuration:1 animations:^{
-            self.countDownView.tableView.frame = CGRectMake(1024 - (1024 / 3), 64, 1024 / 3, 768);
-        }                completion:^(BOOL finished) {
-            self.isReservationOverviewVisible = YES;
-        }];
-    }
-
 }
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.backgroundImage = [UIImage imageNamed:@"iceland"];
-    self.view.backgroundColor = [UIColor colorWithPatternImage:self.backgroundImage];
 
-    // self.view.backgroundColor = [UIColor redColor];
-    //register reuseable cells
-    //table with all reservations for meetingroom
-    [self.countDownView.tableView registerClass:[ReservationTableViewCell class] forCellReuseIdentifier:TABLEVIEWCELL_IDENTIFIER];
-    [self.countDownView.tableView registerClass:[ReservationTableViewHeader class] forHeaderFooterViewReuseIdentifier:TABLEVIEWHEADER_IDENTIFIER];
+    [self _setBackGroundImageToCurrentMeetingRoom];
+    [self _setUpReservationOverviewTable];
+
+    self.countDownView.tableView.backgroundColor = [[UIColor app_darkGrey] colorWithAlphaComponent:0.3];
 
 
-
+    //TODO: ask katrien about this dayttableview?
     //if you want the table horizontal
     self.countDownView.dayTableView.transform = CGAffineTransformMakeRotation(-M_PI_2);
     //Just so your table is not at a random place in your view
-    self.countDownView.dayTableView.frame = CGRectMake(0, 0, self.countDownView.dayTableView.frame.size.width, self.countDownView.dayTableView.frame.size.height);
-
-    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapScreen)];
-    [self.view addGestureRecognizer:gestureRecognizer];
-
-    UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didPressLong)];
-    [self.view addGestureRecognizer:longPressGestureRecognizer];
+    self.countDownView.dayTableView.frame = CGRectMake(1024 - (1024 / 3) - 44, 44, 1024 / 3, 0);
 
 
-
-
-
-}
-
-
-- (void)viewWillAppear:(BOOL)animated {
-
-    [self _setUpNavigationController];
-
-
-    clockReservation = FALSE;
-    [timer invalidate];
+    [self _addGestureRecognizers];
 
     [self loadReservationsForMeetingRoom:self.meetingRoom];
 
 }
+
+
+- (void)_setUpReservationOverviewTable {
+    [self.countDownView.tableView registerClass:[ReservationTableViewCell class] forCellReuseIdentifier:TABLEVIEWCELL_IDENTIFIER];
+    [self.countDownView.tableView registerClass:[ReservationTableViewHeader class] forHeaderFooterViewReuseIdentifier:TABLEVIEWHEADER_IDENTIFIER];
+    self.countDownView.tableView.frame = CGRectMake(1024 - (1024 / 3) - 44, 44, 1024 / 3, 0);
+}
+
+
+- (void)_setBackGroundImageToCurrentMeetingRoom {
+    NSLog(@"in _setBackGroundImageToCurrentMeetingRoom met %@", [self.meetingRoom.roomName lowercaseString]);
+    self.backgroundImage = [UIImage imageNamed:[self.meetingRoom.roomName lowercaseString]];
+    self.blurredBackgroundImage = [self.backgroundImage applyBlurWithRadius:16 tintColor:[[UIColor blackColor] colorWithAlphaComponent:0.2] saturationDeltaFactor:1 maskImage:nil];
+
+    if (self.isReservationOverviewVisible) {
+        // self.view.backgroundColor = [UIColor colorWithPatternImage:self.blurredBackgroundImage];
+        NSLog(@"HALLLOOOOO");
+        self.countDownView.backgroundView.image = self.blurredBackgroundImage;
+    } else {
+        // self.view.backgroundColor = [UIColor colorWithPatternImage:self.backgroundImage];
+        self.countDownView.backgroundView.image = self.backgroundImage;
+    }
+}
+
+
+- (void)viewWillAppear:(BOOL)animated {
+    [self _setUpNavigationController];
+    clockReservation = FALSE;
+    [timer invalidate];
+}
+
+
+
+
+#pragma mark - UIGestureRecognizers
+
+- (void)_addGestureRecognizers {
+
+    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_didTapScreen)];
+    [self.view addGestureRecognizer:gestureRecognizer];
+
+    UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(_didPressLong:)];
+    [self.view addGestureRecognizer:longPressGestureRecognizer];
+}
+
+
+- (void)_didPressLong:(UILongPressGestureRecognizer *)sender {
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        [self _presentSettingsViewController];
+    }
+}
+
+
+- (void)_didTapScreen {
+
+    if (self.isReservationOverviewVisible) {
+
+        [UIView animateWithDuration:1 animations:^{
+            self.countDownView.tableView.frame = CGRectMake(1024 - (1024 / 3) - 44, 44, 1024 / 3, 0); //1024, 44, 1024 / 3, 768)
+        }                completion:^(BOOL finished) {
+            self.isReservationOverviewVisible = NO;
+
+        }];
+
+        [UIView transitionWithView:self.view
+                          duration:0.5
+                           options:UIViewAnimationOptionTransitionCrossDissolve
+                        animations:^{
+                            //self.view.backgroundColor = [UIColor colorWithPatternImage:self.backgroundImage];
+                            self.countDownView.backgroundView.image = self.backgroundImage;
+                        } completion:NULL];
+
+    } else {
+
+        [UIView animateWithDuration:1 animations:^{
+            self.countDownView.tableView.frame = CGRectMake(1024 - (1024 / 3) - 44, 44, 1024 / 3, 768);
+        }                completion:^(BOOL finished) {
+
+            self.isReservationOverviewVisible = YES;
+        }];
+
+        // UIImage *darkImage = [self.backgroundImage applyBlurWithRadius:16 tintColor:[[UIColor app_darkGrey] colorWithAlphaComponent:0.3] saturationDeltaFactor:1 maskImage:nil];
+
+        [UIView transitionWithView:self.view
+                          duration:0.5
+                           options:UIViewAnimationOptionTransitionCrossDissolve
+                        animations:^{
+                            self.countDownView.backgroundView.image = self.blurredBackgroundImage;
+                            //self.view.backgroundColor = [UIColor colorWithPatternImage:self.blurredBackgroundImage];
+                        } completion:NULL];
+
+    }
+
+}
+
+
+
 
 
 
@@ -160,7 +199,6 @@
     NSDate *date = [self.reservationDates objectAtIndex:section];
     return [[self.reservationsByDate objectForKey:date] count];
 
-
 }
 
 
@@ -175,6 +213,17 @@
 
     ReservationTableViewHeader *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:TABLEVIEWHEADER_IDENTIFIER];
     header.lblDate.text = [[[self.reservationDates objectAtIndex:section] stringWithFormat:DATEFORMAT_DAYNAME_AND_SHORT_DATE] lowercaseString];
+    // header.backgroundColor = [UIColor clearColor];
+    header.lblDate.textColor = [UIColor lightTextColor];
+    header.lblDate.font = [UIFont fontWithName:@"GillSans" size:14];
+
+    CALayer *bottomBorder = [CALayer layer];
+    bottomBorder.frame = CGRectMake(8, header.lblDate.frame.size.height - 0.5, 280, 0.5);
+
+    bottomBorder.backgroundColor = [UIColor lightTextColor].CGColor;
+    [header.layer addSublayer:bottomBorder];
+
+    NSLog(@"%f == contentviewframe", header.lblDate.frame.size.width);
     return header;
 
 }
@@ -206,6 +255,11 @@
                                                 leftUtilityButtons:nil
                                                rightUtilityButtons:[self rightButtons]];
     cell.delegate = self;
+    cell.backgroundColor = [UIColor clearColor];
+    cell.textLabel.backgroundColor = [UIColor clearColor];
+    cell.textLabel.textColor = [UIColor whiteColor];
+    cell.textLabel.font = [UIFont fontWithName:@"GillSans-Italic" size:20];
+    cell.cellScrollView.backgroundColor = [UIColor clearColor];
 
     [cell setCellHeight:64];
 
@@ -233,17 +287,16 @@
 
     //TODO: use custom cell instead of the UITableViewCellStyleSubtitle cell
 
-    cell.textLabel.textColor = [UIColor darkTextColor];
     cell.textLabel.text = [reservation.reservationDescription capitalizedString];
 
 
-    cell.detailTextLabel.textColor = [UIColor app_grey];
-    cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica" size:10];
+    cell.detailTextLabel.textColor = [UIColor app_snowWhiteShade];
+    cell.detailTextLabel.font = [UIFont fontWithName:@"GillSans" size:10];
     //TODO check the name of the user of the reservation
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@          %@ - %@", reservation.user.fullName, [reservation.startTime stringWithFormat:DATEFORMAT_SHORT_TIME], [reservation.endTime stringWithFormat:DATEFORMAT_SHORT_TIME]];
 
     //Custom Accessory
-    DTCustomColoredAccessory *accessory = [DTCustomColoredAccessory accessoryWithColor:[UIColor app_red]];
+    DTCustomColoredAccessory *accessory = [DTCustomColoredAccessory accessoryWithColor:[UIColor app_snowWhite]];
     cell.accessoryView = accessory;
 
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -252,7 +305,6 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
     return cell;
-
 
 }
 
@@ -279,11 +331,11 @@
 
 
     [rightUtilityButtons sw_addUtilityButtonWithColor:
-            [UIColor app_ultraLightGrey]
+            [[UIColor blackColor] colorWithAlphaComponent:0.1]
                                                 title:@"edit"];
     [rightUtilityButtons sw_addUtilityButtonWithColor:
-            [UIColor app_red]
-                                                title:@"delete"];
+            [[UIColor blackColor] colorWithAlphaComponent:0.2]
+                                                 title:@"delete"];
     return rightUtilityButtons;
 }
 
@@ -430,21 +482,20 @@
     self.navigationItem.title = self.meetingRoom.roomName;
 
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
-                             forBarMetrics:UIBarMetricsDefault];
+                                                  forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.translucent = YES;
 
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
             initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                                  target:self
                                  action:@selector(_didTapAdd)];
 
-    self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
-
+    self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
     self.navigationItem.hidesBackButton = YES;
-
     self.navigationController.navigationBar.hidden = NO;
 }
+
 
 - (void)_didTapAdd {
     EditReservationViewController *editReservationViewController = [[EditReservationViewController alloc] init];
@@ -500,6 +551,7 @@
 
 
 - (void)updateCounter:(NSTimer *)theTimer {
+    NSLog(@"in update Counter");
     if (secondsLeft > 0) {
         secondsLeft--;
         days = secondsLeft / 86400;
@@ -508,16 +560,19 @@
         seconds = ((secondsLeft % 86400) % 3600) % 60;
 
         NSString *dayString;
-        dayString = (days == 1) ? @"day" : @"days";
+        dayString = (days == 1) ? @"1 day, " : [NSString stringWithFormat:@"%i days, ", days];
+        dayString = (days == 0) ? @"" : dayString;
 
         NSString *hourString;
-        hourString = (hours == 1) ? @"hour" : @"hours";
+        hourString = (hours == 1) ? @"1 hour" : [NSString stringWithFormat:@"%i hours", hours];
+        hourString = (hours == 0) ? @"" : hourString;
 
         NSString *minuteString;
-        minuteString = (minutes == 1) ? @"minute" : @"minutes";
+        minuteString = (minutes == 1) ? @" & 1 minute" : [NSString stringWithFormat:@" & %i minutes", minutes];
+        minuteString = (minutes == 0) ? @"" : minuteString;
 
         //TODO if days is 0, don't show days
-        self.countDownView.countDownTime.text = [NSString stringWithFormat:@"%d %@, %02d %@ & %02d %@", days, dayString, hours, hourString, minutes, minuteString];
+        self.countDownView.countDownTime.text = [NSString stringWithFormat:@"%@%@%@", dayString, hourString, minuteString];
     }
     else {
         if (secondsLeft <= 0) {
@@ -525,10 +580,8 @@
 
             [self.countDownView.tableView reloadData];
             //determine startTime of next meeting to calculate Count Down Clock:
-            NSDate *startDate = [[NSDate alloc] init];
-            Reservation *firstReservation = [[Reservation alloc] init];
-            firstReservation = [[self.reservationsByDate objectForKey:[self.reservationDates objectAtIndex:clockSection]] objectAtIndex:clockIndexPath];
-            startDate = firstReservation.startTime;
+            Reservation *firstReservation = [[self.reservationsByDate objectForKey:[self.reservationDates objectAtIndex:clockSection]] objectAtIndex:clockIndexPath];
+            NSDate *startDate = firstReservation.startTime;
             [timer invalidate];
             [self setUpTimer:startDate];
         }
@@ -543,7 +596,7 @@
     if ([timer isValid]) {;
     }
 
-    timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateCounter:) userInfo:nil repeats:YES];
+    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateCounter:) userInfo:nil repeats:YES];
 
 }
 
@@ -551,29 +604,33 @@
 #pragma mark - actions
 
 - (void)_presentSettingsViewController {
+    NSLog(@"in _presentSettingsViewController");
     SettingsViewController *settingsViewController = [[SettingsViewController alloc] init];
-   settingsViewController.modalTransitionStyle = UIModalTransitionStylePartialCurl;
+    settingsViewController.modalTransitionStyle = UIModalTransitionStylePartialCurl;
     settingsViewController.delegate = self;
-    [self.navigationController presentViewController:settingsViewController animated:YES completion:nil];
+    [self.navigationController presentViewController:settingsViewController animated:YES completion:^{
+        NSLog(@"in present view controller completed");
+    }];
+    NSLog(@"einde _presentSettingsViewController");
 }
 
 
 - (void)didChangeSettingsToDefaultMeetingRoom:(MeetingRoom *)defaultMeetingRoom {
 
     self.meetingRoom = defaultMeetingRoom;
-    self.backgroundImage = [UIImage imageNamed:defaultMeetingRoom.roomName ? [defaultMeetingRoom.roomName lowercaseString] :@"iceland"];
-    self.view.backgroundColor = [UIColor colorWithPatternImage:self.backgroundImage];
+    [self loadReservationsForMeetingRoom:defaultMeetingRoom];
+    [self _setBackGroundImageToCurrentMeetingRoom];
+    [self _setUpNavigationController];
     [self.presentedViewController dismissViewControllerAnimated:YES completion:^{
 
-        [self viewWillAppear:YES];
     }];
     //
 }
 
-- (void)shouldLaunchReservationOverviewController:(ReservationOverviewController *)reservationOverviewController {
 
+- (void)shouldLaunchReservationOverviewController:(ReservationOverviewController *)reservationOverviewController {
     [self.presentedViewController dismissViewControllerAnimated:NO completion:^{
-        //self.navigationController.navigationBar.hidden = NO;
+        NSLog(@"in shouldlaunchreservationOverviewController completed");
         [self.navigationController popToRootViewControllerAnimated:NO];
 
     }];

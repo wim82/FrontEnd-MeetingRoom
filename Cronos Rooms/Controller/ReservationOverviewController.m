@@ -48,13 +48,15 @@
     [self.meetingOverview.tableView registerClass:[ReservationTableViewCell class] forCellReuseIdentifier:TABLEVIEWCELL_IDENTIFIER];
     [self.meetingOverview.tableView registerClass:[ReservationTableViewHeader class] forHeaderFooterViewReuseIdentifier:TABLEVIEWHEADER_IDENTIFIER];
 
-    //set up
-    [self _setUpNavigationBar];
+
 
 }
 
 
 - (void)viewWillAppear:(BOOL)animated {
+    //set up
+    [self _setUpNavigationBar];
+
     //TODO: write ModeController -> load ReservationOverview if in userMode, load CountDownMode if inMeetingRoomMode
     if (![self _isInMeetingRoomMode]) {
         [self _loadAppInUserMode];

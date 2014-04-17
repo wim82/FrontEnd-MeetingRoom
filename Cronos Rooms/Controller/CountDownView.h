@@ -17,6 +17,7 @@
 @property(nonatomic, strong) UILabel *countDownTime;
 @property(nonatomic, strong) UITableView *tableView;
 @property(nonatomic, strong) UITableView *dayTableView;
+@property (nonatomic, strong) UIImageView *backgroundView;
 
 
 - (instancetype)initWithFrame:(CGRect)frame andDelegate:(id)delegate;
