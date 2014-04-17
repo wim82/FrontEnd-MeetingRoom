@@ -30,6 +30,8 @@
 
 @property (nonatomic, strong) NSArray * arrayOfDays;
 
+@property (nonatomic,strong) MonthHeader *headerView;
+
 -(void) cellTapped;
 -(void) handleLongPress;
 
@@ -263,9 +265,10 @@ NSDate * today;
 }
 
 - (UICollectionReusableView *)collectionView: (UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    MonthHeader *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:
+    MonthHeader * headerView = [collectionView dequeueReusableSupplementaryViewOfKind:
                                UICollectionElementKindSectionHeader withReuseIdentifier:HEADER_IDENTIFIER_MONTH forIndexPath:indexPath];
-
+    
+    
     
   //  NSString *headerText =  [months objectForKey:[keyArray objectAtIndex:indexPath.section]] ;
     NSString *headerText =  [keyArray objectAtIndex:indexPath.section] ;
@@ -302,8 +305,6 @@ NSDate * today;
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     UIScreen *screen = [UIScreen mainScreen];
-    //int width = screen.currentMode.size.width;
-    int height = screen.currentMode.size.height;
     CGFloat width = CGRectGetWidth(self.viewMonthOverview.bounds);
     
     return CGSizeMake(width/8,100);
@@ -396,27 +397,31 @@ NSDate * today;
 
 #pragma mark - orientation checks
 
-/*
--(NSUInteger)supportedInterfaceOrientations{
-    
-    return UIInterfaceOrientationMaskLandscape;
-}
-
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
-{
-    return UIInterfaceOrientationLandscapeLeft;
-}
- */
-
 - (void)willAnimateRotationToInterfaceOrientation: (UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [self.viewMonthOverview.collectionView  setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    if([[AppState sharedInstance] deviceIsLandscape]){
+        [self.headerView loadConstraintsForLandscape];
+        
+    }else {
+        [self.headerView loadConstraintsForPortrait];
+    }
+    
     [self.viewMonthOverview.collectionView  reloadData];
+
+    
 }
 
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     self.viewMonthOverview.collectionView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    if([[AppState sharedInstance] deviceIsLandscape]){
+        [self.headerView loadConstraintsForLandscape];
+        
+    }else {
+        [self.headerView loadConstraintsForPortrait];
+    }
+    [self.viewMonthOverview.collectionView  reloadData];
 }
 
 - (void)loadConstraints{
@@ -435,21 +440,26 @@ NSDate * today;
     
     if([[AppState sharedInstance] deviceIsLandscape]){
         [self.viewMonthOverview loadConstraintsForPortrait];
+        [self.headerView loadConstraintsForPortrait];
 
     }else{
-        [self.viewMonthOverview loadConstraintsForLandscape];    }
+        [self.viewMonthOverview loadConstraintsForLandscape];
+        [self.headerView loadConstraintsForPortrait];
+    }
     
 }
 
 - (void)loadConstraintsForLandscape{
     
     [self.viewMonthOverview loadConstraintsForLandscape];
+    [self.headerView loadConstraintsForPortrait];
     [self loadView];
 }
 
 - (void)loadConstraintsForPortrait{
     
     [self.viewMonthOverview loadConstraintsForPortrait];
+    [self.headerView loadConstraintsForPortrait];
    [self loadView];
 }
 

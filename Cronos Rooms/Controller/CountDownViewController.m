@@ -240,7 +240,7 @@
     cell.detailTextLabel.textColor = [UIColor app_grey];
     cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica" size:10];
     //TODO check the name of the user of the reservation
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"User %ld           %@ - %@", (long) reservation.user.fullName, [reservation.startTime stringWithFormat:DATEFORMAT_SHORT_TIME], [reservation.endTime stringWithFormat:DATEFORMAT_SHORT_TIME]];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@          %@ - %@", reservation.user.fullName, [reservation.startTime stringWithFormat:DATEFORMAT_SHORT_TIME], [reservation.endTime stringWithFormat:DATEFORMAT_SHORT_TIME]];
 
     //Custom Accessory
     DTCustomColoredAccessory *accessory = [DTCustomColoredAccessory accessoryWithColor:[UIColor app_red]];
