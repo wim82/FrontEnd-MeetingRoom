@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "MeetingRoom.h"
 
-@interface MonthViewController : UIViewController<UIGestureRecognizerDelegate>
+@interface MonthViewController : UIViewController <UIGestureRecognizerDelegate>
 
-@property (nonatomic, strong) NSArray *publicHolidays;
-@property (nonatomic, strong) NSArray *reservationsPerRoom;
-@property (nonatomic,strong) MeetingRoom *meetingRoom;
-@property (nonatomic) NSInteger realWidth;
+@property(nonatomic, strong) NSArray *publicHolidays;
+@property(nonatomic, strong) NSArray *reservationsPerRoom;
+@property(nonatomic, strong) MeetingRoom *meetingRoom;
+@property(nonatomic) NSInteger realWidth;
+@property(nonatomic, strong) UIImageView *backGroundImage;
 @end

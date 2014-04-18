@@ -77,6 +77,12 @@
     if(!self.screenHasRotated){
         [self loadConstraints];
     }
+
+    if (self.backGroundImage){
+        self.view.backgroundColor = [UIColor clearColor];
+        self.viewMonthOverview.collectionView.backgroundColor = [UIColor clearColor];
+        [self.view insertSubview:self.backGroundImage atIndex:0];
+    }
     
     self.title = self.meetingRoom.roomName;
     
@@ -89,6 +95,8 @@
     [self _loadPublicHolidays];
     NSLog(@"startDate %@", startDate);
     [self _loadReservations: self.meetingRoom.roomId: startDate : 450];
+
+
 
     
 }
@@ -119,11 +127,22 @@
 
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+
+
     
     MonthCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:CELL_IDENTIFIER_MONTHDAY forIndexPath:indexPath];
 
+    if(self.backGroundImage){
+        cell.lblName.textColor = [UIColor whiteColor];
+        NSLog(@"cijfer moet wit!");
+    }
+
     cell.lblName.text=@"";
-    cell.backgroundColor=[UIColor app_snowWhiteShade];
+    if(self.backGroundImage){
+        cell.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.1];
+    }else{
+    cell.backgroundColor=[UIColor app_snowWhiteShade];  }
+
     self.today=[[NSDate alloc]init];
     self.dayInArray=[[NSDate alloc]init];
     self.dayInArray=[[monthsAndDaysDictionary objectForKey:[keyArray objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row] ;
@@ -132,7 +151,15 @@
     
     if ([[dateFormat stringFromDate:self.dayInArray] isEqualToString:[dateFormat stringFromDate:self.today]])
     {
-        cell.backgroundColor=[UIColor app_blueGrey];
+        if(!self.backGroundImage){
+            cell.backgroundColor=[UIColor app_blueGrey];
+            cell.backgroundColor= [UIColor blackColor];
+
+        }   else{
+
+            cell.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
+            cell.lblName.textColor = [UIColor darkTextColor];
+        }
     }
     
     
@@ -143,6 +170,8 @@
     NSDateComponents *components = [calendar components:NSYearCalendarUnit
                                     | NSMonthCalendarUnit | NSDayCalendarUnit fromDate:self.dayInArray];
     if (components.year !=1970){
+
+
         cell.lblName.text = [NSString stringWithFormat:@"%d",components.day];
         [self gestureRecognition:cell:indexPath.row];
         cell.userInteractionEnabled = YES;
@@ -172,6 +201,9 @@
                                UICollectionElementKindSectionHeader withReuseIdentifier:HEADER_IDENTIFIER_MONTH forIndexPath:indexPath];
    
     NSString *headerText =  [keyArray objectAtIndex:indexPath.section] ;
+    if (self.backGroundImage){
+        headerView.lblHeader.textColor = [UIColor whiteColor];
+    }
     headerView.lblHeader.text= headerText;
     
     return headerView;
@@ -298,7 +330,13 @@
         
         if ([[dateFormat stringFromDate:self.dayInArray] isEqualToString:[dateFormat stringFromDate:reservation.startTime]])
         {
-            cell.backgroundColor=[UIColor app_lightYellow];
+            if(!self.backGroundImage){
+                cell.backgroundColor=[UIColor app_lightYellow];
+            }   else{
+                cell.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.4];
+            }
+
+
             dayContent=[dayContent stringByAppendingString:reservation.reservationDescription];
             dayContent=[dayContent stringByAppendingString:@"\n"] ;
             
@@ -309,7 +347,12 @@
         PublicHoliday *publicHoliday = [self.publicHolidays objectAtIndex:i];
         if ([[dateFormat stringFromDate:self.dayInArray] isEqualToString:[dateFormat stringFromDate:publicHoliday.holidayDate]])
         {
-            cell.backgroundColor=[UIColor app_lightRed];
+            if(self.backGroundImage){
+                cell.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
+                cell.lblReservations.textColor = [UIColor whiteColor];
+            }else{
+                cell.backgroundColor=[UIColor app_lightRed];  }
+
             dayContent=[dayContent stringByAppendingString:publicHoliday.holidayName];
         }}
     

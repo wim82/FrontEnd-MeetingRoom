@@ -18,6 +18,7 @@
 #import "EditReservationViewController.h"
 #import "UIImage+ImageEffects.h"
 #import "MeetingRoomService.h"
+#import "MonthViewController.h"
 
 
 #define TABLEVIEWCELL_IDENTIFIER @"reservationCell"
@@ -143,10 +144,12 @@
 
     if (self.isReservationOverviewVisible) {
 
+
         [UIView animateWithDuration:1 animations:^{
             self.countDownView.tableView.frame = CGRectMake(1024 - (1024 / 3) - 44, 44, 1024 / 3, 0); //1024, 44, 1024 / 3, 768)
         }                completion:^(BOOL finished) {
             self.isReservationOverviewVisible = NO;
+            self.navigationItem.leftBarButtonItems = nil;
 
         }];
 
@@ -159,6 +162,7 @@
                         } completion:NULL];
 
     } else {
+
 
         [UIView animateWithDuration:1 animations:^{
             self.countDownView.tableView.frame = CGRectMake(1024 - (1024 / 3) - 44, 44, 1024 / 3, 768);
@@ -175,7 +179,26 @@
                         animations:^{
                             self.countDownView.backgroundView.image = self.blurredBackgroundImage;
                             //self.view.backgroundColor = [UIColor colorWithPatternImage:self.blurredBackgroundImage];
-                        } completion:NULL];
+                        } completion:^(BOOL finished) {
+            // create an array for the buttons
+            NSMutableArray *buttons = [[NSMutableArray alloc] initWithCapacity:2];
+
+            // create  standard  buttons
+            UIBarButtonItem *addButton = [[UIBarButtonItem alloc]
+                    initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                         target:self
+                                         action:@selector(_didTapAdd)];
+
+
+            UIBarButtonItem *calendarButton = [[UIBarButtonItem alloc]
+                    initWithImage:[UIImage imageNamed:@"calendar-88"] style:UIBarButtonItemStylePlain target:self action:@selector(_didTapCalendar)];
+
+            //add to array of right buttons
+            [buttons addObject:addButton];
+            [buttons addObject:calendarButton];
+            self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+            self.navigationItem.leftBarButtonItems = buttons;
+        }];
 
     }
 
@@ -486,14 +509,30 @@
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.translucent = YES;
 
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
+   /* self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
             initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                                  target:self
-                                 action:@selector(_didTapAdd)];
+                                 action:@selector(_didTapAdd)];  */
 
-    self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
+
+
+
+
+   // self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
     self.navigationItem.hidesBackButton = YES;
     self.navigationController.navigationBar.hidden = NO;
+}
+
+- (void)_didTapCalendar {
+    MonthViewController *monthViewController = [[MonthViewController alloc] init];
+    monthViewController.meetingRoom = self.meetingRoom;
+    UIImageView *background = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,1024,768)];
+    background.image = self.blurredBackgroundImage;
+    monthViewController.backGroundImage = background;
+    self.navigationController.navigationBar.translucent = NO;
+
+    [self.navigationController pushViewController:monthViewController animated:YES];
+
 }
 
 
@@ -553,26 +592,8 @@
 - (void)updateCounter:(NSTimer *)theTimer {
     NSLog(@"in update Counter");
     if (secondsLeft > 0) {
-        secondsLeft--;
-        days = secondsLeft / 86400;
-        hours = (secondsLeft % 86400) / 3600;
-        minutes = ((secondsLeft % 86400) % 3600) / 60;
-        seconds = ((secondsLeft % 86400) % 3600) % 60;
+        [self buildTimeLeftString];
 
-        NSString *dayString;
-        dayString = (days == 1) ? @"1 day, " : [NSString stringWithFormat:@"%i days, ", days];
-        dayString = (days == 0) ? @"" : dayString;
-
-        NSString *hourString;
-        hourString = (hours == 1) ? @"1 hour" : [NSString stringWithFormat:@"%i hours", hours];
-        hourString = (hours == 0) ? @"" : hourString;
-
-        NSString *minuteString;
-        minuteString = (minutes == 1) ? @" & 1 minute" : [NSString stringWithFormat:@" & %i minutes", minutes];
-        minuteString = (minutes == 0) ? @"" : minuteString;
-
-        //TODO if days is 0, don't show days
-        self.countDownView.countDownTime.text = [NSString stringWithFormat:@"%@%@%@", dayString, hourString, minuteString];
     }
     else {
         if (secondsLeft <= 0) {
@@ -587,6 +608,29 @@
         }
 
     }
+}
+
+- (void)buildTimeLeftString {
+    secondsLeft--;
+    days = secondsLeft / 86400;
+    hours = (secondsLeft % 86400) / 3600;
+    minutes = ((secondsLeft % 86400) % 3600) / 60;
+    seconds = ((secondsLeft % 86400) % 3600) % 60;
+
+    NSString *dayString;
+    dayString = (days == 1) ? @"1 day, " : [NSString stringWithFormat:@"%i days, ", days];
+    dayString = (days == 0) ? @"" : dayString;
+
+    NSString *hourString;
+    hourString = (hours == 1) ? @"1 hour" : [NSString stringWithFormat:@"%i hours", hours];
+    hourString = (hours == 0) ? @"" : hourString;
+
+    NSString *minuteString;
+    minuteString = (minutes == 1) ? @" & 1 minute" : [NSString stringWithFormat:@" & %i minutes", minutes];
+    minuteString = (minutes == 0) ? @"" : minuteString;
+
+    //TODO if days is 0, don't show days
+    self.countDownView.countDownTime.text = [NSString stringWithFormat:@"%@%@%@", dayString, hourString, minuteString];
 }
 
 
