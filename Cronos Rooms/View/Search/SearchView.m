@@ -8,10 +8,13 @@
 
 #import "SearchView.h"
 #import "UIColor+AppColor.h"
+#import "AppState.h"
 
 
 @interface SearchView(){
     id _delegate;
+    NSInteger realWidth;
+    NSInteger realHeight;
 }
 @end
 
@@ -38,6 +41,7 @@
     }
     return self;
 }
+
 
 
 @end
