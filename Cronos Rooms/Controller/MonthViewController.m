@@ -153,7 +153,6 @@
     {
         if(!self.backGroundImage){
             cell.backgroundColor=[UIColor app_blueGrey];
-            cell.backgroundColor= [UIColor blackColor];
 
         }   else{
 
