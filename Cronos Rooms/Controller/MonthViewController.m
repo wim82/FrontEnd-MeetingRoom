@@ -144,14 +144,17 @@
                                     | NSMonthCalendarUnit | NSDayCalendarUnit fromDate:self.dayInArray];
     if (components.year !=1970){
         cell.lblName.text = [NSString stringWithFormat:@"%d",components.day];
+        [self gestureRecognition:cell:indexPath.row];
+        cell.userInteractionEnabled = YES;
       
     }
     else{
         cell.backgroundColor=[UIColor clearColor];
+        cell.userInteractionEnabled = NO;
         
     }
     
-    [self gestureRecognition:cell:indexPath.row];
+    
     
     return cell;
 }
@@ -179,6 +182,9 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
+    NSDateComponents *components = [calendar components:NSYearCalendarUnit
+                                    | NSMonthCalendarUnit | NSDayCalendarUnit fromDate:self.dayInArray];
+    if (components.year !=1970){
     DayViewController *dayViewController = [[DayViewController alloc] init];
     dayViewController.meetingRoom =self.meetingRoom;
     NSDate *date=[[NSDate alloc]init];
@@ -186,6 +192,8 @@
     dayViewController.date=date;
 
     [self.navigationController pushViewController:dayViewController animated:YES];
+    }
+
    
 }
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
