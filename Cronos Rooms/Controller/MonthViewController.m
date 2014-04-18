@@ -163,10 +163,6 @@
     }
     
     
-    [self fillCellWithReservationsAndHolidays:cell];
-
-    
-    //remove the fakeCells TODO: make the fakecells inactive
     NSDateComponents *components = [calendar components:NSYearCalendarUnit
                                     | NSMonthCalendarUnit | NSDayCalendarUnit fromDate:self.dayInArray];
     if (components.year !=1970){
@@ -175,14 +171,14 @@
         cell.lblName.text = [NSString stringWithFormat:@"%d",components.day];
         [self gestureRecognition:cell:indexPath.row];
         cell.userInteractionEnabled = YES;
-      
+        
     }
     else{
         cell.backgroundColor=[UIColor clearColor];
         cell.userInteractionEnabled = NO;
         
     }
-    
+
     
     
     return cell;
@@ -367,6 +363,8 @@
 }
 
 
+
+
 #pragma mark -  tap and longpress actions and recognizer
 
 //this adds tap and long press gesture recognizer to the cell with number indexpath.row
@@ -449,6 +447,8 @@
 - (void)willAnimateRotationToInterfaceOrientation: (UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
    [self.viewMonthOverview.collectionView  setFrame:CGRectMake(0, 0, super.view.frame.size.width, super.view.frame.size.height)];
+    self.screenHasRotated = YES;
+    [self loadForInterfaceOrientation:toInterfaceOrientation];
     if([[AppState sharedInstance] deviceIsLandscape]){
         [self.headerView loadConstraintsForLandscape];
     }else {
@@ -473,8 +473,7 @@
     [self.viewMonthOverview.collectionView.collectionViewLayout invalidateLayout];
     [self.viewMonthOverview.collectionView  reloadData];
    
-    
-    
+
 }
 
 - (void)loadConstraints{

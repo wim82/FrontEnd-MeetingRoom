@@ -37,6 +37,7 @@
 - (void)loadView {
     self.searchView = [[SearchView alloc] initWithFrame:[UIScreen mainScreen].bounds andDelegate:self];
     self.view = self.searchView;
+    [self loadConstraints];
 
 
     [self _loadMeetingRooms];
@@ -47,6 +48,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+   
+    [self loadConstraints];
 
     [self.searchView.searchTableView registerClass:[SearchTableViewCell class] forCellReuseIdentifier:TABLEVIEWCELL_IDENTIFIER];
 
@@ -244,5 +247,46 @@
     [self.searchView.searchTableView reloadData];
     [self.searchController setActive:NO animated:NO];
 }
+
+#pragma marks - orientation methods
+
+//FIXME: really bad rotation implementation
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    [UIView animateWithDuration:0.5 animations:^{
+        self.searchView.searchTableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    }];
+}
+
+- (void)loadConstraints{
+    if([[AppState sharedInstance] deviceIsLandscape]){
+    if ([[AppState sharedInstance]deviceIsiPad]) {
+        
+        self.searchView.searchTableView.frame = CGRectMake(0, 0, 1024, 768);
+        
+    } else {
+        
+        self.searchView.searchTableView.frame = CGRectMake(0, 0, 568, 320);
+
+        
+    }
+        
+    }
+    else {  //in portrait mode
+    if ([[AppState sharedInstance]deviceIsiPad]) {
+        
+        self.searchView.searchTableView.frame = CGRectMake(0, 0, 768, 1024);
+        
+    } else {
+        
+        self.searchView.searchTableView.frame = CGRectMake(0, 0, 320, 568);
+        
+        
+    }
+    
+}
+}
+
+
+
 
 @end

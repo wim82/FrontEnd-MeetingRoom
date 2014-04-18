@@ -315,7 +315,6 @@
 
     cell.detailTextLabel.textColor = [UIColor app_snowWhiteShade];
     cell.detailTextLabel.font = [UIFont fontWithName:@"GillSans" size:10];
-    //TODO check the name of the user of the reservation
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@          %@ - %@", reservation.user.fullName, [reservation.startTime stringWithFormat:DATEFORMAT_SHORT_TIME], [reservation.endTime stringWithFormat:DATEFORMAT_SHORT_TIME]];
 
     //Custom Accessory
@@ -542,7 +541,6 @@
     Reservation *reservation = [[Reservation alloc] init];
 
     reservation.meetingRoom = self.meetingRoom;
-    //TODO: remove back button, first time add is pressed
     editReservationViewController.reservation = reservation;
     editReservationViewController.navigationItem.title = @"Add Reservation";
 
