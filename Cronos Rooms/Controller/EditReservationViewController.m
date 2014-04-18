@@ -30,8 +30,6 @@
 @property(nonatomic, strong) MeetingRoomOverview *meetingRoomOverview;
 @property(nonatomic, strong) UIButton *deleteButton;
 
-
-
 @property(nonatomic, strong) UITextField *activeTextField;
 @property(nonatomic, strong) UIScrollView *scrollView;
 
@@ -47,45 +45,42 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
 
 - (void)loadView {
-
     self.scrollView = [[UIScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [self.scrollView setBackgroundColor:[UIColor whiteColor]];
     self.view = self.scrollView;
-
-
 }
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+
+    //navigation
     [self _setUpNavigationController];
 
+    //views
     [self _setUpTimeView];
-    [self _loadAvailableMeetingRooms];
     [self _setUpDetailView];
     [self _setUpMeetingRoomTableView];
-    [self _registerKeyboardNotifications];
 
+
+    //data
+    [self _loadAvailableMeetingRooms];
     [self _initializeReservation];
 
-}
-
-
-- (void)viewWillAppear:(BOOL)animated {
-
+    //notifications
+    [self _registerKeyboardNotifications];
 }
 
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    //TODO: learn to better manage memory
 }
 
 
 - (void)viewDidDisappear:(BOOL)animated {
     self.currentMeetingRoom = nil;
-    NSLog(@"view Did Disappear");
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:UIKeyboardWillShowNotification
                                                   object:nil];
@@ -145,14 +140,13 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
                                                object:nil];
 }
 
+
 - (void)_setUpDeleteButton {
     self.deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.frame.size.width / 100 * 20, -64, self.view.frame.size.width / 100 * 60, 44)];
     [self.deleteButton setBackgroundColor:[UIColor app_red]];
     [self.deleteButton setTitle:@"Delete" forState:UIControlStateNormal];
-    self.deleteButton.titleLabel.text = @"Delete";
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_didTapDelete)];
     [self.deleteButton addGestureRecognizer:tapGestureRecognizer];
-
 
     [self.scrollView addSubview:self.deleteButton];
 }
@@ -306,6 +300,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
     [self _loadAvailableMeetingRooms];
 }
 
+
 - (void)_didChangeEndDate {
     if ([self.startDatePickerView.datePicker.date compare:self.endDatePickerView.datePicker.date] == NSOrderedDescending) {
         self.endDatePickerView.datePicker.date = [self.startDatePickerView.datePicker.date dateByAddingTimeInterval:60 * 30];
@@ -321,10 +316,6 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
 //TODO: make this nicer
 - (void)_saveReservation {
-
-    //build element that needs to be "posted"
-    int userNumber = 1; //TODO zoek met rest call op wat userid is van de Full Name die ingevuld staat -> als de usernaam niet gewijzigd is, is geen restcall nodig : de userid is reeds aanwezig
-
 
     //TODO: i think this can be safely removed,
     self.reservation.meetingRoom = self.currentMeetingRoom;
@@ -390,15 +381,15 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
     //another weird hack to solve the case when 2 datepickers are open. without the animation (no matter which length, it won't work)
     [UIView animateWithDuration:0.001 animations:^{
         //Move all fields below the datePicker
-        self.detailTitleView.frame = [self slideFrame:self.detailTitleView direction:slideDown];
-        self.descriptionTextView.frame = [self slideFrame:self.descriptionTextView direction:slideDown];
-        self.reservedByTextView.frame = [self slideFrame:self.reservedByTextView direction:slideDown];
-        self.roomTitleView.frame = [self slideFrame:self.roomTitleView direction:slideDown];
-        self.meetingRoomOverview.frame = [self slideFrame:self.meetingRoomOverview direction:slideDown];
+        self.detailTitleView.frame = [self slideViewForDatePicker:self.detailTitleView direction:slideDown];
+        self.descriptionTextView.frame = [self slideViewForDatePicker:self.descriptionTextView direction:slideDown];
+        self.reservedByTextView.frame = [self slideViewForDatePicker:self.reservedByTextView direction:slideDown];
+        self.roomTitleView.frame = [self slideViewForDatePicker:self.roomTitleView direction:slideDown];
+        self.meetingRoomOverview.frame = [self slideViewForDatePicker:self.meetingRoomOverview direction:slideDown];
 
         //if the start date is opened, move the  endDatePickerView downwards
         if (sender == self.startDatePickerView) {
-            self.endDatePickerView.frame = [self slideFrame:self.endDatePickerView direction:slideDown];
+            self.endDatePickerView.frame = [self slideViewForDatePicker:self.endDatePickerView direction:slideDown];
         }
     }                completion:^(BOOL finished) {
 
@@ -414,7 +405,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 }
 
 
-- (CGRect)slideFrame:(UIView *)view direction:(BOOL)down {
+- (CGRect)slideViewForDatePicker:(UIView *)view direction:(BOOL)down {
     if (down) {
         return CGRectMake(view.frame.origin.x, view.frame.origin.y + 216, view.frame.size.width, view.frame.size.height);
     }
@@ -424,11 +415,9 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 }
 
 
-
 #pragma mark - Navigation
 
 - (void)_didTapSave {
-    //TODO: perform necessary checks before actual saving.
     if (!self.currentMeetingRoom) {
         //TODO: subclass alertview for a custom alertview
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Forgot something?" message:@"You didn't select a meeting room" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -438,24 +427,19 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
         [alertView show];
     } else {
         [self _saveReservation];
-
     }
-
 
 }
 
 
-//TODO finish this
 - (void)_didTapDelete {
-    //TODO // NSLog(@"hier moet jij deleten katrien!");
-    [self _deleteReservation:self.reservation.reservationId];
 
+    [self _deleteReservation:self.reservation.reservationId];
     [self.deleteButton removeFromSuperview];
 
     [UIView performSystemAnimation:UISystemAnimationDelete onViews:self.scrollView.subviews options:UIViewAnimationOptionAllowAnimatedContent animations:nil completion:^(BOOL finished) {
         [self.navigationController popViewControllerAnimated:YES];
     }];
-
 
 }
 
@@ -522,22 +506,17 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
     }];
 }
 
-- (void)_loadUserFromTextField:(UITextField *)textField {
 
-    NSLog(@"nu moeten we checken of die user bestaat");
+- (void)_loadUserFromTextField:(UITextField *)textField {
     UserService *service = [UserService sharedService];
     [service getUserForFullName:textField.text withSuccesHandler:^(User *user) {
         self.reservation.user = user;
-        NSLog(@"reservation is for user %@", self.reservation.user.fullName);
     }           andErrorHandler:^(NSException *exception) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Unknown user" message:@"Please choose an existing user" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
-
     }];
 
 }
-
-
 
 
 
@@ -552,21 +531,18 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
     return self.meetingRooms.count;
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *MyIdentifier = @"MyReuseIdentifier";
+    static NSString *MyIdentifier = @"MeetingRoomCellIdentifier";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MyIdentifier];
     }
 
-    MeetingRoom *meetingRoom = (MeetingRoom *) [self.meetingRooms objectAtIndex:indexPath.row];
+    MeetingRoom *meetingRoom = (MeetingRoom *) [self.meetingRooms objectAtIndex:(NSUInteger) indexPath.row];
     cell.textLabel.text = meetingRoom.roomName;
 
-
     if (meetingRoom.roomId == self.reservation.meetingRoom.roomId) {
-        NSLog(@"komen we hier????");
-        self.currentMeetingRoom = meetingRoom;  //TODO krijgen we die warning weg??
+        self.currentMeetingRoom = meetingRoom;
         [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
     } else {
         [cell setAccessoryType:UITableViewCellAccessoryNone];
@@ -647,6 +623,5 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
         });
     };
 }
-
 
 @end

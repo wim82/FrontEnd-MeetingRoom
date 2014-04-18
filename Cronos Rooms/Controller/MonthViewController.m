@@ -161,8 +161,9 @@
             cell.lblName.textColor = [UIColor darkTextColor];
         }
     }
-    
-    
+
+    [self fillCellWithReservationsAndHolidays:cell];
+
     NSDateComponents *components = [calendar components:NSYearCalendarUnit
                                     | NSMonthCalendarUnit | NSDayCalendarUnit fromDate:self.dayInArray];
     if (components.year !=1970){
