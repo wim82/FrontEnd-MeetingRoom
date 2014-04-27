@@ -9,7 +9,7 @@ This project was part of a 3-week develop sprint in an extended Java/Mobile Apps
 
 Due to time constraints, this app is still quite buggy and contains some really ugly code. We (are/were) beginners. Explore at your own risk! :-)
 
-Made by wimmaesschalck@gmail.com and Katrien D.
+Made by wimmaesschalck@gmail.com and demey.katrien@gmail.com
 
 ![alt tag](https://raw.githubusercontent.com/wim82/FrontEnd-MeetingRoom/master/Screenshots/Screenshots-iPhone.jpg)
 ![alt tag](https://raw.githubusercontent.com/wim82/FrontEnd-MeetingRoom/master/Screenshots/iPad-Mini-Screenshot-MonthView.jpg)
