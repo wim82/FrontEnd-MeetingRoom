@@ -12,6 +12,7 @@
 }
 
 - (instancetype)initWithStringDictionary:(NSDictionary *)dictionary {
+    self = [super init];
     if (self) {
         self.reservationId = [[dictionary objectForKey:@"id"] integerValue];
         self.user = [[User alloc] initWithDictionary:[dictionary objectForKey:@"user"]];

@@ -1,11 +1,3 @@
-//
-//  CountDownViewController.m
-//  Cronos Rooms
-//
-//  Created by Katrien De Mey on 15/04/14.
-//  Copyright (c) 2014 KaWi. All rights reserved.
-//
-
 #import "CountDownViewController.h"
 #import "CountDownView.h"
 #import "SettingsViewController.h"
@@ -84,7 +76,6 @@
 
     [self _addGestureRecognizers];
 
-    [self loadReservationsForMeetingRoom:self.meetingRoom];
 
 }
 
@@ -102,17 +93,16 @@
     self.blurredBackgroundImage = [self.backgroundImage applyBlurWithRadius:16 tintColor:[[UIColor blackColor] colorWithAlphaComponent:0.2] saturationDeltaFactor:1 maskImage:nil];
 
     if (self.isReservationOverviewVisible) {
-        // self.view.backgroundColor = [UIColor colorWithPatternImage:self.blurredBackgroundImage];
-        NSLog(@"HALLLOOOOO");
         self.countDownView.backgroundView.image = self.blurredBackgroundImage;
     } else {
-        // self.view.backgroundColor = [UIColor colorWithPatternImage:self.backgroundImage];
         self.countDownView.backgroundView.image = self.backgroundImage;
     }
 }
 
 
 - (void)viewWillAppear:(BOOL)animated {
+    [self loadReservationsForMeetingRoom:self.meetingRoom];
+
     [self _setUpNavigationController];
     clockReservation = FALSE;
     [timer invalidate];
@@ -357,7 +347,7 @@
                                                 title:@"edit"];
     [rightUtilityButtons sw_addUtilityButtonWithColor:
             [[UIColor blackColor] colorWithAlphaComponent:0.2]
-                                                 title:@"delete"];
+                                                title:@"delete"];
     return rightUtilityButtons;
 }
 
@@ -415,7 +405,6 @@
 
 
 #pragma mark - access Database
-
 
 - (void)loadReservationsForMeetingRoom:(MeetingRoom *)meetingRoom {
 
@@ -508,16 +497,16 @@
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.translucent = YES;
 
-   /* self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
-            initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-                                 target:self
-                                 action:@selector(_didTapAdd)];  */
+    /* self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
+             initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                  target:self
+                                  action:@selector(_didTapAdd)];  */
 
 
 
 
 
-   // self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
+    // self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
     self.navigationItem.hidesBackButton = YES;
     self.navigationController.navigationBar.hidden = NO;
 }
@@ -525,7 +514,7 @@
 - (void)_didTapCalendar {
     MonthViewController *monthViewController = [[MonthViewController alloc] init];
     monthViewController.meetingRoom = self.meetingRoom;
-    UIImageView *background = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,1024,768)];
+    UIImageView *background = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
     background.image = self.blurredBackgroundImage;
     monthViewController.backGroundImage = background;
     self.navigationController.navigationBar.translucent = NO;

@@ -5,7 +5,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MainService.h"
-#import "MeetingRoom.h";
+#import "MeetingRoom.h"
 
 
 @interface MeetingRoomService : MainService

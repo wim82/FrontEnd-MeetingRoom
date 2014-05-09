@@ -15,7 +15,7 @@
     if (self) {
         self.roomId = [[dictionary objectForKey:@"roomId"] integerValue];
         self.roomName = [dictionary objectForKey:@"roomName"];
-        self.buildingName = [dictionary objectForKey:@"buildingName"];
+       // self.buildingName = [dictionary objectForKey:@"buildingName"];
     }
 
     return self;
@@ -28,7 +28,7 @@
 
     [meetingRoomDictionary setObject:[NSString stringWithFormat:@"%i", self.roomId] forKey:@"roomId"];
     [meetingRoomDictionary setObject:self.roomName forKey:@"roomName"];
-    [meetingRoomDictionary setObject:self.buildingName forKey:@"buildingName"];
+ //   [meetingRoomDictionary setObject:self.buildingName forKey:@"buildingName"];
 
     return meetingRoomDictionary;
 }

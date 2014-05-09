@@ -79,7 +79,6 @@
     [self _tryLoadingMeetingRoom:self.settingsView.userNameDetail.detailTextField.text completion:^(BOOL roomIsLoaded) {
 
         if (!roomIsLoaded) {
-            NSLog(@"'t is gene room maar een userrrr!");
             [self _loadUser:self.settingsView.userNameDetail.detailTextField.text];
         }
     }];
@@ -112,8 +111,6 @@
 
     }                   andErrorHandler:^(NSException *exception) {
         roomIsLoaded(NO);
-
-
     }];
 
 }
@@ -126,7 +123,6 @@
         //04.save default user
         [self _saveUser:user];
 
-        NSLog(@"vlak voor delegate user aanroepen");
         if ([self.delegate isKindOfClass:[CountDownViewController class]]) {
             ReservationOverviewController *reservationOverviewController = [[ReservationOverviewController alloc] init];
             reservationOverviewController.user = user;

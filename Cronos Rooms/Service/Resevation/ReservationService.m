@@ -92,7 +92,7 @@
         }
         else {
             //TODO: use the message from json response  --> implement this for all rest calls!!!
-            error([NSException exceptionWithName:@"No Reservations Rooms" reason:@"Ditmoet ik nog uitzoeken" userInfo:nil]);
+            error([NSException exceptionWithName:@"No Reservations Rooms" reason:@"Dit moet ik nog uitzoeken" userInfo:nil]);
         }
 
     }                                       failure:^(AFHTTPRequestOperation *operation, NSError *callbackError) {
@@ -190,10 +190,6 @@
     NSString *path = [NSString stringWithFormat:@"reservations/%i",reservationId];
     NSMutableURLRequest *request = [self deleteRequestWithPath:path];
 
-   // [self addParametersToRequest:request parameters:[reservation convertToDictionary]];
-    
-
-    
     
     //init request
     AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];

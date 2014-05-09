@@ -1,8 +1,3 @@
-//
-// Created by Jean Smits on 4/04/14.
-// Copyright (c) 2014 wim. All rights reserved.
-//
-
 #import <UIColor-Utilities/UIColor+Expanded.h>
 #import "EditReservationViewController.h"
 #import "EditReservationView.h"
@@ -70,12 +65,12 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
     //notifications
     [self _registerKeyboardNotifications];
+
 }
 
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    //TODO: learn to better manage memory
 }
 
 
@@ -314,7 +309,6 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 }
 
 
-//TODO: make this nicer
 - (void)_saveReservation {
 
     //TODO: i think this can be safely removed,
@@ -322,24 +316,13 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
     self.reservation.reservationId = self.reservation.reservationId;
     self.reservation.reservationDescription = self.descriptionTextView.detailTextField.text;
 
-
-    NSLog(@"in didtapSave: ");
-
     //if reservation is an existing reservation, update should be triggered. Else, create reservation is triggered
-    NSLog(@"reservation id : %d", self.reservation.reservationId);
     if (self.reservation.reservationId == 0) {
-        NSLog(@"create");
-        NSLog(@"reservation id : %d", self.reservation.reservationId);
         [self _createReservation:self.reservation];
     }
     else {
-        NSLog(@"update");
-        NSLog(@"reservation id : %d", self.reservation.reservationId);
         [self _updateReservation:self.reservation];
     }
-
-    //REMARK: katrien, hier stond de popviewcontroller -> zolang we zonder lokale database werken, heb ik die in de respectievelijke completionblocks gezet
-    //op die manier staat op de overview altijd exact wat er op de database staat
 }
 
 
@@ -378,7 +361,7 @@ typedef NS_ENUM(NSInteger, BorderStyle) {
 
 - (void)datePickerDidSlideOpen:(BOOL)slideDown sentBy:(id)sender {
 
-    //another weird hack to solve the case when 2 datepickers are open. without the animation (no matter which length, it won't work)
+    //another weird hack to solve the case when 2 datepickers are open. without the animation (no matter which length), it won't work.
     [UIView animateWithDuration:0.001 animations:^{
         //Move all fields below the datePicker
         self.detailTitleView.frame = [self slideViewForDatePicker:self.detailTitleView direction:slideDown];

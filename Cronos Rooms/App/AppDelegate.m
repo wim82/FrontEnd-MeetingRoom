@@ -32,12 +32,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
 
-    //EditReservationViewController *editReservationViewController = [[EditReservationViewController alloc] init];
-    // TestViewController*testViewController = [[TestViewController alloc] init];
-    DayViewController *dayViewController = [[DayViewController alloc] init];
     ReservationOverviewController *reservationOverviewController = [[ReservationOverviewController alloc] init];
-    MonthViewController * monthOverviewController = [[MonthViewController alloc]init];
-    CountDownViewController *countDownViewController = [[CountDownViewController alloc]init];
     
     self.navigationController = [[UINavigationController alloc] initWithRootViewController:reservationOverviewController];
     [self styleNavigationController];
@@ -46,9 +41,6 @@
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     
     self.window.backgroundColor = [UIColor whiteColor];
-
-    
-   
 
     [self.window makeKeyAndVisible];
     return YES;

@@ -40,7 +40,6 @@
             
             NSMutableArray *result = [[NSMutableArray alloc] init];
             for (id responseElement in [responseObject objectForKey:@"data"]) {
-              //TODO : check
                 PublicHoliday *publicHoliday = [[PublicHoliday alloc] initWithStringDictionary:responseElement];
                 [result addObject:publicHoliday];
             }

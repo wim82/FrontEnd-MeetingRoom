@@ -10,7 +10,7 @@
 
 @property(nonatomic, strong) NSString *roomName;
 @property(nonatomic, assign) NSInteger roomId;
-@property(nonatomic, strong) NSString *buildingName;
+//@property(nonatomic, strong) NSString *buildingName;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 

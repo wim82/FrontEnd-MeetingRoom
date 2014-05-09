@@ -1,10 +1,3 @@
-//
-//  ReservationOverviewController.m
-//  testProject
-//
-//  Created by Katrien De Mey on 03/04/14.
-//  Copyright (c) 2014 Katrien De Mey. All rights reserved.
-//
 
 #import "ReservationOverviewController.h"
 #import "ReservationOverview.h"
@@ -57,7 +50,7 @@
     //set up
     [self _setUpNavigationBar];
 
-    //TODO: write ModeController -> load ReservationOverview if in userMode, load CountDownMode if inMeetingRoomMode
+    //TODO: write some sort of ModeController -> load ReservationOverview if in userMode, load CountDownMode if inMeetingRoomMode
     if (![self _isInMeetingRoomMode]) {
         [self _loadAppInUserMode];
     }
@@ -141,7 +134,7 @@
 
         [self.meetingOverview.tableView reloadData];
 
-        //code needed to fix trailing row ) - i don't really understand this either.
+        //code needed to fix trailing row - i don't really understand this either.
         [self.meetingOverview.tableView setContentInset:UIEdgeInsetsMake(0, 0, 84, 0)];
 
     }                                            andErrorHandler:^(NSException *exception) {

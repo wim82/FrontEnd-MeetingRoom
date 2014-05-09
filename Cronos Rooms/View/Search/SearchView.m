@@ -13,8 +13,6 @@
 
 @interface SearchView(){
     id _delegate;
-    NSInteger realWidth;
-    NSInteger realHeight;
 }
 @end
 

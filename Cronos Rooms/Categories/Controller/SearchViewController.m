@@ -48,7 +48,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-   
+
     [self loadConstraints];
 
     [self.searchView.searchTableView registerClass:[SearchTableViewCell class] forCellReuseIdentifier:TABLEVIEWCELL_IDENTIFIER];
@@ -191,17 +191,17 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.searchBar.selectedScopeButtonIndex == 1) {
-        if ([[AppState sharedInstance]deviceIsiPad]){
-        
-        MonthViewController *monthViewController = [[MonthViewController alloc] init];
-        monthViewController.meetingRoom = self.meetingRooms[indexPath.row];
-        NSLog(@"in search : %@",self.meetingRooms[indexPath.row]);
-        [self.navigationController pushViewController:monthViewController animated:YES];
-    } else {
-         DayViewController *dayViewController = [[DayViewController alloc] init];
-         dayViewController.meetingRoom =  self.meetingRooms[indexPath.row];
-         [self.navigationController pushViewController:dayViewController animated:YES];  
-    }
+        if ([[AppState sharedInstance] deviceIsiPad]) {
+
+            MonthViewController *monthViewController = [[MonthViewController alloc] init];
+            monthViewController.meetingRoom = self.meetingRooms[indexPath.row];
+            NSLog(@"in search : %@", self.meetingRooms[indexPath.row]);
+            [self.navigationController pushViewController:monthViewController animated:YES];
+        } else {
+            DayViewController *dayViewController = [[DayViewController alloc] init];
+            dayViewController.meetingRoom = self.meetingRooms[indexPath.row];
+            [self.navigationController pushViewController:dayViewController animated:YES];
+        }
 
     } else {
         //we've clicked on a user
@@ -257,36 +257,24 @@
     }];
 }
 
-- (void)loadConstraints{
-    if([[AppState sharedInstance] deviceIsLandscape]){
-    if ([[AppState sharedInstance]deviceIsiPad]) {
-        
-        self.searchView.searchTableView.frame = CGRectMake(0, 0, 1024, 768);
-        
-    } else {
-        
-        self.searchView.searchTableView.frame = CGRectMake(0, 0, 568, 320);
+- (void)loadConstraints {
+    if ([[AppState sharedInstance] deviceIsLandscape]) {
+        if ([[AppState sharedInstance] deviceIsiPad]) {
+            self.searchView.searchTableView.frame = CGRectMake(0, 0, 1024, 768);
+        } else {
+            self.searchView.searchTableView.frame = CGRectMake(0, 0, 568, 320);
+        }
 
-        
-    }
-        
     }
     else {  //in portrait mode
-    if ([[AppState sharedInstance]deviceIsiPad]) {
-        
-        self.searchView.searchTableView.frame = CGRectMake(0, 0, 768, 1024);
-        
-    } else {
-        
-        self.searchView.searchTableView.frame = CGRectMake(0, 0, 320, 568);
-        
-        
+        if ([[AppState sharedInstance] deviceIsiPad]) {
+            self.searchView.searchTableView.frame = CGRectMake(0, 0, 768, 1024);
+        } else {
+            self.searchView.searchTableView.frame = CGRectMake(0, 0, 320, 568);
+        }
+
     }
-    
 }
-}
-
-
 
 
 @end

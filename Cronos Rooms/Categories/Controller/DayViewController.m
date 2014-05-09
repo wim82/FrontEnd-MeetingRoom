@@ -42,7 +42,7 @@
     self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.view.backgroundColor = [UIColor whiteColor];
 
-    //TODO: make sure navigationcontroller displays current date & meeting room as title +
+    //TODO: make sure navigationcontroller displays current meeting room as title
     if (!self.date) {
         self.date = [[NSDate alloc] init];
     }
@@ -82,7 +82,7 @@
     [self _loadReservations];
     [self _loadPublicHolidays];
 
-    //scroll to about 7am. -> test this look look on different screens?
+    //scroll to about 7am. -> test if this looks good on different screens?
     [self.scrollView scrollRectToVisible:CGRectMake(0, 7 * 4 * 16 + self.scrollView.frame.size.height - self.navigationController.navigationBar.frame.size.height, 1, 1) animated:YES];
 
 }
@@ -100,9 +100,9 @@
     UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipeRight)];
     swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
     [self.view addGestureRecognizer:swipeRight];
-    
+
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
-                                             initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(_didTapAdd)];
+            initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(_didTapAdd)];
 
 }
 
@@ -141,8 +141,6 @@
     DayQuarterHourViewCell *cell = [[DayQuarterHourViewCell alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, [self tableView:nil heightForRowAtIndexPath:indexPath]) andDelegate:self];
 
 
-    //cell.reservationDescription.text = @"meeting descriptie kwartiertje";
-
     //print the hours
     if (indexPath.row % 4 == 0) {
         cell.hourTitle.text = self.hours[indexPath.row / 4];
@@ -177,13 +175,13 @@
 
         }
 
-        //the cells beloning to a reservation should contain all necessary reservation info as well
+        //the cells belonging to a reservation should contain all necessary reservation info as well
         if (indexPath.row > startInQuarterHours && indexPath.row < (endInQuarterHours - startInQuarterHours) + startInQuarterHours) {
             cell.reservation = reservation;
         }
     }
-    
-    
+
+
     return cell;
 }
 
@@ -208,7 +206,7 @@
 #pragma mark - Navigation
 
 - (void)didTapReservation:(Reservation *)reservation {
-    
+
     EditReservationViewController *editReservationViewController = [[EditReservationViewController alloc] init];
     if (reservation) {
         editReservationViewController.reservation = reservation;
@@ -217,28 +215,30 @@
     else {
         Reservation *reservation = [[Reservation alloc] init];
         //TODO: when providing the meetingRoom, this room is ticked twice in editreservationViewCOntroller
-        reservation.meetingRoom=self.meetingRoom;
+        reservation.meetingRoom = self.meetingRoom;
         NSDate *dateTime = self.date;
-        reservation.startTime=dateTime;
+        reservation.startTime = dateTime;
         editReservationViewController.reservation = reservation;
         editReservationViewController.navigationItem.title = @"Add Reservation";
-        
+
         [self.navigationController pushViewController:editReservationViewController animated:YES];
-        
+
     }
 }
 
--(void)_didTapAdd{
+- (void)_didTapAdd {
     EditReservationViewController *editReservationViewController = [[EditReservationViewController alloc] init];
     editReservationViewController.delegate = self;
     Reservation *reservation = [[Reservation alloc] init];
     reservation.startTime = self.date;
+    reservation.endTime = [self.date dateByAddingTimeInterval:60 * 30];
     //TODO: when providing the meetingRoom, this room is ticked twice in editreservationViewCOntroller
     reservation.meetingRoom = self.meetingRoom;
     //TODO: remove back button, first time add is pressed
     editReservationViewController.reservation = reservation;
+    editReservationViewController.currentMeetingRoom = self.meetingRoom;
     editReservationViewController.navigationItem.title = @"Add Reservation";
-    
+
     [self.navigationController pushViewController:editReservationViewController animated:YES];
 }
 
@@ -249,10 +249,11 @@
 
 - (void)_loadReservations {
 
-    [[ReservationService sharedService] getReservationsForRoomId:self.meetingRoom.roomId fromDate:self.date forAmountOfDays:1 withSuccesHandler:^(NSMutableArray *reservations) {
+    [[ReservationService sharedService] getReservationsForRoomId:self.meetingRoom.roomId
+                                                        fromDate:self.date forAmountOfDays:1
+                                               withSuccesHandler:^(NSMutableArray *reservations) {
         self.reservations = [[NSMutableArray alloc] initWithArray:reservations];
         [self.dayView.dayTableView reloadData];
-
     }
                                                  andErrorHandler:^(NSException *exception) {
                                                      UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:exception.reason delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
