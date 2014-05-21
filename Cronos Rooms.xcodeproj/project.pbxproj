@@ -73,16 +73,16 @@
 		BE22793A18F3DBEC007CEF07 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE22791E18F3DBEC007CEF07 /* CoreData.framework */; };
 		BE22794218F3DBEC007CEF07 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE22794018F3DBEC007CEF07 /* InfoPlist.strings */; };
 		BE22794418F3DBEC007CEF07 /* Cronos_RoomsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BE22794318F3DBEC007CEF07 /* Cronos_RoomsTests.m */; };
-		E4C0E24CAEC054C48F0E75A8 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C0E6F2A0DC530DFD20C05B /* SearchViewController.m */; };
-		E4C0E4B9ED152BD4421AC827 /* CountDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C0E9A9E47D0E3244064D9A /* CountDownViewController.m */; };
-		E4C0E5B7C470C38072C59FD9 /* DayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C0E2ACAB3615071C5ADB02 /* DayViewController.m */; };
-		E4C0E7C2B2CC4AD75DB2A3BA /* CountDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C0E9A9E47D0E3244064D9A /* CountDownViewController.m */; };
-		E4C0EACFDCEB8962F083ABEB /* MonthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C0ED00EB000B7E01EFF767 /* MonthViewController.m */; };
-		E4C0EAE59E3B6D8CF73D9F29 /* ReservationOverviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C0E156C57C97F1D49A40FD /* ReservationOverviewController.m */; };
-		E4C0EDDFFC83031F904D254C /* MonthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C0ED00EB000B7E01EFF767 /* MonthViewController.m */; };
-		E4C0EE24AC9B1671372F3420 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C0E0D002635D819C194AD9 /* TestViewController.m */; };
-		E4C0EF125F3FCC76BA11DB36 /* EditReservationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C0EB891CCD76ECAAC7040A /* EditReservationViewController.m */; };
-		E4C0EF7D327BCEAC2D95D113 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C0E14484F8F09800B2F8B7 /* SettingsViewController.m */; };
+		E4C0E039B090552535A037B5 /* ReservationOverviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C0EEAE8A6175722409DC58 /* ReservationOverviewController.m */; };
+		E4C0E1EFB4C407D8AD87C6D6 /* CountDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C0EADDADF434C6A713389E /* CountDownViewController.m */; };
+		E4C0E616C71D0A2C167B2832 /* MonthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C0E56161206A29EF234202 /* MonthViewController.m */; };
+		E4C0E6C20831A7574683C7C7 /* CountDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C0EADDADF434C6A713389E /* CountDownViewController.m */; };
+		E4C0E6DBF8680B96D2FF54A2 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C0E9B3920DD6C675CECD4D /* SettingsViewController.m */; };
+		E4C0E82C75CF9F334DCDE48A /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C0EC1B4F6BCC9729261A39 /* TestViewController.m */; };
+		E4C0EA92D1A0D2D1A32624B2 /* EditReservationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C0E55A05D173E7B5D5E35B /* EditReservationViewController.m */; };
+		E4C0EAE2DDE2969568168DD3 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C0ED1CD418CC8921A644C7 /* SearchViewController.m */; };
+		E4C0EBAF091121B42923CC9B /* DayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C0E430B61ECAA9F52A83A0 /* DayViewController.m */; };
+		E4C0ECC304C47A300CCB8B7B /* MonthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4C0E56161206A29EF234202 /* MonthViewController.m */; };
 		ED14FCA2FE8F4002B490ED87 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9401864DD14F47C1800A5260 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -184,8 +184,8 @@
 		A2C8EA6318FB0F5C00D01F4B /* PublicHolidayService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublicHolidayService.m; sourceTree = "<group>"; };
 		A2C8EA6618FB123200D01F4B /* PublicHoliday.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublicHoliday.h; sourceTree = "<group>"; };
 		A2C8EA6718FB123200D01F4B /* PublicHoliday.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublicHoliday.m; sourceTree = "<group>"; };
-		A2C8EABD18FDCA5600D01F4B /* CountDownView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CountDownView.h; path = ../Categories/Controller/CountDownView.h; sourceTree = "<group>"; };
-		A2C8EABE18FDCA5600D01F4B /* CountDownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CountDownView.m; path = ../Categories/Controller/CountDownView.m; sourceTree = "<group>"; };
+		A2C8EABD18FDCA5600D01F4B /* CountDownView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CountDownView.h; path = ../Controller/CountDownView.h; sourceTree = "<group>"; };
+		A2C8EABE18FDCA5600D01F4B /* CountDownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CountDownView.m; path = ../Controller/CountDownView.m; sourceTree = "<group>"; };
 		BE09CE0718FFE04100F997B5 /* TIMERUIApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TIMERUIApplication.h; sourceTree = "<group>"; };
 		BE09CE0818FFE04100F997B5 /* TIMERUIApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TIMERUIApplication.m; sourceTree = "<group>"; };
 		BE22791518F3DBEC007CEF07 /* Cronos Rooms.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cronos Rooms.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -204,22 +204,22 @@
 		BE22793F18F3DBEC007CEF07 /* Cronos RoomsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Cronos RoomsTests-Info.plist"; sourceTree = "<group>"; };
 		BE22794118F3DBEC007CEF07 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BE22794318F3DBEC007CEF07 /* Cronos_RoomsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Cronos_RoomsTests.m; sourceTree = "<group>"; };
-		E4C0E0ADD6DE8E7091459C07 /* CountDownViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountDownViewController.h; sourceTree = "<group>"; };
-		E4C0E0D002635D819C194AD9 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
-		E4C0E14484F8F09800B2F8B7 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
-		E4C0E156C57C97F1D49A40FD /* ReservationOverviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReservationOverviewController.m; sourceTree = "<group>"; };
-		E4C0E1C0E664D7377700A6F5 /* EditReservationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditReservationViewController.h; sourceTree = "<group>"; };
-		E4C0E20C5AB80CDF53F03851 /* DayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DayViewController.h; sourceTree = "<group>"; };
-		E4C0E28B7F4CCC09C77E59A2 /* MonthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonthViewController.h; sourceTree = "<group>"; };
-		E4C0E2ACAB3615071C5ADB02 /* DayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DayViewController.m; sourceTree = "<group>"; };
-		E4C0E6F2A0DC530DFD20C05B /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
-		E4C0E7649189AC72DB3905B2 /* ReservationOverviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReservationOverviewController.h; sourceTree = "<group>"; };
-		E4C0E9A9E47D0E3244064D9A /* CountDownViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountDownViewController.m; sourceTree = "<group>"; };
-		E4C0EAFB72C23785E63B25B5 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
-		E4C0EB891CCD76ECAAC7040A /* EditReservationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditReservationViewController.m; sourceTree = "<group>"; };
-		E4C0ED00EB000B7E01EFF767 /* MonthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonthViewController.m; sourceTree = "<group>"; };
-		E4C0ED98D6F45DAC128A812D /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
-		E4C0EED068F8841D12B0D867 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		E4C0E1F42880C2EF67F11D50 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
+		E4C0E214AB080131B634A3FB /* EditReservationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditReservationViewController.h; sourceTree = "<group>"; };
+		E4C0E430B61ECAA9F52A83A0 /* DayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DayViewController.m; sourceTree = "<group>"; };
+		E4C0E55A05D173E7B5D5E35B /* EditReservationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditReservationViewController.m; sourceTree = "<group>"; };
+		E4C0E56161206A29EF234202 /* MonthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonthViewController.m; sourceTree = "<group>"; };
+		E4C0E7536A66F1ED7B7474B3 /* CountDownViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountDownViewController.h; sourceTree = "<group>"; };
+		E4C0E84269782322ACACBD04 /* DayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DayViewController.h; sourceTree = "<group>"; };
+		E4C0E9B3920DD6C675CECD4D /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		E4C0EA572D994ED1AFA4605E /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		E4C0EADDADF434C6A713389E /* CountDownViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountDownViewController.m; sourceTree = "<group>"; };
+		E4C0EC1B4F6BCC9729261A39 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
+		E4C0EC9F137C66E8FF94D903 /* MonthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonthViewController.h; sourceTree = "<group>"; };
+		E4C0ED1CD418CC8921A644C7 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
+		E4C0EEAE8A6175722409DC58 /* ReservationOverviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReservationOverviewController.m; sourceTree = "<group>"; };
+		E4C0EF32B0CC9D6E1B1C97F4 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		E4C0EF47A31FFC118CD15233 /* ReservationOverviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReservationOverviewController.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -307,7 +307,6 @@
 				2DA5EFCF18769249BD717384 /* UIColor+AppColor.h */,
 				943B99897897E1D210665F1E /* UIImage+ImageEffects.m */,
 				943B9D3091F2E18D9EAB1537 /* UIImage+ImageEffects.h */,
-				E4C0E118B60A12E22AC3494D /* Controller */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -514,6 +513,7 @@
 				2DA5E87C12658C8E7495DF24 /* View */,
 				2DA5E70C3A8ADBF9ADA2DFCB /* Categories */,
 				2DA5E20C9DEE15A60BD7C871 /* setting-navbar-44.png */,
+				E4C0E11A45C689FD97C1D93A /* Controller */,
 			);
 			path = "Cronos Rooms";
 			sourceTree = "<group>";
@@ -547,25 +547,25 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		E4C0E118B60A12E22AC3494D /* Controller */ = {
+		E4C0E11A45C689FD97C1D93A /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				E4C0EAFB72C23785E63B25B5 /* TestViewController.h */,
-				E4C0E0D002635D819C194AD9 /* TestViewController.m */,
-				E4C0E1C0E664D7377700A6F5 /* EditReservationViewController.h */,
-				E4C0EB891CCD76ECAAC7040A /* EditReservationViewController.m */,
-				E4C0ED98D6F45DAC128A812D /* SearchViewController.h */,
-				E4C0E6F2A0DC530DFD20C05B /* SearchViewController.m */,
-				E4C0E7649189AC72DB3905B2 /* ReservationOverviewController.h */,
-				E4C0E156C57C97F1D49A40FD /* ReservationOverviewController.m */,
-				E4C0E2ACAB3615071C5ADB02 /* DayViewController.m */,
-				E4C0E20C5AB80CDF53F03851 /* DayViewController.h */,
-				E4C0E28B7F4CCC09C77E59A2 /* MonthViewController.h */,
-				E4C0ED00EB000B7E01EFF767 /* MonthViewController.m */,
-				E4C0E14484F8F09800B2F8B7 /* SettingsViewController.m */,
-				E4C0EED068F8841D12B0D867 /* SettingsViewController.h */,
-				E4C0E0ADD6DE8E7091459C07 /* CountDownViewController.h */,
-				E4C0E9A9E47D0E3244064D9A /* CountDownViewController.m */,
+				E4C0E1F42880C2EF67F11D50 /* TestViewController.h */,
+				E4C0EC1B4F6BCC9729261A39 /* TestViewController.m */,
+				E4C0E214AB080131B634A3FB /* EditReservationViewController.h */,
+				E4C0E55A05D173E7B5D5E35B /* EditReservationViewController.m */,
+				E4C0EA572D994ED1AFA4605E /* SearchViewController.h */,
+				E4C0ED1CD418CC8921A644C7 /* SearchViewController.m */,
+				E4C0EF47A31FFC118CD15233 /* ReservationOverviewController.h */,
+				E4C0EEAE8A6175722409DC58 /* ReservationOverviewController.m */,
+				E4C0E430B61ECAA9F52A83A0 /* DayViewController.m */,
+				E4C0E84269782322ACACBD04 /* DayViewController.h */,
+				E4C0EC9F137C66E8FF94D903 /* MonthViewController.h */,
+				E4C0E56161206A29EF234202 /* MonthViewController.m */,
+				E4C0E9B3920DD6C675CECD4D /* SettingsViewController.m */,
+				E4C0EF32B0CC9D6E1B1C97F4 /* SettingsViewController.h */,
+				E4C0E7536A66F1ED7B7474B3 /* CountDownViewController.h */,
+				E4C0EADDADF434C6A713389E /* CountDownViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -747,14 +747,14 @@
 				2DA5EF9D930A47BEE8D7BAB0 /* ReservationOverview.m in Sources */,
 				2DA5E5012F5F76920068427E /* SettingsView.m in Sources */,
 				943B947C2C20F5CB8938B02E /* UIImage+ImageEffects.m in Sources */,
-				E4C0EE24AC9B1671372F3420 /* TestViewController.m in Sources */,
-				E4C0EF125F3FCC76BA11DB36 /* EditReservationViewController.m in Sources */,
-				E4C0E24CAEC054C48F0E75A8 /* SearchViewController.m in Sources */,
-				E4C0EAE59E3B6D8CF73D9F29 /* ReservationOverviewController.m in Sources */,
-				E4C0E5B7C470C38072C59FD9 /* DayViewController.m in Sources */,
-				E4C0EDDFFC83031F904D254C /* MonthViewController.m in Sources */,
-				E4C0EF7D327BCEAC2D95D113 /* SettingsViewController.m in Sources */,
-				E4C0E7C2B2CC4AD75DB2A3BA /* CountDownViewController.m in Sources */,
+				E4C0E82C75CF9F334DCDE48A /* TestViewController.m in Sources */,
+				E4C0EA92D1A0D2D1A32624B2 /* EditReservationViewController.m in Sources */,
+				E4C0EAE2DDE2969568168DD3 /* SearchViewController.m in Sources */,
+				E4C0E039B090552535A037B5 /* ReservationOverviewController.m in Sources */,
+				E4C0EBAF091121B42923CC9B /* DayViewController.m in Sources */,
+				E4C0ECC304C47A300CCB8B7B /* MonthViewController.m in Sources */,
+				E4C0E6DBF8680B96D2FF54A2 /* SettingsViewController.m in Sources */,
+				E4C0E1EFB4C407D8AD87C6D6 /* CountDownViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -770,8 +770,8 @@
 				BE09CE0A18FFE04100F997B5 /* TIMERUIApplication.m in Sources */,
 				A2C8EA6518FB0F5D00D01F4B /* PublicHolidayService.m in Sources */,
 				A2C8EA5D18FB048000D01F4B /* MonthOverview.m in Sources */,
-				E4C0EACFDCEB8962F083ABEB /* MonthViewController.m in Sources */,
-				E4C0E4B9ED152BD4421AC827 /* CountDownViewController.m in Sources */,
+				E4C0E616C71D0A2C167B2832 /* MonthViewController.m in Sources */,
+				E4C0E6C20831A7574683C7C7 /* CountDownViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
